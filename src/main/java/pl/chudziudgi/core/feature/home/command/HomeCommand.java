@@ -14,20 +14,6 @@ public class HomeCommand extends PluginCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-
-        if (args.length == 0) {
-            HomeGui.openHome(player);
-            return;
-        }
-
-        if (!player.hasPermission("core.command.home.other")) return;
-
-
-        final Player target = Bukkit.getPlayer(args[0]);
-        if (target == null) {
-            ChatUtil.error(sender, "Gracz jest offline!");
-            return;
-        }
-        HomeGui.openHome(target);
+        HomeGui.openHome(player);
     }
 }

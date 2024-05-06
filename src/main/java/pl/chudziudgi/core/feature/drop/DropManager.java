@@ -27,7 +27,20 @@ public class DropManager {
 
     public static void breakBlock(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
         if (player.getWorld().getEnvironment() == World.Environment.NETHER) onNether(player, block, itemStack, event);
-        if (player.getWorld().getEnvironment() == World.Environment.NORMAL) onOverWorld(player, block, itemStack, event);
+        if (player.getWorld().getEnvironment() == World.Environment.NORMAL)
+            onOverWorld(player, block, itemStack, event);
+    }
+
+    public static double haveRank(final Player player, double chance) {
+        if (player.hasPermission("core.drop.iron")) {
+            chance = chance * 0.05;
+            return chance;
+        }
+        if (player.hasPermission("core.drop.gold")) {
+            chance = chance * 0.10;
+            return chance;
+        }
+        return chance;
     }
 
     public static void onOverWorld(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
@@ -44,6 +57,7 @@ public class DropManager {
             ItemStack item = drop.getItemStack();
             int dropExperience = drop.getExp();
             double chance = drop.getChance();
+            chance = haveRank(player, chance);
 
             if (RANDOM.nextDouble() < chance) {
                 if (itemStack.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS) && drop.isFortune()) {
@@ -81,6 +95,8 @@ public class DropManager {
             ItemStack item = drop.getItemStack();
             int dropExperience = drop.getExp();
             double chance = drop.getChance();
+
+            haveRank(player, chance);
 
             if (RANDOM.nextDouble() < chance) {
                 if (itemStack.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS) && drop.isFortune()) {
