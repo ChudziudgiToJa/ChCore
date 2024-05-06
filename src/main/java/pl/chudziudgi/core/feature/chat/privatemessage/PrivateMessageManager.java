@@ -1,0 +1,50 @@
+package pl.chudziudgi.core.feature.chat.privatemessage;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.entity.Player;
+import pl.chudziudgi.core.api.MessageBuilder;
+import pl.chudziudgi.core.util.ChatUtil;
+
+import java.util.UUID;
+
+public class PrivateMessageManager {
+
+    private Cache<UUID, UUID> lastMessageCache;
+
+    public Cache<UUID, UUID> getLastMessageCache() {
+        return lastMessageCache;
+    }
+
+    public PrivateMessageManager() {
+        lastMessageCache = CacheBuilder.newBuilder()
+                .maximumSize(1000)
+                .build();
+    }
+
+    void sendDirectMessage(Player sender, Player recipient, String message, Boolean send) {
+        TextComponent messageComponent = new TextComponent();
+        String senderDisplayName = sender.getName();
+        String recipientDisplayName = recipient.getName();
+
+        String arrow = "⬅";
+        if (send) {
+            arrow = "➡";
+        }
+
+        messageComponent.setText(ChatUtil.fixColor(new MessageBuilder().setText("&d&lDM &8&l┃ &7{SENDER} &8{ARROW} &e{RECIPIENT}&8: &7{MESSAGE}")
+                .addField("{SENDER}", senderDisplayName)
+                .addField("{RECIPIENT}", recipientDisplayName)
+                .addField("{ARROW}", arrow)
+                .addField("{MESSAGE}", message)
+                .build()));
+
+        messageComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + recipientDisplayName + " "));
+        messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatUtil.fixColor("&aℹ &7Kliknij aby odpisac")).create()));
+        sender.spigot().sendMessage(messageComponent);
+    }
+}

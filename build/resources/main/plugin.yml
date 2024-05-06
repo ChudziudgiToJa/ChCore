@@ -1,0 +1,6 @@
+name: ChCore
+version: '1.0'
+main: pl.chudziudgi.core.ChCore
+api-version: '1.20'
+authors: [Chudziudgi]
+softdepend: [PlaceholderAPI]
