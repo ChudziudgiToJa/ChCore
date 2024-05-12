@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.command.PluginCommand;
 import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
+import pl.chudziudgi.core.database.User;
+import pl.chudziudgi.core.database.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.UUID;
@@ -38,7 +40,7 @@ public class ReplyCommand extends PluginCommand {
         Player lastMessaged = Bukkit.getPlayer(lastMessagedUUID);
 
         if (lastMessaged == null) {
-            ChatUtil.error(player, "Poprzednia osoba z, którą chatowałeś jest offline.");
+            ChatUtil.error(player, "Poprzednia osoba z, którą chatowałeś jest niedostępna");
             return;
         }
 
@@ -47,6 +49,10 @@ public class ReplyCommand extends PluginCommand {
             return;
         }
 
+        if (privateMessageManager.ignore(player, lastMessaged)) {
+            ChatUtil.error(player, "Poprzednia osoba z, którą chatowałeś jest niedostępna");
+            return;
+        }
         String message = StringUtils.join(args, " ");
 
         privateMessageManager.sendDirectMessage(player, lastMessaged, message, true);

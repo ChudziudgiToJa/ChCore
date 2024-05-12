@@ -18,11 +18,9 @@ import pl.chudziudgi.core.util.ChatUtil;
 public class RandomTpController implements Listener {
 
     private final ChCore plugin;
-    private final CombatManager combatManager;
 
-    public RandomTpController(final ChCore plugin, CombatManager combatManager) {
+    public RandomTpController(final ChCore plugin) {
         this.plugin = plugin;
-        this.combatManager = combatManager;
         this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

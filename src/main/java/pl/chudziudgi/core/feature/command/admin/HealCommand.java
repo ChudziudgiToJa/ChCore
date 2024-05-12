@@ -19,19 +19,19 @@ public class HealCommand extends PluginCommand {
         if (args.length == 0){
             Player player = (Player)sender;
             heal(player);
-            ChatUtil.sendTitle(player, "", "&aUleczono", 20, 60, 20);
+            ChatUtil.sendTitle(player, "", "Uleczono", 20, 60, 20);
             return;
         }
         final Player player = Bukkit.getPlayer(args[0]);
         final Player admin = (Player)sender;
         if (player == null){
-            ChatUtil.error(sender, "&4Blad: &cGracz jest offline!");
+            ChatUtil.error(sender, "Gracz jest offline!");
             return;
         }
         heal(player);
 
-        ChatUtil.sendTitle(admin, "", "&aUleczono: "+player.getName(), 20, 60, 20);
-        ChatUtil.sendTitle(player, "", "&aUleczono", 20, 60, 20);
+        ChatUtil.sendTitle(admin, "", "Uleczono: "+player.getName(), 20, 60, 20);
+        ChatUtil.sendTitle(player, "", "Uleczono", 20, 60, 20);
     }
 
     private void heal(final Player player){

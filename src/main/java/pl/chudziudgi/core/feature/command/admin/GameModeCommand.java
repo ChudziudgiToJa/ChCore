@@ -27,7 +27,7 @@ public class GameModeCommand extends PluginCommand {
         if (args.length == 2) {
             target = Bukkit.getPlayer(args[1]);
             if (target == null) {
-                ChatUtil.error(sender, "&4Blad: &cGracz jest offline!");
+                ChatUtil.error(sender, "Gracz jest offline!");
                 return;
             }
         } else if (!(sender instanceof Player)) {
@@ -56,11 +56,11 @@ public class GameModeCommand extends PluginCommand {
 
         if (target == null) {
             player.setGameMode(gameMode);
-            ChatUtil.success(player, "&aZmieniono tryb gry na: &f" + gameMode);
+            ChatUtil.success(player, "Zmieniono tryb gry na: &f" + gameMode);
         } else {
             target.setGameMode(gameMode);
             if (player != null) {
-                ChatUtil.success(player, "&aZmieniles tryb graczowi: &f" + target.getName() + " &ana: " + gameMode);
+                ChatUtil.success(player, "Zmieniles tryb graczowi: &f" + target.getName() + " &ana: " + gameMode);
             }
         }
     }

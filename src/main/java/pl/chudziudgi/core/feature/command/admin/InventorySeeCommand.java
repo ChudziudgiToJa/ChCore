@@ -9,19 +9,16 @@ import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
 import pl.chudziudgi.core.util.ChatUtil;
 
 @CommandInfo(
-        name = "invsee <ec/armor/inv>",
+        name = "invsee",
         player = true,
-        perm = "core.command.invsee"
+        perm = "core.command.invsee",
+        usage = "<ec/armor/inv>"
 )
 
 public class InventorySeeCommand extends PluginCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-
-        if (args.length < 2){
-            sendUsage(sender); return;
-        }
         final Player player = (Player)sender;
         final Player target = Bukkit.getPlayer(args[0]);
 
@@ -41,6 +38,9 @@ public class InventorySeeCommand extends PluginCommand {
             final Inventory eq = Bukkit.createInventory(null, 9, "Zbroja gracza: "+ target.getName());
             eq.setContents(target.getInventory().getArmorContents());
             player.openInventory(eq);
+        }
+        else {
+            sendUsage(sender);
         }
     }
 }

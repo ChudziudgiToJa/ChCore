@@ -8,8 +8,11 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.MessageBuilder;
+import pl.chudziudgi.core.database.User;
+import pl.chudziudgi.core.database.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
+import javax.swing.plaf.TreeUI;
 import java.util.UUID;
 
 public class PrivateMessageManager {
@@ -26,10 +29,11 @@ public class PrivateMessageManager {
                 .build();
     }
 
-    void sendDirectMessage(Player sender, Player recipient, String message, Boolean send) {
+    public void sendDirectMessage(Player sender, Player recipient, String message, Boolean send) {
         TextComponent messageComponent = new TextComponent();
         String senderDisplayName = sender.getName();
         String recipientDisplayName = recipient.getName();
+
 
         String arrow = "⬅";
         if (send) {
@@ -46,5 +50,27 @@ public class PrivateMessageManager {
         messageComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + recipientDisplayName + " "));
         messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatUtil.fixColor("&aℹ &7Kliknij aby odpisac")).create()));
         sender.spigot().sendMessage(messageComponent);
+    }
+
+    public boolean ignore(Player player, Player target) {
+        User one = UserManager.getUser(player);
+        User two = UserManager.getUser(target);
+
+        if (one.ignoreStatus || two.ignoreStatus) {
+            return true;
+        }
+
+        if (one.ignoredList.contains(target.getUniqueId())) {
+            return true;
+        }
+
+        return two.ignoredList.contains(player.getUniqueId());
+    }
+
+    public void toggle(Player player) {
+        User user = UserManager.getUser(player);
+        user.ignoreStatus = !user.ignoreStatus;
+        ChatUtil.success(player, "Ignorowanie wszystkich wiadomości prywatnych " + (user.ignoreStatus ? "&awlaczono" : "&cwylaczono"));
+        player.closeInventory();
     }
 }

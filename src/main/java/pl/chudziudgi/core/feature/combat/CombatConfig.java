@@ -10,8 +10,6 @@ public class CombatConfig extends OkaeriConfig {
 
     @Comment("Lista cmd on podczas antyloga")
     private List<String> commandsList = Arrays.asList("gracz", "info");
-    @Comment("Lista title po dead")
-    private List<String> titleList = Arrays.asList("&eBibleThump", "XPP", "ಥ_ಥ", "(╯°□°）╯︵ ┻━┻", "(T_T)");
 
     @Comment("Wiadomość o blokadzie commands")
     private String commandBlockMessage = "Komenda nieaktywna w trakcie PvP!";
@@ -29,9 +27,5 @@ public class CombatConfig extends OkaeriConfig {
 
     public List<String> getCommandsList() {
         return commandsList;
-    }
-
-    public List<String> getTitleList() {
-        return titleList;
     }
 }

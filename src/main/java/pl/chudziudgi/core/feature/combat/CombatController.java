@@ -1,56 +1,33 @@
 package pl.chudziudgi.core.feature.combat;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import pl.chudziudgi.core.ChCore;
-import pl.chudziudgi.core.api.MessageBuilder;
-import pl.chudziudgi.core.feature.ochrona.ProtectionManager;
+import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.TimeEnum;
 
-import java.util.List;
-import java.util.Random;
+import java.util.Objects;
 
 public class CombatController implements Listener {
 
     private final CombatManager combatManager;
     private final CombatConfig config;
-    private final ProtectionManager protectionManager;
 
     public CombatController(final ChCore plugin, CombatManager combatManager, CombatConfig config, ProtectionManager protectionManager) {
         this.combatManager = combatManager;
         this.config = config;
-        this.protectionManager = protectionManager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-
-    public static Player getDamager(final EntityDamageByEntityEvent e) {
-        final Entity damager = e.getDamager();
-        if (damager instanceof Player) {
-            return (Player) damager;
-        }
-        if (damager instanceof Projectile p) {
-            if (p.getShooter() instanceof Player) {
-                return (Player) p.getShooter();
-            }
-        }
-        return null;
     }
 
     @EventHandler
@@ -129,38 +106,35 @@ public class CombatController implements Listener {
         Player killer = deadPlayer.getKiller();
 
         if (killer != null) {
-            ChatUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", 10, 15, 10);
+            ChatUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getDisplayName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", 10, 15, 10);
         } else {
-            List<String> commandsList = config.getTitleList();
-            if (!commandsList.isEmpty()) {
-                Random random = new Random();
-                int randomIndex = random.nextInt(commandsList.size());
-                String randomCommand = commandsList.get(randomIndex);
-                ChatUtil.sendTitle(deadPlayer, "&cZginąłeś!", randomCommand, 10, 15, 10);
-                return;
-            }
-            ChatUtil.sendTitle(deadPlayer, "", "&cZginąłeś! ", 10, 15, 10);
+            ChatUtil.sendTitle(deadPlayer, "&cZginąłeś!", "", 10, 15, 10);
+            return;
         }
+        ChatUtil.sendTitle(deadPlayer, "", "&cZginąłeś! ", 10, 15, 10);
     }
 
-    @EventHandler
-    public void onBow(EntityDamageByEntityEvent e) {
-        if (e.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
-            if (!(e.getDamager() instanceof Arrow arrow) || !(e.getEntity() instanceof Player target)) return;
-            if (!(arrow.getShooter() instanceof Player shooter)) return;
-            if (e.getEntity() == shooter || protectionManager.hasProtection((OfflinePlayer) shooter)) return;
 
-            double newHealth = target.getHealth() - e.getFinalDamage();
-            if (newHealth <= 0) return;
-
-            String message = new MessageBuilder()
-                    .setText("&7{player} &6{health}&4❤")
-                    .addField("{player}", target.getName())
-                    .addField("{health}", String.format("%.1f", newHealth))
-                    .build();
-
-            ChatUtil.sendTitle(shooter, "", message, 5, 10, 5);
-        }
-    }
+//    @EventHandler()
+//    public void onBow(EntityDamageByEntityEvent e) {
+//        if (e.isCancelled()) return;
+//        if (!(e.getDamager() instanceof Projectile projectile)) return;
+//        if (!(projectile.getShooter() instanceof Player shooter)) return;
+//        if (!(e.getEntity() instanceof Player victim)) return;
+//        if ((e.getDamager() instanceof Player)) return;
+//
+//        if (victim.equals(shooter) || protectionManager.hasProtection(victim) || protectionManager.hasProtection(shooter)) return;
+//
+//        double victimHealth = victim.getHealth();
+//        double damage = e.getDamage();
+//
+//        if (victimHealth <= 0 || victim.isDead()) return;
+//
+//        double newHealth = victimHealth - damage;
+//        if (newHealth < 0) return;
+//
+//        String message = "&6" + String.format("%.1f", newHealth) + "&4❤";
+//        ChatUtil.sendTitle(shooter, "", message, 5, 10, 5);
+//    }
 }
 

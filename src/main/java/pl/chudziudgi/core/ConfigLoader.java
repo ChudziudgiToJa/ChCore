@@ -6,10 +6,11 @@ import eu.okaeri.configs.yaml.bukkit.serdes.SerdesBukkit;
 import org.bukkit.Bukkit;
 import pl.chudziudgi.core.feature.chat.ChatConfig;
 import pl.chudziudgi.core.feature.combat.CombatConfig;
+import pl.chudziudgi.core.feature.deposit.DepositConfig;
 import pl.chudziudgi.core.feature.drop.DropConfig;
+import pl.chudziudgi.core.feature.kit.KitConfig;
 import pl.chudziudgi.core.feature.nether.NetherConfig;
 import pl.chudziudgi.core.feature.randomtp.RandomTpConfig;
-import pl.chudziudgi.core.feature.schowek.DepositConfig;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -21,6 +22,11 @@ public class ConfigLoader {
     private DepositConfig depositConfig;
     private RandomTpConfig randomTpConfig;
     private CombatConfig combatConfig;
+    private KitConfig kitConfig;
+
+    public KitConfig getKitConfig() {
+        return kitConfig;
+    }
 
     public DropConfig getDropConfig() {
         return dropConfig;
@@ -52,6 +58,7 @@ public class ConfigLoader {
             this.dropConfig = ConfigManager.create(DropConfig.class, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
                 it.withBindFile(new File(plugin.getDataFolder(), "drop.yml"));
+                it.withRemoveOrphans(true);
                 it.saveDefaults();
                 it.load(true);
             });
@@ -63,7 +70,8 @@ public class ConfigLoader {
         try {
             this.depositConfig = ConfigManager.create(DepositConfig.class, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
-                it.withBindFile(new File(plugin.getDataFolder(), "schowek.yml"));
+                it.withBindFile(new File(plugin.getDataFolder(), "deposit.yml"));
+                it.withRemoveOrphans(true);
                 it.saveDefaults();
                 it.load(true);
             });
@@ -75,7 +83,8 @@ public class ConfigLoader {
         try {
             this.randomTpConfig = ConfigManager.create(RandomTpConfig.class, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
-                it.withBindFile(new File(plugin.getDataFolder(), "randomtp.yml"));
+                it.withBindFile(new File(plugin.getDataFolder(), "random.yml"));
+                it.withRemoveOrphans(true);
                 it.saveDefaults();
                 it.load(true);
             });
@@ -83,11 +92,12 @@ public class ConfigLoader {
             plugin.getLogger().log(Level.SEVERE, "Error loading randommtp.yml", exception);
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
-        // RandomTp
+        // Combat
         try {
             this.combatConfig = ConfigManager.create(CombatConfig.class, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
                 it.withBindFile(new File(plugin.getDataFolder(), "combat.yml"));
+                it.withRemoveOrphans(true);
                 it.saveDefaults();
                 it.load(true);
             });
@@ -100,6 +110,7 @@ public class ConfigLoader {
             this.netherConfig = ConfigManager.create(NetherConfig.class, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
                 it.withBindFile(new File(plugin.getDataFolder(), "nether.yml"));
+                it.withRemoveOrphans(true);
                 it.saveDefaults();
                 it.load(true);
             });
@@ -112,11 +123,25 @@ public class ConfigLoader {
             this.chatConfig = ConfigManager.create(ChatConfig.class, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
                 it.withBindFile(new File(plugin.getDataFolder(), "chat.yml"));
+                it.withRemoveOrphans(true);
                 it.saveDefaults();
                 it.load(true);
             });
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, "Error loading chat.yml", exception);
+            Bukkit.getPluginManager().disablePlugin(plugin);
+        }
+        // Kit
+        try {
+            this.kitConfig = ConfigManager.create(KitConfig.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
+                it.withBindFile(new File(plugin.getDataFolder(), "kit.yml"));
+                it.withRemoveOrphans(true);
+                it.saveDefaults();
+                it.load(true);
+            });
+        } catch (Exception exception) {
+            plugin.getLogger().log(Level.SEVERE, "Error loading kit.yml", exception);
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
     }

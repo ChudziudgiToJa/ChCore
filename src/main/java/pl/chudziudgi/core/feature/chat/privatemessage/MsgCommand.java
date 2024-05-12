@@ -39,7 +39,12 @@ public class MsgCommand extends PluginCommand {
         }
 
         if (other == null) {
-            ChatUtil.error(player, "Gracz jest offline");
+            ChatUtil.error(player, "Poprzednia osoba z, którą chatowałeś jest niedostępna");
+            return;
+        }
+
+        if (privateMessageManager.ignore(player, other)) {
+            ChatUtil.error(player, "Poprzednia osoba z, którą chatowałeś jest niedostępna");
             return;
         }
 

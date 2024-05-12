@@ -36,8 +36,8 @@ public class AsyncPlayerChatController implements Listener {
         }
 
         final Cache<UUID, Long> chatCache = this.chatManager.getChatCache();
-        if (!player.hasPermission("mhCore.chat.slowmode") && chatCache.getIfPresent(player.getUniqueId()) != null && chatCache.getIfPresent(player.getUniqueId()) > System.currentTimeMillis()) {
-            ChatUtil.error(player, "&4Blad: &cNastepny raz mozesz napisac za: {TIME}".replace("{TIME}", DataUtils.durationToString(chatCache.getIfPresent(player.getUniqueId()))));
+        if (!player.hasPermission("core.chat.slowmode") && chatCache.getIfPresent(player.getUniqueId()) != null && chatCache.getIfPresent(player.getUniqueId()) > System.currentTimeMillis()) {
+            ChatUtil.error(player, "Nastepny raz mozesz napisac za: {TIME}".replace("{TIME}", DataUtils.durationToString(chatCache.getIfPresent(player.getUniqueId()))));
             event.setCancelled(true);
             return;
         }

@@ -17,9 +17,9 @@ public class HomeGui {
         final InventoryBuilder inv = new InventoryBuilder("Domy: " + player.getName(), InventoryType.HOPPER);
         final User user = UserManager.getUser(player);
 
-        final ItemStack home1 = new ItemBuilder((homeManager.isHome(user.homeLocation1) ? Material.LIME_DYE : Material.RED_DYE)).setTitle("&7DOM I").addLore("", (homeManager.isHome(user.homeLocation1) ? "&aKliknij aby teleportować się." : "&cNie asz ustawionego domu. /sethome")).setGlow(homeManager.isHome(user.homeLocation1)).build();
-        final ItemStack home2 = new ItemBuilder((homeManager.isHome(user.homeLocation2) ? Material.LIME_DYE : Material.RED_DYE)).setTitle("&7DOM II").addLore("", (homeManager.isHome(user.homeLocation2) ? "&aKliknij aby teleportować się." : "&cNie asz ustawionego domu. /sethome")).setGlow(homeManager.isHome(user.homeLocation2)).build();
-        final ItemStack home3 = new ItemBuilder((homeManager.isHome(user.homeLocation3) ? Material.LIME_DYE : Material.RED_DYE)).setTitle("&7DOM III").addLore("", (homeManager.isHome(user.homeLocation3) ? "&aKliknij aby teleportować się." : "&cNie asz ustawionego domu. /sethome")).setGlow(homeManager.isHome(user.homeLocation3)).build();
+        final ItemStack home1 = new ItemBuilder((homeManager.isHome(user.homeLocation1) ? Material.CHEST_MINECART : Material.MINECART)).setTitle("&7DOM I").addLore("", (homeManager.isHome(user.homeLocation1) ? "&aKliknij aby teleportować się." : "&cNie asz ustawionego domu. /sethome")).setGlow(homeManager.isHome(user.homeLocation1)).build();
+        final ItemStack home2 = new ItemBuilder((homeManager.isHome(user.homeLocation2) ? Material.CHEST_MINECART : Material.MINECART)).setTitle("&7DOM II").addLore("", (homeManager.isHome(user.homeLocation2) ? "&aKliknij aby teleportować się." : "&cNie asz ustawionego domu. /sethome")).setGlow(homeManager.isHome(user.homeLocation2)).build();
+        final ItemStack home3 = new ItemBuilder((homeManager.isHome(user.homeLocation3) ? Material.CHEST_MINECART : Material.MINECART)).setTitle("&7DOM III").addLore("", (homeManager.isHome(user.homeLocation3) ? "&aKliknij aby teleportować się." : "&cNie asz ustawionego domu. /sethome")).setGlow(homeManager.isHome(user.homeLocation3)).build();
 
 
         inv.setItem(1, home1, e -> {
@@ -46,10 +46,9 @@ public class HomeGui {
         final InventoryBuilder inv = new InventoryBuilder("Ustaw domy: " + player.getName(), InventoryType.HOPPER);
         final User user = UserManager.getUser(player);
 
-        final ItemStack home1 = new ItemBuilder((homeManager.isHome(user.homeLocation1) ? Material.LIME_DYE : Material.RED_DYE)).setTitle("&7DOM I").addLore("", (homeManager.isHome(user.homeLocation1) ? "&cMasz już dom. Aby go usunąć &c/delhome" : "&aKliknij aby ustawić dom.")).setGlow(homeManager.isHome(user.homeLocation1)).build();
-        final ItemStack home2 = new ItemBuilder((homeManager.isHome(user.homeLocation2) ? Material.LIME_DYE : Material.RED_DYE)).setTitle("&7DOM II").addLore("", (homeManager.isHome(user.homeLocation2) ? "&cMasz już dom. Aby go usunąć &c/delhome" : "&aKliknij aby ustawić dom.")).setGlow(homeManager.isHome(user.homeLocation2)).build();
-        final ItemStack home3 = new ItemBuilder((homeManager.isHome(user.homeLocation3) ? Material.LIME_DYE : Material.RED_DYE)).setTitle("&7DOM III").addLore("", (homeManager.isHome(user.homeLocation3) ? "&cMasz już dom. Aby go usunąć &c/delhome" : "&aKliknij aby ustawić dom.")).setGlow(homeManager.isHome(user.homeLocation3)).build();
-
+        final ItemStack home1 = new ItemBuilder((homeManager.isHome(user.homeLocation1) ? Material.CHEST_MINECART : Material.MINECART)).setTitle("&7DOM I").addLore("", (homeManager.isHome(user.homeLocation1) ? "&cMasz już dom. Aby go usunąć &c/delhome" : "&aKliknij aby ustawić dom.")).setGlow(homeManager.isHome(user.homeLocation1)).build();
+        final ItemStack home2 = new ItemBuilder((homeManager.isHome(user.homeLocation2) ? Material.CHEST_MINECART : Material.MINECART)).setTitle("&7DOM II").addLore("", (homeManager.isHome(user.homeLocation2) ? "&cMasz już dom. Aby go usunąć &c/delhome" : "&aKliknij aby ustawić dom.")).setGlow(homeManager.isHome(user.homeLocation2)).build();
+        final ItemStack home3 = new ItemBuilder((homeManager.isHome(user.homeLocation3) ? Material.CHEST_MINECART : Material.MINECART)).setTitle("&7DOM III").addLore("", (homeManager.isHome(user.homeLocation3) ? "&cMasz już dom. Aby go usunąć &c/delhome" : "&aKliknij aby ustawić dom.")).setGlow(homeManager.isHome(user.homeLocation3)).build();
 
         inv.setItem(1, home1, e -> {
             homeManager.set(user ,player, HomeType.ONE);
@@ -75,9 +74,9 @@ public class HomeGui {
         final InventoryBuilder inv = new InventoryBuilder("Usuń domy: " + player.getName(), InventoryType.HOPPER);
         final User user = UserManager.getUser(player);
 
-        final ItemStack home1 = new ItemBuilder((homeManager.isHome(user.homeLocation1) ? Material.RED_DYE : Material.LIME_DYE)).setTitle("&7DOM I").addLore("", (homeManager.isHome(user.homeLocation1) ? "&cKliknij aby usunąć dom" : "&aNie masz ustawionego domu.")).setGlow(homeManager.isHome(user.homeLocation1)).build();
-        final ItemStack home2 = new ItemBuilder((homeManager.isHome(user.homeLocation2) ? Material.RED_DYE : Material.LIME_DYE)).setTitle("&7DOM II").addLore("", (homeManager.isHome(user.homeLocation2) ? "&cKliknij aby usunąć dom" : "&aNie masz ustawionego domu.")).setGlow(homeManager.isHome(user.homeLocation2)).build();
-        final ItemStack home3 = new ItemBuilder((homeManager.isHome(user.homeLocation3) ? Material.RED_DYE : Material.LIME_DYE)).setTitle("&7DOM III").addLore("", (homeManager.isHome(user.homeLocation3) ? "&cKliknij aby usunąć dom" : "&aNie masz ustawionego domu.")).setGlow(homeManager.isHome(user.homeLocation3)).build();
+        final ItemStack home1 = new ItemBuilder((homeManager.isHome(user.homeLocation1) ? Material.CHEST_MINECART : Material.MINECART)).setTitle("&7DOM I").addLore("", (homeManager.isHome(user.homeLocation1) ? "&cKliknij aby usunąć dom" : "&aNie masz ustawionego domu.")).setGlow(homeManager.isHome(user.homeLocation1)).build();
+        final ItemStack home2 = new ItemBuilder((homeManager.isHome(user.homeLocation2) ? Material.CHEST_MINECART : Material.MINECART)).setTitle("&7DOM II").addLore("", (homeManager.isHome(user.homeLocation2) ? "&cKliknij aby usunąć dom" : "&aNie masz ustawionego domu.")).setGlow(homeManager.isHome(user.homeLocation2)).build();
+        final ItemStack home3 = new ItemBuilder((homeManager.isHome(user.homeLocation3) ? Material.CHEST_MINECART : Material.MINECART)).setTitle("&7DOM III").addLore("", (homeManager.isHome(user.homeLocation3) ? "&cKliknij aby usunąć dom" : "&aNie masz ustawionego domu.")).setGlow(homeManager.isHome(user.homeLocation3)).build();
 
 
         inv.setItem(1, home1, e -> {
