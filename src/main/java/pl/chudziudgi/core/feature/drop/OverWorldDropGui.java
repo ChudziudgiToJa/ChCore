@@ -12,7 +12,7 @@ public class OverWorldDropGui {
 
     public static final DropConfig dropConfig = new DropConfig();
     private static final Integer[] slotList = {10, 11, 12, 13, 14, 15, 16};
-    private static final ItemStack info = new ItemBuilder(Material.OAK_HANGING_SIGN).setTitle("&bMnożniki dropu").addLore("", "  &f&lIRON &70.5%", "  &e&lGOLD &710%", "","&aWięcej dropu z rangą").build();
+    private static final ItemStack info = new ItemBuilder(Material.OAK_HANGING_SIGN).setTitle("&bMnożniki dropu").addLore("", "  &f&lIRON &75%", "  &e&lGOLD &710%", "","&aWięcej dropu z rangą").build();
     private static final ItemStack enableItem = new ItemBuilder(Material.GREEN_CANDLE).setTitle("&aWlacz caly drop").build();
     private static final ItemStack disableItem = new ItemBuilder(Material.RED_CANDLE).setTitle("&cWylacz caly drop").build();
     private static final ItemStack world = new ItemBuilder(Material.GRASS_BLOCK).setTitle("&6świat &8(&7Ziemia&8)").addLore("&7Kliknij aby zmienić drop na..", "&aZiemia &8➝ &cPiekło").build();
