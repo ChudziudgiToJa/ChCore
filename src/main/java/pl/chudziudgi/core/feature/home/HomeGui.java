@@ -6,8 +6,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
-import pl.chudziudgi.core.database.User;
-import pl.chudziudgi.core.database.UserManager;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 public class HomeGui {

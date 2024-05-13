@@ -4,8 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
-import pl.chudziudgi.core.database.User;
-import pl.chudziudgi.core.database.UserManager;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
 
 public class DepositGui {
 

@@ -1,13 +1,12 @@
 package pl.chudziudgi.core.feature.chat.privatemessage;
 
-import com.google.common.cache.Cache;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.command.PluginCommand;
 import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
-import pl.chudziudgi.core.database.User;
-import pl.chudziudgi.core.database.UserManager;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 @CommandInfo(

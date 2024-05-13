@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
-import pl.chudziudgi.core.database.User;
-import pl.chudziudgi.core.database.UserManager;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
 
 public class OverWorldDropGui {
 
@@ -26,7 +26,7 @@ public class OverWorldDropGui {
         final User user = UserManager.getUser(player);
         int i = 0;
         for (Drop drop : dropConfig.getOverWorldDropList()) {
-            inv.setItem(getSlotList()[i++], new ItemBuilder(drop.getItemStack().getType(), drop.getItemStack().getDurability()).setTitle("&f" + drop.getName()).addLore("&7Szansa: &f" + drop.getChance() + "%", "&7Ilosc: &f" + drop.getMinAmount() + "-" + drop.getMaxAmount(), "&7exp: &7" + drop.getExp(), "&7Fortuna: " + (drop.isFortune() ? "&aTAK" : "&cNIE"), "", "&fFortuna zwieksza drop&8:", " &eFortuna I &8(&f+0.5%&8)", " &eFortuna II &8(&f+0.10%&8)", " &eFortuna III &8(&f+0.15%&8)", "", "&7Status: " + (user.isDropEnabled(drop) ? "&awlaczony" : "&cwylaczony")).setGlow(user.isDropEnabled(drop)).build(), e -> {
+            inv.setItem(getSlotList()[i++], new ItemBuilder(drop.getItemStack().getType(), drop.getItemStack().getDurability()).setTitle("&f" + drop.getName()).addLore("&7Szansa: &f" + drop.getChance() + "%", "&7Ilosc: &f" + drop.getMinAmount() + "-" + drop.getMaxAmount(), "&7exp: &7" + drop.getExp(), "&7Fortuna: " + (drop.isFortune() ? "&aTAK" : "&cNIE"), "", "&fFortuna zwieksza drop&8:", " &eFortuna I &8(&f+0.5%&8)", " &eFortuna II &8(&f+0.10%&8)", " &eFortuna III &8(&f+0.15%&8)", "", "&7Status: " + (user.enabledDrops.contains(drop) ? "&awlaczony" : "&cwylaczony")).setGlow(user.enabledDrops.contains(drop)).build(), e -> {
                 user.changeDropStatus(drop);
                 open(player);
             });

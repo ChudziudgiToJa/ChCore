@@ -4,6 +4,9 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.UUID;
@@ -30,10 +33,17 @@ public class ChatManager {
 
     public void switchChat(CommandSender commandSender) {
         this.config.setChatMessageBlock(!this.config.getChatMessageBlock());
-        Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.success(player, "&6Chat zostal: " + (config.getChatMessageBlock() ? "&cwylaczony" : "&awlaczony") + " &6przez: &c" + commandSender.getName()));
+        Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.success(player, "&6Chat zostal: " + (config.getChatMessageBlock() ? "&awlaczony" : "&cwylaczony") + " &6przez: &c" + commandSender.getName()));
     }
 
     public Cache<UUID, Long> getChatCache() {
         return chatCache;
+    }
+
+    public static void changeAutoMessageUserStatus(Player player) {
+        User user = UserManager.getUser(player);
+        user.chatAutoMessageStatus = !user.chatAutoMessageStatus;
+        ChatUtil.success(player, "Automatyczne wiadomości na chacie: " + (user.chatAutoMessageStatus ? "&awłączone" : "&cwyłączone"));
+        player.closeInventory();
     }
 }

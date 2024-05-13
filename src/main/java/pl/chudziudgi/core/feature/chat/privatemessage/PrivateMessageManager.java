@@ -8,11 +8,10 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.MessageBuilder;
-import pl.chudziudgi.core.database.User;
-import pl.chudziudgi.core.database.UserManager;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
-import javax.swing.plaf.TreeUI;
 import java.util.UUID;
 
 public class PrivateMessageManager {

@@ -6,12 +6,12 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.core.api.MessageBuilder;
-import pl.chudziudgi.core.database.User;
+import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.*;
 
-public class DropUtill {
+public class DropUtil {
     public static int addFortuneEnchant(final int amount, final ItemStack tool) {
         Random random = new Random();
         int a = amount;

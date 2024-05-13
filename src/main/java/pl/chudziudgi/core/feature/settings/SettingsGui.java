@@ -5,12 +5,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
-import pl.chudziudgi.core.database.User;
-import pl.chudziudgi.core.database.UserManager;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
+import pl.chudziudgi.core.feature.chat.ChatManager;
 import pl.chudziudgi.core.feature.chat.privatemessage.PrivateMessageManager;
-import pl.chudziudgi.core.feature.deposit.DepositUtil;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
-import pl.chudziudgi.core.util.ChatUtil;
 
 public class SettingsGui {
 
@@ -32,6 +31,20 @@ public class SettingsGui {
                     incognitoManager.toggleInkognito(player);
                 }
         );
+
+        inv.setItem(2, new ItemBuilder(Material.CLOCK)
+                        .setTitle("&fWiadomości automatyczne")
+                        .addLore("",
+                                "&8Opis",
+                                " &7Wyłącza możliwość widzenia automatycznych wiadomości na chacie",
+                                "",
+                                "&7Status: " + (user.chatAutoMessageStatus ? "&awlaczony" : "&cwylaczony"))
+                        .build(),
+                event -> {
+                    ChatManager.changeAutoMessageUserStatus(player);
+                }
+        );
+        inv.open(player);
 
         inv.setItem(3, new ItemBuilder(Material.MAP)
                         .setTitle("&fIgnorowanie wszystkich wiadomości")

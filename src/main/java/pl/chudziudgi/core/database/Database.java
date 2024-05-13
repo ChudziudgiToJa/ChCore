@@ -5,6 +5,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.database.user.User;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -30,7 +31,7 @@ public class Database {
     public static void loadObjects() {
         for (final Object object : dao) {
             final User it = (User) object;
-            objects.put(it.getUuid(), it);
+            objects.put(it.uuid, it);
         }
     }
 

@@ -8,16 +8,16 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import pl.chudziudgi.core.database.User;
-import pl.chudziudgi.core.database.UserManager;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class DropManager {
-    private static final List<Drop> drops = new ArrayList<>();
 
+    private static final List<Drop> drops = new ArrayList<>();
     private static final Random RANDOM = new Random();
 
     public static List<Drop> getDrops() {
@@ -44,7 +44,7 @@ public class DropManager {
     }
 
     public static void onOverWorld(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
-        if (!DropUtill.isBreakableMaterialOverWorld(block.getType())) {
+        if (!DropUtil.isBreakableMaterialOverWorld(block.getType())) {
             return;
         }
         event.setDropItems(false);
@@ -61,7 +61,7 @@ public class DropManager {
 
             if (RANDOM.nextDouble() < chance) {
                 if (itemStack.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS) && drop.isFortune()) {
-                    int amount = DropUtill.addFortuneEnchant(drop.getMinAmount() == drop.getMaxAmount() ? drop.getMinAmount() : RANDOM.nextInt(drop.getMinAmount(), drop.getMaxAmount()), itemStack);
+                    int amount = DropUtil.addFortuneEnchant(drop.getMinAmount() == drop.getMaxAmount() ? drop.getMinAmount() : RANDOM.nextInt(drop.getMinAmount(), drop.getMaxAmount()), itemStack);
                     item.setAmount(amount);
                     dropExperience *= amount;
                 }
@@ -73,16 +73,16 @@ public class DropManager {
 
         if (user.dropCobbleStone) {
             Material material = itemStack.containsEnchantment(Enchantment.SILK_TOUCH) ? Material.STONE : Material.COBBLESTONE;
-            DropUtill.addItemsToPlayer(player, new ItemStack(material), block);
+            DropUtil.addItemsToPlayer(player, new ItemStack(material), block);
         }
 
         player.giveExp(experience);
-        DropUtill.addItemsToPlayer(player, drops, block);
-        DropUtill.isMessage(drops, player, user);
+        DropUtil.addItemsToPlayer(player, drops, block);
+        DropUtil.isMessage(drops, player, user);
     }
 
     public static void onNether(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
-        if (!DropUtill.isBreakableMaterialNether(block.getType())) {
+        if (!DropUtil.isBreakableMaterialNether(block.getType())) {
             return;
         }
         event.setDropItems(false);
@@ -100,7 +100,7 @@ public class DropManager {
 
             if (RANDOM.nextDouble() < chance) {
                 if (itemStack.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS) && drop.isFortune()) {
-                    int amount = DropUtill.addFortuneEnchant(drop.getMinAmount() == drop.getMaxAmount() ? drop.getMinAmount() : RANDOM.nextInt(drop.getMinAmount(), drop.getMaxAmount()), itemStack);
+                    int amount = DropUtil.addFortuneEnchant(drop.getMinAmount() == drop.getMaxAmount() ? drop.getMinAmount() : RANDOM.nextInt(drop.getMinAmount(), drop.getMaxAmount()), itemStack);
                     item.setAmount(amount);
                     dropExperience *= amount;
                 }
@@ -111,11 +111,11 @@ public class DropManager {
         }
 
         if (user.dropNetherrack) {
-            DropUtill.addItemsToPlayer(player, new ItemStack(Material.NETHERRACK), block);
+            DropUtil.addItemsToPlayer(player, new ItemStack(Material.NETHERRACK), block);
         }
 
         player.giveExp(experience);
-        DropUtill.addItemsToPlayer(player, drops, block);
-        DropUtill.isMessage(drops, player, user);
+        DropUtil.addItemsToPlayer(player, drops, block);
+        DropUtil.isMessage(drops, player, user);
     }
 }

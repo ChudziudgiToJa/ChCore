@@ -7,8 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.command.PluginCommand;
 import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
-import pl.chudziudgi.core.database.User;
-import pl.chudziudgi.core.database.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.UUID;

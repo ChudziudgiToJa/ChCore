@@ -1,6 +1,7 @@
 package pl.chudziudgi.core.feature.combat;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.util.ChatUtil;
@@ -23,10 +25,12 @@ public class CombatController implements Listener {
 
     private final CombatManager combatManager;
     private final CombatConfig config;
+    private final ProtectionManager protectionManager;
 
     public CombatController(final ChCore plugin, CombatManager combatManager, CombatConfig config, ProtectionManager protectionManager) {
         this.combatManager = combatManager;
         this.config = config;
+        this.protectionManager = protectionManager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -115,26 +119,38 @@ public class CombatController implements Listener {
     }
 
 
-//    @EventHandler()
-//    public void onBow(EntityDamageByEntityEvent e) {
-//        if (e.isCancelled()) return;
-//        if (!(e.getDamager() instanceof Projectile projectile)) return;
-//        if (!(projectile.getShooter() instanceof Player shooter)) return;
-//        if (!(e.getEntity() instanceof Player victim)) return;
-//        if ((e.getDamager() instanceof Player)) return;
-//
-//        if (victim.equals(shooter) || protectionManager.hasProtection(victim) || protectionManager.hasProtection(shooter)) return;
-//
-//        double victimHealth = victim.getHealth();
-//        double damage = e.getDamage();
-//
-//        if (victimHealth <= 0 || victim.isDead()) return;
-//
-//        double newHealth = victimHealth - damage;
-//        if (newHealth < 0) return;
-//
-//        String message = "&6" + String.format("%.1f", newHealth) + "&4❤";
-//        ChatUtil.sendTitle(shooter, "", message, 5, 10, 5);
-//    }
+    @EventHandler()
+    public void onBow(EntityDamageByEntityEvent e) {
+        if (e.isCancelled()) return;
+        if (!(e.getDamager() instanceof Projectile projectile)) return;
+        if (!(projectile.getShooter() instanceof Player shooter)) return;
+        if (!(e.getEntity() instanceof Player victim)) return;
+        if ((e.getDamager() instanceof Player)) return;
+
+        if (victim.equals(shooter) || protectionManager.hasProtection(victim) || protectionManager.hasProtection(shooter)) return;
+
+        double victimHealth = victim.getHealth();
+        double damage = e.getDamage();
+
+        if (victimHealth <= 0 || victim.isDead()) return;
+
+        double newHealth = victimHealth - damage;
+        if (newHealth < 0) return;
+
+        String message = "&9" + String.format("%.1f", newHealth) + "&4❤";
+        shooter.playSound(shooter, Sound.BLOCK_CANDLE_HIT, 5 , 5);
+        ChatUtil.sendTitle(shooter, "", message, 5, 20, 5);
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        Entity damager = event.getDamager();
+        if (damager instanceof Player player) {
+            ItemStack itemInHand = player.getInventory().getItemInMainHand();
+            if (itemInHand.getType().name().endsWith("_AXE")) {
+                event.setDamage(event.getDamage() / 0.5);
+            }
+        }
+    }
 }
 

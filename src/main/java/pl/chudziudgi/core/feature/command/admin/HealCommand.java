@@ -23,15 +23,12 @@ public class HealCommand extends PluginCommand {
             return;
         }
         final Player player = Bukkit.getPlayer(args[0]);
-        final Player admin = (Player)sender;
         if (player == null){
             ChatUtil.error(sender, "Gracz jest offline!");
             return;
         }
         heal(player);
-
-        ChatUtil.sendTitle(admin, "", "Uleczono: "+player.getName(), 20, 60, 20);
-        ChatUtil.sendTitle(player, "", "Uleczono", 20, 60, 20);
+        ChatUtil.success(sender, "Uleczono: " + player.getName());
     }
 
     private void heal(final Player player){

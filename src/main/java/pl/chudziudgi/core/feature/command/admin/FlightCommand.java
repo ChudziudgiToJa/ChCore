@@ -25,6 +25,6 @@ public class FlightCommand extends PluginCommand {
             return;
         }
         player.setAllowFlight(!player.getAllowFlight());
-        ChatUtil.success(player, "Fly dla: &c" + player.getName() + " &7zostalo: " + (player.getAllowFlight() ? "&awlaczone" : "&cwylaczone"));
+        ChatUtil.success(player, "Fly dla: &f" + player.getName() + " &7zostalo: " + (player.getAllowFlight() ? "&awlaczone" : "&cwylaczone"));
     }
 }

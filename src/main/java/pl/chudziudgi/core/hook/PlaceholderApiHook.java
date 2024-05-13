@@ -9,18 +9,17 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.api.MessageBuilder;
-import pl.chudziudgi.core.database.UserManager;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
 
 public class PlaceholderApiHook extends PlaceholderExpansion implements Relational {
 
     private final ProtectionManager protectionManager;
-    private final IncognitoManager incognitoManager;
 
-    public PlaceholderApiHook(ProtectionManager protectionManager, IncognitoManager incognitoManager) {
+    public PlaceholderApiHook(ProtectionManager protectionManager) {
         this.protectionManager = protectionManager;
-        this.incognitoManager = incognitoManager;
     }
 
     public static void isPlaceholderAPIInstalled(final ChCore plugin) {
@@ -80,6 +79,16 @@ public class PlaceholderApiHook extends PlaceholderExpansion implements Relation
                     return result;
                 }
                 result = " &e\uD83D\uDEE1";
+            }
+        }
+        if (params.equalsIgnoreCase("vanish")) {
+            User user = UserManager.getUser((Player) player);
+            if (user.vanishStatus) {
+                if (user.incognito || protectionManager.hasProtection(player)) {
+                    result = " &9☯ ";
+                    return result;
+                }
+                result = " &9☯";
             }
         }
         return result;

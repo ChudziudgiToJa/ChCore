@@ -1,9 +1,8 @@
 package pl.chudziudgi.core.feature.home;
 
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pl.chudziudgi.core.database.User;
+import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.LocationUtil;
 

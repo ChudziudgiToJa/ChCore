@@ -39,6 +39,8 @@ import pl.chudziudgi.core.feature.deposit.DepositCommand;
 import pl.chudziudgi.core.feature.deposit.DepositTask;
 import pl.chudziudgi.core.feature.settings.SettingCommand;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
+import pl.chudziudgi.core.feature.vanish.VanishCommand;
+import pl.chudziudgi.core.feature.vanish.VanishManager;
 import pl.chudziudgi.core.hook.PlaceholderApiHook;
 
 public final class ChCore extends JavaPlugin {
@@ -62,6 +64,7 @@ public final class ChCore extends JavaPlugin {
         PrivateMessageManager privateMessageManager = new PrivateMessageManager();
         ChatManager chatManager = new ChatManager(this.config.getChatConfig());
         IncognitoManager incognitoManager = new IncognitoManager();
+        VanishManager vanishManager = new VanishManager();
 
         new ProtectionController(this, protectionManager);
         new CombatController(this, combatManager, this.config.getCombatConfig(), protectionManager);
@@ -69,7 +72,7 @@ public final class ChCore extends JavaPlugin {
         new NetherController(this, combatManager, this.config.getNetherConfig());
         new DropController(this, combatManager);
         new AsyncPlayerChatController(this, chatManager, this.config.getChatConfig());
-        new PlayerJoinQuitListener(this,incognitoManager);
+        new PlayerJoinQuitListener(this,incognitoManager, vanishManager);
 
         new CombatTask(this, combatManager);
         new ProtectionTask(this, protectionManager);
@@ -80,7 +83,7 @@ public final class ChCore extends JavaPlugin {
         new DepositTask(this);
         new AbyssTask(this);
 
-        new PlaceholderApiHook(protectionManager, incognitoManager).register();
+        new PlaceholderApiHook(protectionManager).register();
 
         CommandManager commandManager = new CommandManager(this);
         commandManager.registerCommands(
@@ -98,7 +101,7 @@ public final class ChCore extends JavaPlugin {
                 new GameModeCommand(),
                 new SpeedCommand(),
                 new HealCommand(),
-                new ChatCommand(chatManager),
+                new ChatCommand(chatManager, config.getChatConfig()),
                 new HomeCommand(),
                 new SetHomeCommand(),
                 new DelHomeCommand(),
@@ -106,7 +109,8 @@ public final class ChCore extends JavaPlugin {
                 new SettingCommand(),
                 new IgnoreCommand(),
                 new AbyssCommand(),
-                new KitCommand(this.config.getKitConfig())
+                new KitCommand(this.config.getKitConfig()),
+                new VanishCommand(vanishManager)
         );
     }
 }

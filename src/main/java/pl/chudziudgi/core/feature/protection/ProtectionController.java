@@ -32,19 +32,21 @@ public class ProtectionController implements Listener {
 
     @EventHandler
     public void onDamager(EntityDamageByEntityEvent event) {
-        Player victim = (Player) event.getEntity();
+        if (!(event.getEntity() instanceof Player victim)) {
+            return;
+        }
         Player damager = getDamager(event);
-
-        if (isProtected(victim) || (damager != null && (isProtected(damager)))) {
+        if (isProtected(victim)) {
             event.setCancelled(true);
-            if (victim.equals(damager)) return;
-
-            if (isProtected(victim)) {
+            if (damager != null) {
                 ChatUtil.error(damager, "Ten gracz posiada ochronę!");
             }
-            if (damager != null && isProtected(victim)) {
-                ChatUtil.error(victim, "Posiadasz jeszcze ochronę!");
-            }
+            return;
+        }
+
+        if (damager != null && isProtected(damager)) {
+            event.setCancelled(true);
+            ChatUtil.error(victim, "Posiadasz jeszcze ochronę!");
         }
     }
 

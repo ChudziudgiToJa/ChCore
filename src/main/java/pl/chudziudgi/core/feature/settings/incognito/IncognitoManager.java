@@ -3,8 +3,8 @@ package pl.chudziudgi.core.feature.settings.incognito;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
 import org.bukkit.entity.Player;
-import pl.chudziudgi.core.database.User;
-import pl.chudziudgi.core.database.UserManager;
+import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 public class IncognitoManager {
@@ -28,5 +28,14 @@ public class IncognitoManager {
                 player.closeInventory();
             }
         }
+    }
+
+    public void setIncognito(final Player player) {
+        User user = UserManager.getUser(player);
+        TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
+        player.setDisplayName("&kincognito");
+        tabPlayer.setTemporaryGroup("incognito");
+        user.incognito = true;
+        player.closeInventory();
     }
 }

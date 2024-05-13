@@ -1,24 +1,28 @@
-package pl.chudziudgi.core.database;
+package pl.chudziudgi.core.database.user;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import pl.chudziudgi.core.ConfigLoader;
 import pl.chudziudgi.core.feature.drop.Drop;
-import pl.chudziudgi.core.feature.drop.DropManager;
+import pl.chudziudgi.core.feature.drop.DropConfig;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @DatabaseTable(tableName = "users")
-public class User {
-    public final Set<Drop> enabledDrops = new HashSet<>();
-
-    public final Set<Drop> enabledNetherDrops = new HashSet<>();
+public class User implements Serializable {
 
     @DatabaseField(id = true)
     public UUID uuid;
+
+    public transient Set<Drop> enabledNetherDrops = new HashSet<>();
+    public transient Set<Drop> enabledDrops = new HashSet<>();
     @DatabaseField
     public boolean dropCobbleStone;
     @DatabaseField
@@ -50,31 +54,28 @@ public class User {
     public ArrayList<UUID> ignoredList;
     @DatabaseField
     public boolean ignoreStatus;
+    @DatabaseField
+    public boolean chatAutoMessageStatus;
 
     @DatabaseField
     public boolean incognito;
 
-    User() {
+    @DatabaseField
+    public boolean vanishStatus;
+
+    public User() {
     }
 
     public User(UUID uuid) {
         this.uuid = uuid;
-        this.dropMessage = true;
-        this.dropCobbleStone = true;
-        this.dropNetherrack = true;
+        this.chatAutoMessageStatus = true;
         this.ignoredList = new ArrayList<>();
-    }
-
-    public UUID getUuid() {
-        return this.uuid;
+        this.enabledNetherDrops = new HashSet<>();
+        this.enabledDrops = new HashSet<>();
     }
 
     public Player getPlayer() {
         return Bukkit.getPlayer(this.uuid);
-    }
-
-    public boolean isDropEnabled(Drop drop) {
-        return this.enabledDrops.contains(drop);
     }
 
     public void changeDropStatus(Drop p) {
@@ -91,10 +92,6 @@ public class User {
         } else {
             this.enabledDrops.remove(p);
         }
-    }
-
-    public boolean isNetherDropEnabled(Drop drop) {
-        return this.enabledNetherDrops.contains(drop);
     }
 
     public void changeNetherDropStatus(Drop p) {
