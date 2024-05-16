@@ -6,7 +6,6 @@ import com.j256.ormlite.table.DatabaseTable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.feature.drop.Drop;
-import pl.chudziudgi.core.feature.drop.DropConfig;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,12 +19,9 @@ public class User implements Serializable {
     @DatabaseField(id = true)
     public UUID uuid;
 
-    public transient Set<Drop> enabledNetherDrops = new HashSet<>();
     public transient Set<Drop> enabledDrops = new HashSet<>();
     @DatabaseField
-    public boolean dropCobbleStone;
-    @DatabaseField
-    public boolean dropNetherrack;
+    public boolean dropOrginalBlock;
     @DatabaseField
     public boolean dropMessage;
 
@@ -69,10 +65,8 @@ public class User implements Serializable {
         this.uuid = uuid;
 
         this.enabledDrops = new HashSet<>();
-        this.enabledNetherDrops = new HashSet<>();
         this.dropMessage = true;
-        this.dropNetherrack = true;
-        this.dropCobbleStone = true;
+        this.dropOrginalBlock = true;
 
         this.dEnchantedGoldenApple = 0;
         this.dGoldenApple = 0;
@@ -95,7 +89,7 @@ public class User implements Serializable {
         return Bukkit.getPlayer(this.uuid);
     }
 
-    public void changeDropStatus(Drop p) {
+    public void changeNetherDropStatus(Drop p) {
         if (!this.enabledDrops.contains(p)) {
             this.enabledDrops.add(p);
         } else {
@@ -103,27 +97,11 @@ public class User implements Serializable {
         }
     }
 
-    public void setDropStatus(Drop p, boolean b) {
+    public void setNetherDropStatus(Drop p, boolean b) {
         if (b) {
             this.enabledDrops.add(p);
         } else {
             this.enabledDrops.remove(p);
-        }
-    }
-
-    public void changeNetherDropStatus(Drop p) {
-        if (!this.enabledNetherDrops.contains(p)) {
-            this.enabledNetherDrops.add(p);
-        } else {
-            this.enabledNetherDrops.remove(p);
-        }
-    }
-
-    public void setNetherDropStatus(Drop p, boolean b) {
-        if (b) {
-            this.enabledNetherDrops.add(p);
-        } else {
-            this.enabledNetherDrops.remove(p);
         }
     }
 }

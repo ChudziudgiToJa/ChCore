@@ -14,10 +14,6 @@ public class DropCommand extends PluginCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if (player.getWorld().getEnvironment() == World.Environment.NETHER) {
-            NetherDropGui.open((Player) sender);
-        } else {
-            OverWorldDropGui.open((Player) sender);
-        }
+        DropGui.open(player);
     }
 }

@@ -38,11 +38,8 @@ public class DropUtil {
         }
     }
 
-    public static boolean isBreakableMaterialOverWorld(Material material) {
-        return Arrays.asList(Material.STONE, Material.ANDESITE, Material.GRANITE, Material.DIORITE, Material.DEEPSLATE).contains(material);
-    }
-    public static boolean isBreakableMaterialNether(Material material) {
-        return Arrays.asList(Material.NETHERRACK, Material.SOUL_SAND, Material.CRIMSON_NYLIUM, Material.SOUL_SOIL, Material.BASALT, Material.MAGMA_BLOCK, Material.BLACKSTONE, Material.WARPED_NYLIUM).contains(material);
+    public static boolean isBreakableMaterial(Material material) {
+        return Arrays.asList(Material.NETHERRACK, Material.SOUL_SAND, Material.CRIMSON_NYLIUM, Material.SOUL_SOIL, Material.BASALT, Material.MAGMA_BLOCK, Material.BLACKSTONE, Material.WARPED_NYLIUM, Material.STONE, Material.ANDESITE, Material.GRANITE, Material.DIORITE, Material.DEEPSLATE).contains(material);
     }
 
     public static void isMessage(List<ItemStack> drops, Player player, User user) {

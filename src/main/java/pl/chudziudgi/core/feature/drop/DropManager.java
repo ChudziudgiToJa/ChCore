@@ -21,9 +21,8 @@ public class DropManager {
 
 
     public static void breakBlock(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
-        if (player.getWorld().getEnvironment() == World.Environment.NETHER) onNether(player, block, itemStack, event);
-        if (player.getWorld().getEnvironment() == World.Environment.NORMAL)
-            onOverWorld(player, block, itemStack, event);
+        if (player.getWorld().getEnvironment() == World.Environment.NETHER) onMine(player, block, itemStack, event);
+        if (player.getWorld().getEnvironment() == World.Environment.NORMAL) onMine(player, block, itemStack, event);
     }
 
     public static double haveRank(final Player player, double chance) {
@@ -38,46 +37,8 @@ public class DropManager {
         return chance;
     }
 
-    public static void onOverWorld(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
-        if (!DropUtil.isBreakableMaterialOverWorld(block.getType())) {
-            return;
-        }
-        event.setDropItems(false);
-
-        List<ItemStack> drops = new ArrayList<>();
-        User user = UserManager.get(player);
-        int experience = 3;
-
-        for (Drop drop : user.enabledDrops) {
-            ItemStack item = drop.getItemStack();
-            int dropExperience = drop.getExp();
-            double chance = drop.getChance();
-            chance = haveRank(player, chance);
-
-            if (RANDOM.nextDouble() < chance) {
-                if (itemStack.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS) && drop.isFortune()) {
-                    int amount = DropUtil.addFortuneEnchant(drop.getMinAmount() == drop.getMaxAmount() ? drop.getMinAmount() : RANDOM.nextInt(drop.getMinAmount(), drop.getMaxAmount()), itemStack);
-                    item.setAmount(amount);
-                    dropExperience *= amount;
-                }
-                drops.add(item);
-                player.playSound(player, Sound.ENTITY_AXOLOTL_SPLASH, 0.5f, (float) (Math.random() * 20.0) / 10.0f);
-                experience += dropExperience;
-            }
-        }
-
-        if (user.dropCobbleStone) {
-            Material material = itemStack.containsEnchantment(Enchantment.SILK_TOUCH) ? Material.STONE : Material.COBBLESTONE;
-            DropUtil.addItemsToPlayer(player, new ItemStack(material), block);
-        }
-
-        player.giveExp(experience);
-        DropUtil.addItemsToPlayer(player, drops, block);
-        DropUtil.isMessage(drops, player, user);
-    }
-
-    public static void onNether(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
-        if (!DropUtil.isBreakableMaterialNether(block.getType())) {
+    public static void onMine(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
+        if (!DropUtil.isBreakableMaterial(block.getType())) {
             return;
         }
         event.setDropItems(false);
@@ -86,7 +47,14 @@ public class DropManager {
         User user = UserManager.get(player);
         int experience = 1;
 
-        for (Drop drop : user.enabledNetherDrops) {
+        for (Drop drop : user.enabledDrops) {
+            World.Environment playerEnvironment = player.getWorld().getEnvironment();
+
+            if ((playerEnvironment == World.Environment.NORMAL && drop.getWorldType() != World.Environment.NORMAL) || (playerEnvironment == World.Environment.NETHER && drop.getWorldType() != World.Environment.NETHER)) {
+                continue;
+            }
+
+
             ItemStack item = drop.getItemStack();
             int dropExperience = drop.getExp();
             double chance = drop.getChance();
@@ -105,8 +73,12 @@ public class DropManager {
             }
         }
 
-        if (user.dropNetherrack) {
-            DropUtil.addItemsToPlayer(player, new ItemStack(Material.NETHERRACK), block);
+        if (user.dropOrginalBlock) {
+            if (player.getWorld().getEnvironment() == World.Environment.NORMAL) {
+                DropUtil.addItemsToPlayer(player, new ItemStack(Material.COBBLESTONE), block);
+            } else {
+                DropUtil.addItemsToPlayer(player, new ItemStack(Material.NETHERRACK), block);
+            }
         }
 
         player.giveExp(experience);
