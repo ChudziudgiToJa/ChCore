@@ -52,8 +52,8 @@ public class PrivateMessageManager {
     }
 
     public boolean ignore(Player player, Player target) {
-        User one = UserManager.getUser(player);
-        User two = UserManager.getUser(target);
+        User one = UserManager.get(player);
+        User two = UserManager.get(target);
 
         if (one.ignoreStatus || two.ignoreStatus) {
             return true;
@@ -67,7 +67,7 @@ public class PrivateMessageManager {
     }
 
     public void toggle(Player player) {
-        User user = UserManager.getUser(player);
+        User user = UserManager.get(player);
         user.ignoreStatus = !user.ignoreStatus;
         ChatUtil.success(player, "Ignorowanie wszystkich wiadomości prywatnych " + (user.ignoreStatus ? "&awlaczono" : "&cwylaczono"));
         player.closeInventory();

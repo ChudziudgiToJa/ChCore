@@ -7,38 +7,66 @@ import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.LocationUtil;
 
 public class HomeManager {
-    public Boolean isHome(String var) {
-        Location location = LocationUtil.fromStringToLocation(var);
-        return location != null;
+
+    public final String message = "Nie posiadasz wymaganej rangi";
+
+    public boolean isHome(String locationString) {
+        return LocationUtil.fromStringToLocation(locationString) != null;
     }
 
     public String getHomeString(User user, HomeType homeType) {
-        if (homeType == HomeType.ONE)
-            return user.homeLocation1;
-        if (homeType == HomeType.TWO)
-            return user.homeLocation2;
-        if (homeType == HomeType.THREE)
-            return user.homeLocation3;
-
-        return null;
+        return switch (homeType) {
+            case ONE -> user.homeLocation1;
+            case TWO -> user.homeLocation2;
+            case THREE -> user.homeLocation3;
+            default -> null;
+        };
     }
 
     public void setHomeNull(User user, HomeType homeType) {
-        if (homeType == HomeType.ONE)
-            user.homeLocation1 = null;
-        if (homeType == HomeType.TWO)
-            user.homeLocation2 = null;
-        if (homeType == HomeType.THREE)
-            user.homeLocation3 = null;
+        Player player = user.getPlayer();
+        switch (homeType) {
+            case ONE:
+                user.homeLocation1 = null;
+                break;
+            case TWO:
+                if (!player.hasPermission("core.home.iron")) {
+                    ChatUtil.error(player,message);
+                    break;
+                }
+                user.homeLocation2 = null;
+                break;
+            case THREE:
+                if (!player.hasPermission("core.home.gold")) {
+                    ChatUtil.error(player,message);
+                    break;
+                }
+                user.homeLocation3 = null;
+                break;
+        }
     }
 
     public void setHomeLocation(User user, Player player, HomeType homeType) {
-        if (homeType == HomeType.ONE)
-            user.homeLocation1 = LocationUtil.fromLocationToString(player.getLocation());
-        if (homeType == HomeType.TWO)
-            user.homeLocation2 = LocationUtil.fromLocationToString(player.getLocation());
-        if (homeType == HomeType.THREE)
-            user.homeLocation3 = LocationUtil.fromLocationToString(player.getLocation());
+        String locationString = LocationUtil.fromLocationToString(player.getLocation());
+        switch (homeType) {
+            case ONE:
+                user.homeLocation1 = locationString;
+                break;
+            case TWO:
+                if (!player.hasPermission("core.home.iron")) {
+                    ChatUtil.error(player,message);
+                    break;
+                }
+                user.homeLocation2 = locationString;
+                break;
+            case THREE:
+                if (!player.hasPermission("core.home.iron")) {
+                    ChatUtil.error(player,message);
+                    break;
+                }
+                user.homeLocation3 = locationString;
+                break;
+        }
     }
 
     public void tp(User user, Player player, HomeType type) {

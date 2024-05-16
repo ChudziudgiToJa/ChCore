@@ -21,25 +21,22 @@ public class AutoMessageTask extends BukkitRunnable {
         this.config = config;
         this.messages = config.getListaAutoMessage();
         this.currentIndex = 0;
-        runTaskTimerAsynchronously(plugin, 20L * 10L, 20L * 600L);
+        runTaskTimerAsynchronously(plugin, 0, 20L * 650L);
     }
 
     @Override
     public void run() {
         if (!config.getChatAutoMessage()) return;
+        if (messages.isEmpty()) return;
 
-        if (messages.isEmpty()) {
-            return;
-        }
         Bukkit.getOnlinePlayers().forEach(player -> {
-            User user = UserManager.getUser(player);
+            User user = UserManager.get(player);
             if (user.chatAutoMessageStatus) {
                 player.playSound(player, Sound.ENTITY_COD_FLOP, 5, 5);
                 ChatUtil.broadcast("&3ⒾⓃⒻⓄ &7" + messages.get(currentIndex));
             }
         });
         currentIndex++;
-
         if (currentIndex >= messages.size()) {
             currentIndex = 0;
         }

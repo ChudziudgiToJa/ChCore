@@ -29,7 +29,7 @@ public class VanishCommand extends PluginCommand {
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
             final Player player = (Player) sender;
-            final User user = UserManager.getUser(player);
+            final User user = UserManager.get(player);
             vanishManager.toggleVanish(player);
             ChatUtil.success(player,"Vanish: " + (user.vanishStatus ? "&awłączono" : "&cwyłączono"));
             return;
@@ -43,8 +43,8 @@ public class VanishCommand extends PluginCommand {
             ChatUtil.error(sender, "Gracz nie może posiadać vanisha ze względu na brak permisji");
             return;
         }
-        final User user = UserManager.getUser(player);
+        final User user = UserManager.get(player);
         vanishManager.toggleVanish(player);
-        ChatUtil.success(player, "Vanish dla: &f" + player.getName() + " " + (user.vanishStatus ? "&awłączono" : "&cwyłączono"));
+        ChatUtil.success(sender, "Vanish dla: &f" + player.getName() + " " + (user.vanishStatus ? "&awłączono" : "&cwyłączono"));
     }
 }

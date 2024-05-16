@@ -19,7 +19,7 @@ public class AbyssTask extends BukkitRunnable {
     public AbyssTask(final ChCore plugin) {
         this.plugin = plugin;
         this.countdown = 60;
-        runTaskTimerAsynchronously(plugin, 20*10, 20);
+        runTaskTimerAsynchronously(plugin, 0, 20* 600L);
     }
 
     public void itemClear() {

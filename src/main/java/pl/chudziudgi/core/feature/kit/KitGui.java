@@ -12,7 +12,7 @@ public class KitGui {
 
     public static void open(final Player player) {
         final InventoryBuilder inv = new InventoryBuilder("&8Zestawy", InventoryType.HOPPER);
-        final User user = UserManager.getUser(player);
+        final User user = UserManager.get(player);
 
         inv.setItem(1, new ItemBuilder(Material.LEATHER_HELMET)
                         .setTitle("&fZestaw &e&lSTART")

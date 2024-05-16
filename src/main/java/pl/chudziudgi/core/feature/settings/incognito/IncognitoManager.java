@@ -11,7 +11,8 @@ public class IncognitoManager {
 
 
     public void toggleInkognito(final Player player) {
-        User user = UserManager.getUser(player);
+        if (!UserManager.isExists(player)) return;
+        User user = UserManager.get(player);
         TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
         if (tabPlayer != null) {
             if (user.incognito) {
@@ -30,12 +31,16 @@ public class IncognitoManager {
         }
     }
 
-    public void setIncognito(final Player player) {
-        User user = UserManager.getUser(player);
-        TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
-        player.setDisplayName("&kincognito");
-        tabPlayer.setTemporaryGroup("incognito");
-        user.incognito = true;
-        player.closeInventory();
+    public void isIncognito(final Player player) {
+        if (!UserManager.isExists(player)) return;
+        User user = UserManager.get(player);
+        if (user.incognito) {
+            TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
+            if (tabPlayer != null) {
+                tabPlayer.setTemporaryGroup("incognito");
+                player.setDisplayName("&kincognito");
+                ChatUtil.info(player, "Twoje incognito jest nadal &aAktywne");
+            }
+        }
     }
 }

@@ -4,17 +4,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
-import pl.chudziudgi.core.util.ChatUtil;
 
 public class VanishManager {
 
     public boolean isVanished(final Player player) {
-        User user = UserManager.getUser(player);
+        User user = UserManager.get(player);
         return user.vanishStatus;
     }
 
     public void toggleVanish(final Player player, final boolean set) {
-        User user = UserManager.getUser(player);
+        User user = UserManager.get(player);
         if (set) {
             user.vanishStatus = true;
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
@@ -38,7 +37,7 @@ public class VanishManager {
     public void onJoin(Player player) {
         if (!player.hasPermission("core.vanish.see")) {
             Bukkit.getOnlinePlayers().forEach(online -> {
-                User user = UserManager.getUser(online);
+                User user = UserManager.get(online);
                 if (user.vanishStatus) {
                     player.hidePlayer(online);
                 }

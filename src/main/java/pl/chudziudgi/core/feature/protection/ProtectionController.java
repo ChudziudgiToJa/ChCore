@@ -7,6 +7,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.TimeEnum;
 
@@ -20,7 +21,7 @@ public class ProtectionController implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        if (!event.getPlayer().hasPlayedBefore()) {
+        if (!UserManager.isExists(event.getPlayer())) {
             protectionManager.giveProtection(event.getPlayer(), TimeEnum.MINUTE, 2);
         }
     }

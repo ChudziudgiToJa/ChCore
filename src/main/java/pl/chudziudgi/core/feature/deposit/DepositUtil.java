@@ -53,7 +53,7 @@ public class DepositUtil {
 
     public static void withdrawEnchantedGoldenApple(final Player player) {
         final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.getUser(player);
+        final User user = UserManager.get(player);
         if (user.dEnchantedGoldenApple > 0) {
             if (DepositUtil.getAmount(player, Material.ENCHANTED_GOLDEN_APPLE) < depositConfig.getEnchantedGoldenAppleLimit()) {
                 if (user.dEnchantedGoldenApple > depositConfig.getEnchantedGoldenAppleLimit()) {
@@ -72,7 +72,7 @@ public class DepositUtil {
 
     public static void withdrawGoldenApple(final Player player) {
         final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.getUser(player);
+        final User user = UserManager.get(player);
         if (user.dGoldenApple > 0) {
             if (DepositUtil.getAmount(player, Material.GOLDEN_APPLE) < depositConfig.getGoldenAppleLimit()) {
                 if (user.dGoldenApple > depositConfig.getGoldenAppleLimit()) {
@@ -91,7 +91,7 @@ public class DepositUtil {
 
     public static void withdrawEnderPearls(final Player player) {
         final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.getUser(player);
+        final User user = UserManager.get(player);
         if (user.dEnchantedGoldenApple > 0) {
             if (DepositUtil.getAmount(player, Material.ENDER_PEARL) < depositConfig.getEnderPearlLimit()) {
                 if (user.dEnderPearl > depositConfig.getEnderPearlLimit()) {
@@ -110,7 +110,7 @@ public class DepositUtil {
 
     public static void withdrawTotem(final Player player) {
         final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.getUser(player);
+        final User user = UserManager.get(player);
         if (user.dTotemOfUndying > 0) {
             if (DepositUtil.getAmount(player, Material.TOTEM_OF_UNDYING) < depositConfig.getTotemOfUndyingLimit()) {
                 if (user.dTotemOfUndying > depositConfig.getTotemOfUndyingLimit()) {
@@ -129,7 +129,7 @@ public class DepositUtil {
 
     public static void withdrawArrow(final Player player) {
         final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.getUser(player);
+        final User user = UserManager.get(player);
         if (user.dArrow > 0) {
             if (DepositUtil.getAmount(player, Material.ARROW) < depositConfig.getArrowLimit()) {
                 if (user.dArrow > depositConfig.getArrowLimit()) {
@@ -141,14 +141,14 @@ public class DepositUtil {
                 }
                 ChatUtil.error(player, withdrawMessage(Material.ARROW, depositConfig.arrowLimit));
             } else {
-                ChatUtil.error(player, maxLimitMessage(Material.ARROW));
+                ChatUtil.success(player, withdrawMessage(Material.ARROW, depositConfig.arrowLimit));
             }
         }else ChatUtil.error(player,noItemMessage(Material.ARROW));
     }
 
     public static void withdrawChorus(final Player player) {
         final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.getUser(player);
+        final User user = UserManager.get(player);
         if (DepositUtil.getAmount(player, Material.CHORUS_FRUIT) == depositConfig.getEnchantedGoldenAppleLimit()) {
             ChatUtil.error(player, maxLimitMessage(Material.CHORUS_FRUIT));
             return;
@@ -184,5 +184,41 @@ public class DepositUtil {
     public static String maxLimitMessage(final Material material) {
         String item = material.toString().toLowerCase();
         return new MessageBuilder().setText("Posiadasz już limit {ITEM} w ekwipunku.").addField("{ITEM}", item).build();
+    }
+
+    public static String takeMessage(final Material material, final int amount) {
+        String item = material.toString().toLowerCase();
+        return new MessageBuilder().setText("Zabrano nadmiar {ITEM} &8(x{AMOUNT}&8) &7do schowka.")
+                .addField("{ITEM}", item)
+                .addField("{AMOUNT}", String.valueOf(amount))
+                .build();
+    }
+
+    public static void processMaterial(Player onlinePlayer, Material material, int limit, int userField) {
+        if (DepositUtil.getAmount(onlinePlayer, material) > limit) {
+            final int amount = DepositUtil.remove(onlinePlayer, material, limit);
+            User user = UserManager.get(onlinePlayer);
+            switch (userField) {
+                case 1:
+                    user.dEnchantedGoldenApple += amount;
+                    break;
+                case 2:
+                    user.dGoldenApple += amount;
+                    break;
+                case 3:
+                    user.dEnderPearl += amount;
+                    break;
+                case 4:
+                    user.dArrow += amount;
+                    break;
+                case 5:
+                    user.dTotemOfUndying += amount;
+                    break;
+                case 6:
+                    user.dChorus += amount;
+                    break;
+            }
+            ChatUtil.info(onlinePlayer, takeMessage(material, amount));
+        }
     }
 }

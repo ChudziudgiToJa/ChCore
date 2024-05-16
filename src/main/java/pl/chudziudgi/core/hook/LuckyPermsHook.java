@@ -7,11 +7,11 @@ import pl.chudziudgi.core.ChCore;
 public class LuckyPermsHook {
 
     public static void isLuckyPermsInstalled(final ChCore plugin) {
-        Plugin placeholderAPI = Bukkit.getServer().getPluginManager().getPlugin("LuckyPerms");
-        if (placeholderAPI != null) {
-            plugin.getLogger().info("Wykryto plugin PlaceholderAPI");
+        Plugin luckyPerm = Bukkit.getServer().getPluginManager().getPlugin("LuckyPerms");
+        if (luckyPerm != null) {
+            plugin.getLogger().info("Wykryto plugin LuckyPerms");
         } else {
-            plugin.getLogger().info("Nie Wykryto pluginu PlaceholderAPi serwer zostaje wyłączony");
+            plugin.getLogger().info("Nie Wykryto pluginu LuckyPerms serwer zostaje wyłączony");
             plugin.getServer().shutdown();
         }
     }

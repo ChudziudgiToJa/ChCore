@@ -12,7 +12,7 @@ import pl.chudziudgi.core.util.ChatUtil;
         name = "invsee",
         player = true,
         perm = "core.command.invsee",
-        usage = "<ec/armor/inv>"
+        usage = "<ec/armor/inv> <gracz>"
 )
 
 public class InventorySeeCommand extends PluginCommand {
@@ -20,21 +20,22 @@ public class InventorySeeCommand extends PluginCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         final Player player = (Player)sender;
-        final Player target = Bukkit.getPlayer(args[0]);
+        final Player target = Bukkit.getPlayer(args[1]);
 
         if (target != null && !target.isOnline()){
             ChatUtil.error(player, "gracz nie jest aktywny");
             return;
         }
-        if (args[1].equalsIgnoreCase("inv")){
-            player.openInventory(target.getInventory());
+
+        if (args[0].equalsIgnoreCase("inv")){
+            player.openInventory(target.getOpenInventory());
             return;
         }
-        if (args[1].equalsIgnoreCase("ec")){
+        if (args[0].equalsIgnoreCase("ec")){
             player.openInventory(target.getEnderChest());
             return;
         }
-        if (args[1].equalsIgnoreCase("armor")){
+        if (args[0].equalsIgnoreCase("armor")){
             final Inventory eq = Bukkit.createInventory(null, 9, "Zbroja gracza: "+ target.getName());
             eq.setContents(target.getInventory().getArmorContents());
             player.openInventory(eq);

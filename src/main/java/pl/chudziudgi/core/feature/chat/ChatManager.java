@@ -41,7 +41,7 @@ public class ChatManager {
     }
 
     public static void changeAutoMessageUserStatus(Player player) {
-        User user = UserManager.getUser(player);
+        User user = UserManager.get(player);
         user.chatAutoMessageStatus = !user.chatAutoMessageStatus;
         ChatUtil.success(player, "Automatyczne wiadomości na chacie: " + (user.chatAutoMessageStatus ? "&awłączone" : "&cwyłączone"));
         player.closeInventory();

@@ -12,7 +12,6 @@ import pl.chudziudgi.core.api.MessageBuilder;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
-import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
 
 public class PlaceholderApiHook extends PlaceholderExpansion implements Relational {
 
@@ -74,7 +73,7 @@ public class PlaceholderApiHook extends PlaceholderExpansion implements Relation
         String result = "";
         if (params.equalsIgnoreCase("ochrona")) {
             if (protectionManager.hasProtection(player)) {
-                if (UserManager.getUser((Player) player).incognito) {
+                if (UserManager.get((Player) player).incognito) {
                     result = " &e\uD83D\uDEE1 ";
                     return result;
                 }
@@ -82,7 +81,7 @@ public class PlaceholderApiHook extends PlaceholderExpansion implements Relation
             }
         }
         if (params.equalsIgnoreCase("vanish")) {
-            User user = UserManager.getUser((Player) player);
+            User user = UserManager.get((Player) player);
             if (user.vanishStatus) {
                 if (user.incognito || protectionManager.hasProtection(player)) {
                     result = " &9☯ ";

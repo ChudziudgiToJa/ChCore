@@ -17,7 +17,7 @@ public class SettingsGui {
         final IncognitoManager incognitoManager = new IncognitoManager();
         final PrivateMessageManager privateMessageManager = new PrivateMessageManager();
         final InventoryBuilder inv = new InventoryBuilder("&8Ustawienia", InventoryType.HOPPER);
-        final User user = UserManager.getUser(player);
+        final User user = UserManager.get(player);
 
         inv.setItem(1, new ItemBuilder(Material.NAME_TAG)
                         .setTitle("&fIncognito")
@@ -52,6 +52,7 @@ public class SettingsGui {
                                 "&8Opis",
                                 " &7Wyłącza możliwość pisania do ciebie wiadomości prywatnych",
                                 " &7aby wyciszyć poszczególne osoby /ignore <gracz>",
+                                " &7masz również możliwość odciszenia.",
                                 "",
                                 "&7Status: " + (user.ignoreStatus ? "&awlaczony" : "&cwylaczony"))
                         .build(),

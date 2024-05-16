@@ -17,12 +17,7 @@ import java.util.Random;
 
 public class DropManager {
 
-    private static final List<Drop> drops = new ArrayList<>();
     private static final Random RANDOM = new Random();
-
-    public static List<Drop> getDrops() {
-        return drops;
-    }
 
 
     public static void breakBlock(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
@@ -50,7 +45,7 @@ public class DropManager {
         event.setDropItems(false);
 
         List<ItemStack> drops = new ArrayList<>();
-        User user = UserManager.getUser(player);
+        User user = UserManager.get(player);
         int experience = 3;
 
         for (Drop drop : user.enabledDrops) {
@@ -88,7 +83,7 @@ public class DropManager {
         event.setDropItems(false);
 
         List<ItemStack> drops = new ArrayList<>();
-        User user = UserManager.getUser(player);
+        User user = UserManager.get(player);
         int experience = 1;
 
         for (Drop drop : user.enabledNetherDrops) {

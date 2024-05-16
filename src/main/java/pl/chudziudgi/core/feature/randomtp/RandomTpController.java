@@ -12,6 +12,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.combat.CombatManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
@@ -36,7 +37,7 @@ public class RandomTpController implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         final Location location = RandomUtil.getRandomCords(0);
-        if (!event.getPlayer().hasPlayedBefore()) {
+        if (!UserManager.isExists(event.getPlayer())) {
             event.getPlayer().teleport(location);
         }
     }

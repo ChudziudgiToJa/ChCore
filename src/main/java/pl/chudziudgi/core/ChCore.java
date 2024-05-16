@@ -22,11 +22,11 @@ import pl.chudziudgi.core.feature.command.admin.*;
 import pl.chudziudgi.core.feature.command.user.EnderchestCommand;
 import pl.chudziudgi.core.feature.command.user.PomocCommand;
 import pl.chudziudgi.core.feature.command.user.WorkbenchCommand;
+import pl.chudziudgi.core.feature.deposit.DepositCommand;
+import pl.chudziudgi.core.feature.deposit.DepositTask;
 import pl.chudziudgi.core.feature.drop.DropCommand;
 import pl.chudziudgi.core.feature.drop.DropController;
-import pl.chudziudgi.core.feature.home.command.DelHomeCommand;
-import pl.chudziudgi.core.feature.home.command.HomeCommand;
-import pl.chudziudgi.core.feature.home.command.SetHomeCommand;
+import pl.chudziudgi.core.feature.home.HomeCommand;
 import pl.chudziudgi.core.feature.kit.KitCommand;
 import pl.chudziudgi.core.feature.listener.PlayerJoinQuitListener;
 import pl.chudziudgi.core.feature.nether.*;
@@ -35,8 +35,6 @@ import pl.chudziudgi.core.feature.protection.ProtectionController;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.feature.protection.ProtectionTask;
 import pl.chudziudgi.core.feature.randomtp.RandomTpController;
-import pl.chudziudgi.core.feature.deposit.DepositCommand;
-import pl.chudziudgi.core.feature.deposit.DepositTask;
 import pl.chudziudgi.core.feature.settings.SettingCommand;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
 import pl.chudziudgi.core.feature.vanish.VanishCommand;
@@ -72,7 +70,7 @@ public final class ChCore extends JavaPlugin {
         new NetherController(this, combatManager, this.config.getNetherConfig());
         new DropController(this, combatManager);
         new AsyncPlayerChatController(this, chatManager, this.config.getChatConfig());
-        new PlayerJoinQuitListener(this,incognitoManager, vanishManager);
+        new PlayerJoinQuitListener(this, incognitoManager, vanishManager);
 
         new CombatTask(this, combatManager);
         new ProtectionTask(this, protectionManager);
@@ -103,8 +101,6 @@ public final class ChCore extends JavaPlugin {
                 new HealCommand(),
                 new ChatCommand(chatManager, config.getChatConfig()),
                 new HomeCommand(),
-                new SetHomeCommand(),
-                new DelHomeCommand(),
                 new InventorySeeCommand(),
                 new SettingCommand(),
                 new IgnoreCommand(),

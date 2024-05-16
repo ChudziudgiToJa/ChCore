@@ -5,7 +5,6 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import pl.chudziudgi.core.ConfigLoader;
 import pl.chudziudgi.core.feature.drop.Drop;
 import pl.chudziudgi.core.feature.drop.DropConfig;
 
@@ -68,10 +67,28 @@ public class User implements Serializable {
 
     public User(UUID uuid) {
         this.uuid = uuid;
-        this.chatAutoMessageStatus = true;
-        this.ignoredList = new ArrayList<>();
-        this.enabledNetherDrops = new HashSet<>();
+
         this.enabledDrops = new HashSet<>();
+        this.enabledNetherDrops = new HashSet<>();
+        this.dropMessage = true;
+        this.dropNetherrack = true;
+        this.dropCobbleStone = true;
+
+        this.dEnchantedGoldenApple = 0;
+        this.dGoldenApple = 0;
+        this.dEnderPearl = 0;
+        this.dTotemOfUndying = 0;
+        this.dArrow = 0;
+        this.dChorus = 0;
+
+        this.incognito = false;
+
+        this.vanishStatus = false;
+
+        this.chatAutoMessageStatus = true;
+        this.ignoreStatus = false;
+
+        this.ignoredList = new ArrayList<>();
     }
 
     public Player getPlayer() {

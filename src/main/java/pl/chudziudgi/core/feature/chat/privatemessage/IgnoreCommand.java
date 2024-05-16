@@ -19,7 +19,7 @@ public class IgnoreCommand extends PluginCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        User user = UserManager.getUser((Player)sender);
+        User user = UserManager.get((Player)sender);
         if (args.length < 1) {
             sendUsage(sender);
             return;
