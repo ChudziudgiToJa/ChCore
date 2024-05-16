@@ -37,6 +37,7 @@ public class VanishManager {
     public void onJoin(Player player) {
         if (!player.hasPermission("core.vanish.see")) {
             Bukkit.getOnlinePlayers().forEach(online -> {
+                if (!UserManager.isExists(player)) return;
                 User user = UserManager.get(online);
                 if (user.vanishStatus) {
                     player.hidePlayer(online);

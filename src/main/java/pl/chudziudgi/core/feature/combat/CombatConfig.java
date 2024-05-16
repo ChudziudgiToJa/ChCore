@@ -15,7 +15,7 @@ public class CombatConfig extends OkaeriConfig {
     private String commandBlockMessage = "Komenda nieaktywna w trakcie PvP!";
 
     @Comment("Wiadomość o logaucie")
-    private String logautMessage = "Gracz: &c{PLAYER} &6wylogowal sie podczas walki!";
+    private String logautMessage = "Gracz: &c{PLAYER} &7wylogowal się podczas walki!";
 
     public String getLogautMessage() {
         return logautMessage;

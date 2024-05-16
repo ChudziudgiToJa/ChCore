@@ -26,7 +26,7 @@ public class DropController implements Listener {
         if (combatManager.inCombat(player)) return;
 
         if (player.getGameMode() == GameMode.SURVIVAL) {
-            DropManager.breakBlock(player, block, player.getItemInHand(), event);
+            DropManager.onMine(player, block, player.getItemInHand(), event);
         }
     }
 }

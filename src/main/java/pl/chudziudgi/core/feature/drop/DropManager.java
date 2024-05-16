@@ -1,6 +1,5 @@
 package pl.chudziudgi.core.feature.drop;
 
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -19,29 +18,15 @@ public class DropManager {
 
     private static final Random RANDOM = new Random();
 
-
-    public static void breakBlock(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
-        if (player.getWorld().getEnvironment() == World.Environment.NETHER) onMine(player, block, itemStack, event);
-        if (player.getWorld().getEnvironment() == World.Environment.NORMAL) onMine(player, block, itemStack, event);
-    }
-
-    public static double haveRank(final Player player, double chance) {
-        if (player.hasPermission("core.drop.iron")) {
-            chance = chance * 0.05;
-            return chance;
-        }
-        if (player.hasPermission("core.drop.gold")) {
-            chance = chance * 0.10;
-            return chance;
-        }
-        return chance;
-    }
-
     public static void onMine(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
-        if (!DropUtil.isBreakableMaterial(block.getType())) {
-            return;
+
+        if (player.getWorld().getEnvironment() == World.Environment.NETHER) {
+            if (!DropUtil.isBreakableMaterialNether(block.getType())) return;
         }
-        event.setDropItems(false);
+
+        if (player.getWorld().getEnvironment() == World.Environment.NORMAL) {
+            if (!DropUtil.isBreakableMaterialOverWorld(block.getType())) return;
+        }
 
         List<ItemStack> drops = new ArrayList<>();
         User user = UserManager.get(player);
@@ -59,11 +44,11 @@ public class DropManager {
             int dropExperience = drop.getExp();
             double chance = drop.getChance();
 
-            haveRank(player, chance);
-
             if (RANDOM.nextDouble() < chance) {
                 if (itemStack.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS) && drop.isFortune()) {
                     int amount = DropUtil.addFortuneEnchant(drop.getMinAmount() == drop.getMaxAmount() ? drop.getMinAmount() : RANDOM.nextInt(drop.getMinAmount(), drop.getMaxAmount()), itemStack);
+                    amount = DropUtil.isPermission(player, amount);
+
                     item.setAmount(amount);
                     dropExperience *= amount;
                 }
@@ -73,14 +58,7 @@ public class DropManager {
             }
         }
 
-        if (user.dropOrginalBlock) {
-            if (player.getWorld().getEnvironment() == World.Environment.NORMAL) {
-                DropUtil.addItemsToPlayer(player, new ItemStack(Material.COBBLESTONE), block);
-            } else {
-                DropUtil.addItemsToPlayer(player, new ItemStack(Material.NETHERRACK), block);
-            }
-        }
-
+        event.setDropItems(user.dropOrginalBlock);
         player.giveExp(experience);
         DropUtil.addItemsToPlayer(player, drops, block);
         DropUtil.isMessage(drops, player, user);

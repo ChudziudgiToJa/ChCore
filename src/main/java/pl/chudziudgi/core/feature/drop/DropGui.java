@@ -42,7 +42,7 @@ public class DropGui {
             open(player);
         });
 
-        final ItemStack info = new ItemBuilder(Material.OAK_HANGING_SIGN).setTitle("&bMnożniki dropu").addLore("", "&7Więcej dropu z rangą &b⬇", "  &f&lIRON &75%", "  &e&lGOLD &710%", "").build();
+        final ItemStack info = new ItemBuilder(Material.OAK_HANGING_SIGN).setTitle("&fRanga zwieksza drop&8:").addLore("", " &fⒾ &lIRON &8(&f+0.5%&8)", " &eⒼ &lGOLD &8(&f+0.10%&8)", "").build();
         inv.setItem(40, info, e -> {
         });
 

@@ -16,7 +16,7 @@ public class SettingsGui {
     public static void open(final Player player) {
         final IncognitoManager incognitoManager = new IncognitoManager();
         final PrivateMessageManager privateMessageManager = new PrivateMessageManager();
-        final InventoryBuilder inv = new InventoryBuilder("&8Ustawienia", InventoryType.HOPPER);
+        final InventoryBuilder inv = new InventoryBuilder("&9Ustawienia", InventoryType.HOPPER);
         final User user = UserManager.get(player);
 
         inv.setItem(1, new ItemBuilder(Material.NAME_TAG)

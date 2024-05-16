@@ -25,12 +25,27 @@ public class DropUtil {
         return a;
     }
 
+    public static int isPermission(final Player player, final int amount) {
+        Random random = new Random();
+        int a = amount;
+        if (random.nextDouble(0, 100) < 20.0 && player.hasPermission("core.drop.gold")) {
+            ++a;
+            return a;
+        }
+        if (random.nextDouble(0, 100) < 30.0 && player.hasPermission("core.drop.iron")) {
+            a += 2;
+            return a;
+        }
+        return a;
+    }
+
     public static void addItemsToPlayer(final Player player, final List<ItemStack> items, final Block b) {
         final HashMap<Integer, ItemStack> notStored = player.getInventory().addItem(items.toArray(new ItemStack[0]));
         for (final Map.Entry<Integer, ItemStack> en : notStored.entrySet()) {
             b.getWorld().dropItemNaturally(b.getLocation(), en.getValue());
         }
     }
+
     public static void addItemsToPlayer(final Player player, final ItemStack itemStack, final Block b) {
         final HashMap<Integer, ItemStack> notStored = player.getInventory().addItem(new ItemStack(itemStack));
         for (final Map.Entry<Integer, ItemStack> en : notStored.entrySet()) {
@@ -38,9 +53,14 @@ public class DropUtil {
         }
     }
 
-    public static boolean isBreakableMaterial(Material material) {
-        return Arrays.asList(Material.NETHERRACK, Material.SOUL_SAND, Material.CRIMSON_NYLIUM, Material.SOUL_SOIL, Material.BASALT, Material.MAGMA_BLOCK, Material.BLACKSTONE, Material.WARPED_NYLIUM, Material.STONE, Material.ANDESITE, Material.GRANITE, Material.DIORITE, Material.DEEPSLATE).contains(material);
+    public static boolean isBreakableMaterialNether(Material material) {
+        return Arrays.asList(Material.NETHERRACK, Material.SOUL_SAND, Material.CRIMSON_NYLIUM, Material.SOUL_SOIL, Material.BASALT, Material.MAGMA_BLOCK, Material.BLACKSTONE, Material.WARPED_NYLIUM).contains(material);
     }
+
+    public static boolean isBreakableMaterialOverWorld(Material material) {
+        return Arrays.asList(Material.STONE, Material.ANDESITE, Material.GRANITE, Material.DIORITE, Material.DEEPSLATE).contains(material);
+    }
+
 
     public static void isMessage(List<ItemStack> drops, Player player, User user) {
 

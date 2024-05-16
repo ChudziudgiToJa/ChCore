@@ -40,10 +40,11 @@ public class PlayerJoinQuitListener implements Listener {
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (UserManager.isExists(player)) {
-                ChatUtil.success(player, "Wczytano twój profil.");
+                ChatUtil.success(player, "Wczytano twój profil. &3✔");
             } else {
                 UserManager.createUser(new User(player.getUniqueId()));
                 player.kickPlayer(ChatUtil.fixColor("&aTwóje konto zostało stworzone\n\n&b&lDołącz ponownie!"));
+                return;
             }
             vanishManager.onJoin(player);
             incognitoManager.isIncognito(player);

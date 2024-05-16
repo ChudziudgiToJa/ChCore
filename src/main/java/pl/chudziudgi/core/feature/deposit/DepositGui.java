@@ -64,7 +64,7 @@ public class DepositGui {
                 .addLore(
                         "",
                         " &fW schowku&8: &3" + user.dTotemOfUndying,
-                        "&8» &fLimit w EQ&8: &3" + depositConfig.getTotemOfUndyingLimit(),
+                        " &fLimit w EQ&8: &3" + depositConfig.getTotemOfUndyingLimit(),
                         "",
                         "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                 )
