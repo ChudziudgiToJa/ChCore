@@ -6,7 +6,6 @@ import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
@@ -14,6 +13,20 @@ import java.util.List;
 import java.util.Map;
 
 public class KitManager {
+
+    public static void giveKitFree(Player player, KitType kitType) {
+        switch (kitType) {
+            case START:
+                addItemsToPlayer(player, Kits.start());
+                break;
+            case IRON:
+                addItemsToPlayer(player, Kits.iron());
+                break;
+            case GOLD:
+                addItemsToPlayer(player, Kits.gold());
+                break;
+        }
+    }
 
     public static void giveKit(Player player, KitType kitType) {
         User user = UserManager.get(player);
@@ -30,6 +43,10 @@ public class KitManager {
                 }
                 break;
             case IRON:
+                if (!player.hasPermission("core.kit.iron")) {
+                    ChatUtil.error(player, "Nie posiadasz wymaganej rangi.");
+                    return;
+                }
                 if (canReceiveKit(user.kitIron, now)) {
                     user.kitIron = now;
                     addItemsToPlayer(player, Kits.iron());
@@ -39,7 +56,10 @@ public class KitManager {
                 }
                 break;
             case GOLD:
-                if (canReceiveKit(user.kitGold, now)) {
+                if (!player.hasPermission("core.kit.gold")) {
+                    ChatUtil.error(player, "Nie posiadasz wymaganej rangi.");
+                    return;
+                }                if (canReceiveKit(user.kitGold, now)) {
                     user.kitGold = now;
                     addItemsToPlayer(player, Kits.gold());
                 } else {
@@ -56,7 +76,17 @@ public class KitManager {
         return duration.toHours() >= 24;
     }
 
-    public static List<ItemStack> getKitList(KitType kitType) {
+    public static boolean canReceiveKit(Player player, KitType kitType) {
+        Instant now = Instant.now();
+        User user = UserManager.get(player);
+
+        if (getUserKitTime(user, kitType) == null) return true;
+
+        Duration duration = Duration.between(getUserKitTime(user, kitType), now);
+        return duration.toHours() >= 24;
+    }
+
+    public static List<ItemStack> getList(KitType kitType) {
         return switch (kitType) {
             case START -> Kits.start();
             case IRON -> Kits.iron();
@@ -64,11 +94,19 @@ public class KitManager {
         };
     }
 
-    public static String getKitName(KitType kitType) {
+    public static String getName(KitType kitType) {
         return switch (kitType) {
-            case START -> "&3&lSTART";
-            case IRON -> "&f&lIRON";
-            case GOLD -> "&e&lGOLD";
+            case START -> "start";
+            case IRON -> "iron";
+            case GOLD -> "gold";
+        };
+    }
+
+    public static Instant getUserKitTime(User user, KitType kitType){
+        return switch (kitType) {
+            case START -> user.kitStart;
+            case IRON -> user.kitIron;
+            case GOLD -> user.kitGold;
         };
     }
 

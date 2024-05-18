@@ -105,7 +105,7 @@ public final class ChCore extends JavaPlugin {
                 new SettingCommand(),
                 new IgnoreCommand(),
                 new AbyssCommand(),
-                new KitCommand(),
+                new KitCommand(this.config.getKitConfig()),
                 new VanishCommand(vanishManager)
         );
     }
