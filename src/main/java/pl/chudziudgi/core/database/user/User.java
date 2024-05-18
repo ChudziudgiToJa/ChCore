@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import pl.chudziudgi.core.feature.drop.Drop;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,6 +38,13 @@ public class User implements Serializable {
     public int dArrow;
     @DatabaseField
     public int dChorus;
+
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    public Instant kitStart;
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    public Instant kitIron;
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    public Instant kitGold;
 
     @DatabaseField
     public String homeLocation1;
@@ -89,7 +97,7 @@ public class User implements Serializable {
         return Bukkit.getPlayer(this.uuid);
     }
 
-    public void changeNetherDropStatus(Drop p) {
+    public void changeDropStatus(Drop p) {
         if (!this.enabledDrops.contains(p)) {
             this.enabledDrops.add(p);
         } else {
@@ -97,7 +105,7 @@ public class User implements Serializable {
         }
     }
 
-    public void setNetherDropStatus(Drop p, boolean b) {
+    public void setDropStatus(Drop p, boolean b) {
         if (b) {
             this.enabledDrops.add(p);
         } else {

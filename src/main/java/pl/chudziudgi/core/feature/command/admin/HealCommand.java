@@ -19,7 +19,7 @@ public class HealCommand extends PluginCommand {
         if (args.length == 0){
             Player player = (Player)sender;
             heal(player);
-            ChatUtil.sendTitle(player, "", "Uleczono", 20, 60, 20);
+            ChatUtil.success(sender, "Uleczono");
             return;
         }
         final Player player = Bukkit.getPlayer(args[0]);

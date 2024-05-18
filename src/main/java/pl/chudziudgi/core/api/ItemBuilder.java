@@ -76,7 +76,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public final ItemBuilder setOwner(final String newowner) {
+    public final ItemBuilder setHeadOwner(final String newowner) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         ((SkullMeta) itemMeta).setOwner(newowner);
         itemStack.setItemMeta(itemMeta);

@@ -8,7 +8,6 @@ import pl.chudziudgi.core.feature.chat.ChatConfig;
 import pl.chudziudgi.core.feature.combat.CombatConfig;
 import pl.chudziudgi.core.feature.deposit.DepositConfig;
 import pl.chudziudgi.core.feature.drop.DropConfig;
-import pl.chudziudgi.core.feature.kit.KitConfig;
 import pl.chudziudgi.core.feature.nether.NetherConfig;
 import pl.chudziudgi.core.feature.randomtp.RandomTpConfig;
 
@@ -22,11 +21,7 @@ public class ConfigLoader {
     private DepositConfig depositConfig;
     private RandomTpConfig randomTpConfig;
     private CombatConfig combatConfig;
-    private KitConfig kitConfig;
 
-    public KitConfig getKitConfig() {
-        return kitConfig;
-    }
 
     public DropConfig getDropConfig() {
         return dropConfig;
@@ -129,19 +124,6 @@ public class ConfigLoader {
             });
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, "Error loading chat.yml", exception);
-            Bukkit.getPluginManager().disablePlugin(plugin);
-        }
-        // Kit
-        try {
-            this.kitConfig = ConfigManager.create(KitConfig.class, (it) -> {
-                it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
-                it.withBindFile(new File(plugin.getDataFolder(), "kit.yml"));
-                it.withRemoveOrphans(true);
-                it.saveDefaults();
-                it.load(true);
-            });
-        } catch (Exception exception) {
-            plugin.getLogger().log(Level.SEVERE, "Error loading kit.yml", exception);
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
     }

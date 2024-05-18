@@ -23,22 +23,22 @@ public class DropGui {
         int i = 0;
         for (Drop drop : dropConfig.getDropList()) {
             inv.setItem(getSlotList()[i++], new ItemBuilder(drop.getItemStack().getType(), drop.getItemStack().getDurability()).setTitle("&f" + drop.getName()).addLore("&7Szansa: &f" + drop.getChance() + "%", "&7Ilosc: &f" + drop.getMinAmount() + "-" + drop.getMaxAmount(), "&7exp: &7" + drop.getExp(), "&7Fortuna: " + (drop.isFortune() ? "&aTAK" : "&cNIE"), "&7Zdobędziesz w świecie " + drop.getWorldType().toString(), "", "&fFortuna zwieksza drop&8:", " &eFortuna I &8(&f+0.5%&8)", " &eFortuna II &8(&f+0.10%&8)", " &eFortuna III &8(&f+0.15%&8)", "", "&7Status: " + (user.enabledDrops.contains(drop) ? "&awlaczony" : "&cwylaczony"), "", "&7Kliknij &3▜&7▛, aby zmienić status").setGlow(user.enabledDrops.contains(drop)).build(), e -> {
-                user.changeNetherDropStatus(drop);
+                user.changeDropStatus(drop);
                 open(player);
             });
         }
 
-        final ItemStack disableItem = new ItemBuilder(Material.LIGHT_BLUE_DYE).setTitle("&cWyłącz caly drop").addLore("", "&7Kliknij &3▜&7▛, aby zmienić status").build();
+        final ItemStack disableItem = new ItemBuilder(Material.LIGHT_BLUE_DYE).setTitle("&3Włącz caly drop").addLore("", "&7Kliknij &3▜&7▛, aby zmienić status").build();
         inv.setItem(38, disableItem, e -> {
             user.enabledDrops.clear();
-            for (final Drop drop : dropConfig.getDropList()) user.setNetherDropStatus(drop, true);
+            for (final Drop drop : dropConfig.getDropList()) user.setDropStatus(drop, true);
             open(player);
         });
 
         final ItemStack enableItem = new ItemBuilder(Material.GRAY_DYE).setTitle("&cWyłącz caly drop").addLore("", "&7Kliknij &3▜&7▛, aby zmienić status").build();
         inv.setItem(39, enableItem, e -> {
             user.enabledDrops.clear();
-            for (final Drop drop : dropConfig.getDropList()) user.setNetherDropStatus(drop, false);
+            for (final Drop drop : dropConfig.getDropList()) user.setDropStatus(drop, false);
             open(player);
         });
 
