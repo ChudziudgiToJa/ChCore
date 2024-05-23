@@ -14,12 +14,25 @@ import java.util.concurrent.TimeUnit;
 
 public class ChatManager {
 
-    private final Cache<UUID, Long> chatCache;
+    private final Cache<UUID, Long> timeCache;
+    private final Cache<UUID, String> messageCache;
     private final ChatConfig config;
 
     public ChatManager(ChatConfig config) {
         this.config = config;
-        this.chatCache = CacheBuilder.newBuilder().expireAfterWrite(15000L, TimeUnit.SECONDS).build();
+        this.timeCache = CacheBuilder.newBuilder().expireAfterWrite(15000L, TimeUnit.SECONDS).build();
+        this.messageCache = CacheBuilder.newBuilder().expireAfterWrite(15000L, TimeUnit.SECONDS).build();
+    }
+
+    public static void changeAutoMessageUserStatus(Player player) {
+        User user = UserManager.get(player);
+        user.chatAutoMessageStatus = !user.chatAutoMessageStatus;
+        ChatUtil.success(player, "Automatyczne wiadomości na chacie: " + (user.chatAutoMessageStatus ? "&awłączone" : "&cwyłączone"));
+        player.closeInventory();
+    }
+
+    public Cache<UUID, String> getMessageCache() {
+        return messageCache;
     }
 
     public void clearChat(CommandSender commandSender) {
@@ -31,19 +44,18 @@ public class ChatManager {
         });
     }
 
+    public void switchAuto(CommandSender commandSender) {
+        config.setChatAutoMessage(!config.getChatAutoMessage());
+        ChatUtil.success(commandSender, "Zmieniono status autowiadomości: " + (config.getChatAutoMessage() ? "&awłączony" : "&cwłączony"));
+
+    }
+
     public void switchChat(CommandSender commandSender) {
         this.config.setChatMessageBlock(!this.config.getChatMessageBlock());
-        Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.success(player, "&6Chat zostal: " + (config.getChatMessageBlock() ? "&awlaczony" : "&cwylaczony") + " &6przez: &c" + commandSender.getName()));
+        Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.success(player, "Chat zostal: " + (config.getChatMessageBlock() ? "&awlaczony" : "&cwylaczony") + " &7przez: &3" + commandSender.getName()));
     }
 
-    public Cache<UUID, Long> getChatCache() {
-        return chatCache;
-    }
-
-    public static void changeAutoMessageUserStatus(Player player) {
-        User user = UserManager.get(player);
-        user.chatAutoMessageStatus = !user.chatAutoMessageStatus;
-        ChatUtil.success(player, "Automatyczne wiadomości na chacie: " + (user.chatAutoMessageStatus ? "&awłączone" : "&cwyłączone"));
-        player.closeInventory();
+    public Cache<UUID, Long> getTimeCache() {
+        return timeCache;
     }
 }

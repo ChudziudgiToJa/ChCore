@@ -10,6 +10,7 @@ import pl.chudziudgi.core.feature.deposit.DepositConfig;
 import pl.chudziudgi.core.feature.drop.DropConfig;
 import pl.chudziudgi.core.feature.kit.KitConfig;
 import pl.chudziudgi.core.feature.nether.NetherConfig;
+import pl.chudziudgi.core.feature.protection.ProtectionConfig;
 import pl.chudziudgi.core.feature.randomtp.RandomTpConfig;
 
 import java.io.File;
@@ -23,6 +24,11 @@ public class ConfigLoader {
     private RandomTpConfig randomTpConfig;
     private CombatConfig combatConfig;
     private KitConfig kitConfig;
+    private ProtectionConfig protectionConfig;
+
+    public ProtectionConfig getProtectionConfig() {
+        return protectionConfig;
+    }
 
     public KitConfig getKitConfig() {
         return kitConfig;
@@ -123,7 +129,6 @@ public class ConfigLoader {
             this.chatConfig = ConfigManager.create(ChatConfig.class, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
                 it.withBindFile(new File(plugin.getDataFolder(), "chat.yml"));
-                it.withRemoveOrphans(true);
                 it.saveDefaults();
                 it.load(true);
             });
@@ -142,6 +147,19 @@ public class ConfigLoader {
             });
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, "Error loading kit.yml", exception);
+            Bukkit.getPluginManager().disablePlugin(plugin);
+        }
+        // protection
+        try {
+            this.protectionConfig = ConfigManager.create(ProtectionConfig.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
+                it.withBindFile(new File(plugin.getDataFolder(), "ochrona.yml"));
+                it.withRemoveOrphans(true);
+                it.saveDefaults();
+                it.load(true);
+            });
+        } catch (Exception exception) {
+            plugin.getLogger().log(Level.SEVERE, "Error loading ochrona.yml", exception);
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
     }

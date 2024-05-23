@@ -22,20 +22,24 @@ public class ChatCommand extends PluginCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (args[0].equalsIgnoreCase("switch")) {
-            chatManager.switchChat(sender);
-            return;
-        }
-        if (args[0].equalsIgnoreCase("clear")) {
-            chatManager.clearChat(sender);
-            return;
-        }
-        if (args[0].equalsIgnoreCase("auto")) {
-            chatConfig.setChatAutoMessage(!chatConfig.getChatAutoMessage());
-            ChatUtil.success(sender, "Zmieniono status autowiadomości: " + (chatConfig.getChatAutoMessage() ? "&awłączony" : "&cwłączony"));
-        }
-        else {
+        if (args.length == 0) {
             sendUsage(sender);
+            return;
+        }
+
+        switch (args[0].toLowerCase()) {
+            case "switch":
+                chatManager.switchChat(sender);
+                break;
+            case "clear":
+                chatManager.clearChat(sender);
+                break;
+            case "auto":
+                chatManager.switchAuto(sender);
+                break;
+            default:
+                sendUsage(sender);
+                break;
         }
     }
 }

@@ -11,6 +11,7 @@ import java.util.UUID;
 
 public class ProtectionManager {
 
+
     private final Map<UUID, Long> protectionCache;
 
     public ProtectionManager() {
@@ -29,8 +30,9 @@ public class ProtectionManager {
     }
 
     public void endProtection(final Player player) {
+        ProtectionConfig protectionConfig = new ProtectionConfig();
         this.protectionCache.remove(player.getUniqueId());
-        ChatUtil.sendActionbar(player, "&6⌚ Ochrona &edobiegla konca");
+        ChatUtil.sendActionbar(player, protectionConfig.getProtectionEndMessage());
     }
 
     public Map<UUID, Long> getProtectionCache() {

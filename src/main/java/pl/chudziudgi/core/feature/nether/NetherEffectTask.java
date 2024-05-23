@@ -13,7 +13,7 @@ import pl.chudziudgi.core.api.ItemBuilder;
 public class NetherEffectTask extends BukkitRunnable {
 
     public NetherEffectTask(final ChCore plugin) {
-        runTaskTimer(plugin, 0, 20*2);
+        runTaskTimer(plugin, 0, 20);
     }
 
     @Override
@@ -22,11 +22,12 @@ public class NetherEffectTask extends BukkitRunnable {
             if (player.getWorld().getEnvironment() == World.Environment.NETHER) {
                 Material mainHandItem = player.getInventory().getItemInMainHand().getType();
                 if (isPickaxe(mainHandItem)) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20 * 4, 0));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20, 0));
                 }
             }
         });
     }
+
     private boolean isPickaxe(Material material) {
         return material == Material.WOODEN_PICKAXE ||
                 material == Material.STONE_PICKAXE ||

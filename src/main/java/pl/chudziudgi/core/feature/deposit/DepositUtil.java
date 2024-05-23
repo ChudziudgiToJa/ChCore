@@ -51,146 +51,108 @@ public class DepositUtil {
         }
     }
 
-    public static void withdrawEnchantedGoldenApple(final Player player) {
-        final DepositConfig depositConfig = new DepositConfig();
+    public static void withdrawItem(final Player player, final Material material, int userField) {
         final User user = UserManager.get(player);
-        if (user.dEnchantedGoldenApple > 0) {
-            if (DepositUtil.getAmount(player, Material.ENCHANTED_GOLDEN_APPLE) < depositConfig.getEnchantedGoldenAppleLimit()) {
-                if (user.dEnchantedGoldenApple > depositConfig.getEnchantedGoldenAppleLimit()) {
-                    DepositUtil.giveItems(player, new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, depositConfig.getEnchantedGoldenAppleLimit()));
-                    user.dEnchantedGoldenApple -= depositConfig.getEnchantedGoldenAppleLimit();
-                } else {
-                    DepositUtil.giveItems(player, new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, user.dEnchantedGoldenApple));
-                    user.dEnchantedGoldenApple -= user.dEnchantedGoldenApple;
-                }
-                ChatUtil.success(player, withdrawMessage(Material.ENCHANTED_GOLDEN_APPLE, depositConfig.enchantedGoldenAppleLimit));
-            } else {
-                ChatUtil.error(player, maxLimitMessage(Material.ENCHANTED_GOLDEN_APPLE));
-            }
-        }else ChatUtil.error(player,noItemMessage(Material.ENCHANTED_GOLDEN_APPLE));
-    }
+        final int limit = getLimit(material);
+        final int userAmount = getUserAmount(user, material);
 
-    public static void withdrawGoldenApple(final Player player) {
-        final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.get(player);
-        if (user.dGoldenApple > 0) {
-            if (DepositUtil.getAmount(player, Material.GOLDEN_APPLE) < depositConfig.getGoldenAppleLimit()) {
-                if (user.dGoldenApple > depositConfig.getGoldenAppleLimit()) {
-                    DepositUtil.giveItems(player, new ItemStack(Material.GOLDEN_APPLE, depositConfig.getGoldenAppleLimit()));
-                    user.dGoldenApple -= depositConfig.getGoldenAppleLimit();
-                } else {
-                    DepositUtil.giveItems(player, new ItemStack(Material.GOLDEN_APPLE, user.dGoldenApple));
-                    user.dGoldenApple -= user.dGoldenApple;
-                }
-                ChatUtil.success(player, withdrawMessage(Material.GOLDEN_APPLE, depositConfig.getGoldenAppleLimit()));
-            } else {
-                ChatUtil.error(player, maxLimitMessage(Material.GOLDEN_APPLE));
-            }
-        }else ChatUtil.error(player,noItemMessage(Material.GOLDEN_APPLE));
-    }
-
-    public static void withdrawEnderPearls(final Player player) {
-        final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.get(player);
-        if (user.dEnchantedGoldenApple > 0) {
-            if (DepositUtil.getAmount(player, Material.ENDER_PEARL) < depositConfig.getEnderPearlLimit()) {
-                if (user.dEnderPearl > depositConfig.getEnderPearlLimit()) {
-                    DepositUtil.giveItems(player, new ItemStack(Material.ENDER_PEARL, depositConfig.getEnderPearlLimit()));
-                    user.dEnderPearl -= depositConfig.getEnderPearlLimit();
-                } else {
-                    DepositUtil.giveItems(player, new ItemStack(Material.ENDER_PEARL, user.dEnderPearl));
-                    user.dEnderPearl -= user.dEnderPearl;
-                }
-                ChatUtil.success(player, withdrawMessage(Material.ENDER_PEARL, depositConfig.getEnderPearlLimit()));
-            } else {
-                ChatUtil.error(player, maxLimitMessage(Material.ENDER_PEARL));
-            }
-        }else noItemMessage(Material.ENDER_PEARL);
-    }
-
-    public static void withdrawTotem(final Player player) {
-        final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.get(player);
-        if (user.dTotemOfUndying > 0) {
-            if (DepositUtil.getAmount(player, Material.TOTEM_OF_UNDYING) < depositConfig.getTotemOfUndyingLimit()) {
-                if (user.dTotemOfUndying > depositConfig.getTotemOfUndyingLimit()) {
-                    DepositUtil.giveItems(player, new ItemStack(Material.TOTEM_OF_UNDYING, depositConfig.getTotemOfUndyingLimit()));
-                    user.dTotemOfUndying -= depositConfig.getTotemOfUndyingLimit();
-                } else {
-                    DepositUtil.giveItems(player, new ItemStack(Material.TOTEM_OF_UNDYING, user.dTotemOfUndying));
-                    user.dTotemOfUndying -= user.dTotemOfUndying;
-                }
-                ChatUtil.success(player, withdrawMessage(Material.TOTEM_OF_UNDYING, depositConfig.getTotemOfUndyingLimit()));
-            } else {
-                ChatUtil.error(player, maxLimitMessage(Material.TOTEM_OF_UNDYING));
-            }
-        }else ChatUtil.error(player,noItemMessage(Material.TOTEM_OF_UNDYING));
-    }
-
-    public static void withdrawArrow(final Player player) {
-        final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.get(player);
-        if (user.dArrow > 0) {
-            if (DepositUtil.getAmount(player, Material.ARROW) < depositConfig.getArrowLimit()) {
-                if (user.dArrow > depositConfig.getArrowLimit()) {
-                    DepositUtil.giveItems(player, new ItemStack(Material.ARROW, depositConfig.getArrowLimit()));
-                    user.dArrow -= depositConfig.getArrowLimit();
-                } else {
-                    DepositUtil.giveItems(player, new ItemStack(Material.ARROW, user.dArrow));
-                    user.dArrow -= user.dArrow;
-                }
-                ChatUtil.error(player, withdrawMessage(Material.ARROW, depositConfig.arrowLimit));
-            } else {
-                ChatUtil.success(player, withdrawMessage(Material.ARROW, depositConfig.arrowLimit));
-            }
-        }else ChatUtil.error(player,noItemMessage(Material.ARROW));
-    }
-
-    public static void withdrawChorus(final Player player) {
-        final DepositConfig depositConfig = new DepositConfig();
-        final User user = UserManager.get(player);
-        if (DepositUtil.getAmount(player, Material.CHORUS_FRUIT) == depositConfig.getEnchantedGoldenAppleLimit()) {
-            ChatUtil.error(player, maxLimitMessage(Material.CHORUS_FRUIT));
+        if (DepositUtil.getAmount(player, material) == limit) {
+            ChatUtil.error(player, maxLimitMessage(material));
             return;
         }
-        if (user.dChorus > 0) {
-            if (DepositUtil.getAmount(player, Material.CHORUS_FRUIT) < depositConfig.getChorusLimit()) {
-                if (user.dChorus > depositConfig.getChorusLimit()) {
-                    DepositUtil.giveItems(player, new ItemStack(Material.CHORUS_FRUIT, depositConfig.getChorusLimit()));
-                    user.dChorus -= depositConfig.getChorusLimit();
-                } else {
-                    DepositUtil.giveItems(player, new ItemStack(Material.CHORUS_FRUIT, user.dChorus));
-                    user.dChorus -= user.dChorus;
-                }
-                ChatUtil.success(player, withdrawMessage(Material.CHORUS_FRUIT, depositConfig.chorusLimit));
 
-            } else ChatUtil.error(player, maxLimitMessage(Material.CHORUS_FRUIT));
-        }else ChatUtil.error(player,noItemMessage(Material.CHORUS_FRUIT));
+        if (userAmount > 0) {
+            int availableSpace = limit - DepositUtil.getAmount(player, material);
+            int withdrawAmount = Math.min(userAmount, availableSpace);
+
+            if (withdrawAmount > 0) {
+                DepositUtil.giveItems(player, new ItemStack(material, withdrawAmount));
+                setUserAmount(user, material, userAmount - withdrawAmount);
+                ChatUtil.success(player, withdrawMessage(material, withdrawAmount));
+            } else {
+                ChatUtil.error(player, maxLimitMessage(material));
+            }
+        } else {
+            ChatUtil.error(player, noItemMessage(material));
+        }
     }
 
-    public static String withdrawMessage(final Material material, final int limit) {
+    private static int getLimit(Material material) {
+        DepositConfig depositConfig = new DepositConfig();
+        return switch (material) {
+            case ENCHANTED_GOLDEN_APPLE -> depositConfig.getEnchantedGoldenAppleLimit();
+            case GOLDEN_APPLE -> depositConfig.getGoldenAppleLimit();
+            case ENDER_PEARL -> depositConfig.getEnderPearlLimit();
+            case TOTEM_OF_UNDYING -> depositConfig.getTotemOfUndyingLimit();
+            case ARROW -> depositConfig.getArrowLimit();
+            case CHORUS_FRUIT -> depositConfig.getChorusLimit();
+            default -> throw new IllegalArgumentException("Unsupported material: " + material);
+        };
+    }
+
+    private static int getUserAmount(User user, Material material) {
+        switch (material) {
+            case ENCHANTED_GOLDEN_APPLE:
+                return user.dEnchantedGoldenApple;
+            case GOLDEN_APPLE:
+                return user.dGoldenApple;
+            case ENDER_PEARL:
+                return user.dEnderPearl;
+            case TOTEM_OF_UNDYING:
+                return user.dTotemOfUndying;
+            case ARROW:
+                return user.dArrow;
+            case CHORUS_FRUIT:
+                return user.dChorus;
+            default:
+                throw new IllegalArgumentException("Unsupported material: " + material);
+        }
+    }
+
+    private static void setUserAmount(User user, Material material, int amount) {
+        switch (material) {
+            case ENCHANTED_GOLDEN_APPLE:
+                user.dEnchantedGoldenApple = amount;
+                break;
+            case GOLDEN_APPLE:
+                user.dGoldenApple = amount;
+                break;
+            case ENDER_PEARL:
+                user.dEnderPearl = amount;
+                break;
+            case TOTEM_OF_UNDYING:
+                user.dTotemOfUndying = amount;
+                break;
+            case ARROW:
+                user.dArrow = amount;
+                break;
+            case CHORUS_FRUIT:
+                user.dChorus = amount;
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported material: " + material);
+        }
+    }
+
+    public static String withdrawMessage(final Material material, final int amount) {
         String item = material.toString().toLowerCase();
         return new MessageBuilder().setText("Wypłacono {ITEM} &8(x{AMOUNT})&7 ze schowka.")
                 .addField("{ITEM}", item)
-                .addField("{AMOUNT}", String.valueOf(limit))
+                .addField("{AMOUNT}", String.valueOf(amount))
                 .build();
     }
 
     public static String noItemMessage(final Material material) {
         String item = material.toString().toLowerCase();
-        return new MessageBuilder().setText("Nie posiadasz przedmiotu {ITEM} w schowku.").addField("{ITEM}", item).build();
+        return new MessageBuilder().setText("Nie posiadasz przedmiotu {ITEM} w schowku.")
+                .addField("{ITEM}", item)
+                .build();
     }
 
     public static String maxLimitMessage(final Material material) {
         String item = material.toString().toLowerCase();
-        return new MessageBuilder().setText("Posiadasz już limit {ITEM} w ekwipunku.").addField("{ITEM}", item).build();
-    }
-
-    public static String takeMessage(final Material material, final int amount) {
-        String item = material.toString().toLowerCase();
-        return new MessageBuilder().setText("Zabrano nadmiar {ITEM} &8(x{AMOUNT}&8) &7do schowka.")
+        return new MessageBuilder().setText("Posiadasz już limit {ITEM} w ekwipunku.")
                 .addField("{ITEM}", item)
-                .addField("{AMOUNT}", String.valueOf(amount))
                 .build();
     }
 
@@ -220,5 +182,13 @@ public class DepositUtil {
             }
             ChatUtil.info(onlinePlayer, takeMessage(material, amount));
         }
+    }
+
+    public static String takeMessage(final Material material, final int amount) {
+        String item = material.toString().toLowerCase();
+        return new MessageBuilder().setText("Zabrano nadmiar {ITEM} &8(x{AMOUNT}&8) &7do schowka.")
+                .addField("{ITEM}", item)
+                .addField("{AMOUNT}", String.valueOf(amount))
+                .build();
     }
 }

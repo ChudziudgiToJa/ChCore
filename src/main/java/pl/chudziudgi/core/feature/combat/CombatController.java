@@ -3,7 +3,9 @@ package pl.chudziudgi.core.feature.combat;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -18,8 +20,6 @@ import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.TimeEnum;
-
-import java.util.Objects;
 
 public class CombatController implements Listener {
 
@@ -98,8 +98,8 @@ public class CombatController implements Listener {
             Player playerEntity = (Player) entity;
 
 
-            combatManager.createCombat(playerEntity, TimeEnum.SECOND, 30);
-            combatManager.createCombat(playerDamager, TimeEnum.SECOND, 30);
+            combatManager.createCombat(playerEntity, TimeEnum.SECOND, 31);
+            combatManager.createCombat(playerDamager, TimeEnum.SECOND, 31);
         }
     }
 
@@ -111,8 +111,6 @@ public class CombatController implements Listener {
 
         if (killer != null) {
             ChatUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getDisplayName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", 10, 15, 10);
-        } else {
-            ChatUtil.sendTitle(deadPlayer, "&cZginąłeś!", "", 10, 15, 10);
             return;
         }
         ChatUtil.sendTitle(deadPlayer, "", "&cZginąłeś! ", 10, 15, 10);
@@ -127,7 +125,8 @@ public class CombatController implements Listener {
         if (!(e.getEntity() instanceof Player victim)) return;
         if ((e.getDamager() instanceof Player)) return;
 
-        if (victim.equals(shooter) || protectionManager.hasProtection(victim) || protectionManager.hasProtection(shooter)) return;
+        if (victim.equals(shooter) || protectionManager.hasProtection(victim) || protectionManager.hasProtection(shooter))
+            return;
 
         double victimHealth = victim.getHealth();
         double damage = e.getDamage();
@@ -138,7 +137,7 @@ public class CombatController implements Listener {
         if (newHealth < 0) return;
 
         String message = "&f" + String.format("%.1f", newHealth) + "&4❤";
-        shooter.playSound(shooter, Sound.BLOCK_CANDLE_HIT, 5 , 5);
+        shooter.playSound(shooter, Sound.BLOCK_CANDLE_HIT, 5, 5);
         ChatUtil.sendTitle(shooter, "", message, 5, 20, 5);
     }
 

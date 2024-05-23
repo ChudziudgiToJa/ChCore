@@ -11,14 +11,14 @@ public class NetherStatusTask extends BukkitRunnable {
 
     public NetherStatusTask(ChCore plugin, NetherConfig netherConfig) {
         this.netherConfig = netherConfig;
-        runTaskTimer((Plugin)plugin, 0L, 600L);
+        runTaskTimer(plugin, 0L, 600L);
     }
 
     public void run() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Warsaw"));
-        int hour = calendar.get(11);
-        int minute = calendar.get(12);
-        String currentTime = String.format("%02d:%02d", new Object[] { Integer.valueOf(hour), Integer.valueOf(minute) });
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        String currentTime = String.format("%02d:%02d", hour, minute);
         if (currentTime.equals(this.netherConfig.getNetherStartTime())) {
             this.netherConfig.setNetherStatus(true);
             return;

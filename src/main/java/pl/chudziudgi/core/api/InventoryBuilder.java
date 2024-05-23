@@ -21,6 +21,11 @@ public class InventoryBuilder implements InventoryHolder {
     public InventoryBuilder(final String name, final int size ) {
         inventory = Bukkit.createInventory(this, size, ChatUtil.fixColor(name));
     }
+
+    public InventoryBuilder(final String name,final Player player, final int size ) {
+        inventory = Bukkit.createInventory(player, size, ChatUtil.fixColor(name));
+    }
+
     public InventoryBuilder(final String name, final InventoryType type) {
         inventory = Bukkit.createInventory(this, type, ChatUtil.fixColor(name));
     }

@@ -5,9 +5,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.command.managers.CommandManager;
 import pl.chudziudgi.core.database.Database;
+import pl.chudziudgi.core.database.user.UserController;
 import pl.chudziudgi.core.feature.abyss.AbyssCommand;
 import pl.chudziudgi.core.feature.abyss.AbyssTask;
-import pl.chudziudgi.core.feature.chat.AsyncPlayerChatController;
+import pl.chudziudgi.core.feature.chat.ChatController;
 import pl.chudziudgi.core.feature.chat.AutoMessageTask;
 import pl.chudziudgi.core.feature.chat.ChatCommand;
 import pl.chudziudgi.core.feature.chat.ChatManager;
@@ -28,7 +29,6 @@ import pl.chudziudgi.core.feature.drop.DropCommand;
 import pl.chudziudgi.core.feature.drop.DropController;
 import pl.chudziudgi.core.feature.home.HomeCommand;
 import pl.chudziudgi.core.feature.kit.KitCommand;
-import pl.chudziudgi.core.feature.listener.PlayerJoinQuitListener;
 import pl.chudziudgi.core.feature.nether.*;
 import pl.chudziudgi.core.feature.protection.ProtectionCommand;
 import pl.chudziudgi.core.feature.protection.ProtectionController;
@@ -36,8 +36,10 @@ import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.feature.protection.ProtectionTask;
 import pl.chudziudgi.core.feature.randomtp.RandomTpController;
 import pl.chudziudgi.core.feature.settings.SettingCommand;
+import pl.chudziudgi.core.feature.settings.incognito.IncognitoController;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
 import pl.chudziudgi.core.feature.vanish.VanishCommand;
+import pl.chudziudgi.core.feature.vanish.VanishController;
 import pl.chudziudgi.core.feature.vanish.VanishManager;
 import pl.chudziudgi.core.hook.PlaceholderApiHook;
 
@@ -64,19 +66,21 @@ public final class ChCore extends JavaPlugin {
         IncognitoManager incognitoManager = new IncognitoManager();
         VanishManager vanishManager = new VanishManager();
 
+        new UserController(this);
         new ProtectionController(this, protectionManager);
         new CombatController(this, combatManager, this.config.getCombatConfig(), protectionManager);
         new RandomTpController(this);
         new NetherController(this, combatManager, this.config.getNetherConfig());
         new DropController(this, combatManager);
-        new AsyncPlayerChatController(this, chatManager, this.config.getChatConfig());
-        new PlayerJoinQuitListener(this, incognitoManager, vanishManager);
+        new ChatController(this, chatManager, this.config.getChatConfig());
+        new VanishController(this, vanishManager);
+        new IncognitoController(this, incognitoManager);
 
-        new CombatTask(this, combatManager);
-        new ProtectionTask(this, protectionManager);
+        new CombatTask(this, combatManager, this.config.getCombatConfig());
+        new ProtectionTask(this, protectionManager, this.config.getProtectionConfig());
         new AutoMessageTask(this, this.config.getChatConfig());
         new NetherStatusTask(this, this.config.getNetherConfig());
-        new NetherTeleportTaskT(this, this.config.getNetherConfig());
+        new NetherTeleportTask(this, this.config.getNetherConfig());
         new NetherEffectTask(this);
         new DepositTask(this);
         new AbyssTask(this);
@@ -106,7 +110,8 @@ public final class ChCore extends JavaPlugin {
                 new IgnoreCommand(),
                 new AbyssCommand(),
                 new KitCommand(this.config.getKitConfig()),
-                new VanishCommand(vanishManager)
+                new VanishCommand(vanishManager),
+                new BrodcastCommand()
         );
     }
 }
