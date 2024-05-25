@@ -39,7 +39,7 @@ public class AbyssTask extends BukkitRunnable {
     public void run() {
         if (countdown == 60 || countdown == 30 || countdown == 10) {
             Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player, Sound.ENTITY_BAT_HURT, 5 ,5 ));
-            Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.info(player, "Przedmioty z ziemi zostaną usunięte za " + countdown + " sekund."));
+            Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.info(player, "&8ⓚⓄⓈⓏ Przedmioty z ziemi zostaną usunięte za " + countdown + " sekund."));
         } else if (countdown == 0) {
             itemClear();
             Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 5 ,5 ));

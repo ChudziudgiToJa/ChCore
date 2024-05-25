@@ -12,6 +12,7 @@ import pl.chudziudgi.core.util.ChatUtil;
 @CommandInfo(
         name = "zestaw",
         player = true,
+        aliases = {"kit"},
         usage = "toggle|czysc <gracz> <zestaw>|daj <gracz> <zestaw>"
 )
 
@@ -29,6 +30,9 @@ public class KitCommand extends PluginCommand {
 
         if (args.length == 0) {
             if (!kitConfig.isKitStauts()) {
+                if (player.hasPermission("core.kit.admin")) {
+                    KitGui.openMain(player);
+                }
                 ChatUtil.error(sender, "Zestawy są aktualnie wyłączone.");
                 return;
             }

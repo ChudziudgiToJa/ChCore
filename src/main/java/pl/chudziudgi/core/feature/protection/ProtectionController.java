@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import pl.chudziudgi.core.ChCore;
@@ -27,6 +28,15 @@ public class ProtectionController implements Listener {
     }
 
     @EventHandler
+    public void onDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            if (isProtected(player)) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
         this.protectionManager.giveProtection(event.getPlayer(), TimeEnum.SECOND, 15);
     }
@@ -40,14 +50,14 @@ public class ProtectionController implements Listener {
         if (isProtected(victim)) {
             event.setCancelled(true);
             if (damager != null) {
-                ChatUtil.error(damager, "Ten gracz posiada ochronę!");
+                ChatUtil.error(victim, "Posiadasz jeszcze ochronę!");
             }
             return;
         }
 
         if (damager != null && isProtected(damager)) {
             event.setCancelled(true);
-            ChatUtil.error(victim, "Posiadasz jeszcze ochronę!");
+            ChatUtil.error(damager, "Ten gracz posiada ochronę!");
         }
     }
 

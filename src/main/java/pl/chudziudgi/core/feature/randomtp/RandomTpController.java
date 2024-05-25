@@ -11,6 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.combat.CombatManager;
@@ -31,6 +34,8 @@ public class RandomTpController implements Listener {
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             player.spigot().respawn();
             player.teleport(RandomUtil.getRandomCords(0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2 * 20, 10));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 5 * 20, 1));
         }, 1);
     }
 
@@ -39,6 +44,12 @@ public class RandomTpController implements Listener {
         final Location location = RandomUtil.getRandomCords(0);
         if (!UserManager.isExists(event.getPlayer())) {
             event.getPlayer().teleport(location);
+        }
+    }
+    @EventHandler
+    public void onWeatherChange(WeatherChangeEvent event) {
+        if (event.toWeatherState()) {
+            event.setCancelled(true);
         }
     }
 }

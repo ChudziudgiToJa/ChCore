@@ -34,20 +34,28 @@ public class KitManager {
 
         switch (kitType) {
             case START:
-                if (canReceiveKit(user.kitStart, now)) {
+                if (player.hasPermission("core.kit.admin")) {
+                    addItemsToPlayer(player, Kits.start());
+                    return;
+                }
+                if (canReceiveKit(user.kitStart, now, 1)) {
                     user.kitStart = now;
                     addItemsToPlayer(player, Kits.start());
                 } else {
-                    ChatUtil.error(player, "Zestaw możesz odbierać co 24h.");
+                    ChatUtil.error(player, "Zestaw możesz odbierać co 1h.");
                     player.closeInventory();
                 }
                 break;
             case IRON:
+                if (player.hasPermission("core.kit.admin")) {
+                    addItemsToPlayer(player, Kits.iron());
+                    return;
+                }
                 if (!player.hasPermission("core.kit.iron")) {
                     ChatUtil.error(player, "Nie posiadasz wymaganej rangi.");
                     return;
                 }
-                if (canReceiveKit(user.kitIron, now)) {
+                if (canReceiveKit(user.kitIron, now, 24)) {
                     user.kitIron = now;
                     addItemsToPlayer(player, Kits.iron());
                 } else {
@@ -56,10 +64,15 @@ public class KitManager {
                 }
                 break;
             case GOLD:
+                if (player.hasPermission("core.kit.admin")) {
+                    addItemsToPlayer(player, Kits.gold());
+                    return;
+                }
                 if (!player.hasPermission("core.kit.gold")) {
                     ChatUtil.error(player, "Nie posiadasz wymaganej rangi.");
                     return;
-                }                if (canReceiveKit(user.kitGold, now)) {
+                }
+                if (canReceiveKit(user.kitGold, now, 24)) {
                     user.kitGold = now;
                     addItemsToPlayer(player, Kits.gold());
                 } else {
@@ -70,10 +83,10 @@ public class KitManager {
         }
     }
 
-    private static boolean canReceiveKit(Instant before, Instant after) {
+    private static boolean canReceiveKit(Instant before, Instant after, int czas) {
         if (before == null) return true;
         Duration duration = Duration.between(before, after);
-        return duration.toHours() >= 24;
+        return duration.toHours() >= czas;
     }
 
     public static boolean canReceiveKit(Player player, KitType kitType) {
@@ -102,7 +115,7 @@ public class KitManager {
         };
     }
 
-    public static Instant getUserKitTime(User user, KitType kitType){
+    public static Instant getUserKitTime(User user, KitType kitType) {
         return switch (kitType) {
             case START -> user.kitStart;
             case IRON -> user.kitIron;

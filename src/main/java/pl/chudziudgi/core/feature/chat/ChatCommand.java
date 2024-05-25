@@ -7,7 +7,7 @@ import pl.chudziudgi.core.util.ChatUtil;
 
 @CommandInfo(name = "chat",
         player = true,
-        usage = "clear/switch/auto",
+        usage = "clear/toggle/auto",
         perm = "core.command.chat.admin"
 )
 public class ChatCommand extends PluginCommand {
@@ -28,7 +28,7 @@ public class ChatCommand extends PluginCommand {
         }
 
         switch (args[0].toLowerCase()) {
-            case "switch":
+            case "toggle":
                 chatManager.switchChat(sender);
                 break;
             case "clear":

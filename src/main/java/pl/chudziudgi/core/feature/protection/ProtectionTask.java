@@ -1,6 +1,7 @@
 package pl.chudziudgi.core.feature.protection;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.chudziudgi.core.ChCore;
@@ -29,6 +30,7 @@ public class ProtectionTask extends BukkitRunnable {
                                     .build();
                     ChatUtil.sendActionbar(player, message);
                 }else {
+                    player.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 10 ,10);
                     this.protectionManager.endProtection(player);
                 }
             }

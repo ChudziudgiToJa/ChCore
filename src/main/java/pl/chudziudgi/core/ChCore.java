@@ -16,6 +16,7 @@ import pl.chudziudgi.core.feature.chat.privatemessage.IgnoreCommand;
 import pl.chudziudgi.core.feature.chat.privatemessage.MsgCommand;
 import pl.chudziudgi.core.feature.chat.privatemessage.PrivateMessageManager;
 import pl.chudziudgi.core.feature.chat.privatemessage.ReplyCommand;
+import pl.chudziudgi.core.feature.combat.CombatCommand;
 import pl.chudziudgi.core.feature.combat.CombatController;
 import pl.chudziudgi.core.feature.combat.CombatManager;
 import pl.chudziudgi.core.feature.combat.CombatTask;
@@ -24,6 +25,7 @@ import pl.chudziudgi.core.feature.command.user.EnderchestCommand;
 import pl.chudziudgi.core.feature.command.user.PomocCommand;
 import pl.chudziudgi.core.feature.command.user.WorkbenchCommand;
 import pl.chudziudgi.core.feature.deposit.DepositCommand;
+import pl.chudziudgi.core.feature.deposit.DepositController;
 import pl.chudziudgi.core.feature.deposit.DepositTask;
 import pl.chudziudgi.core.feature.drop.DropCommand;
 import pl.chudziudgi.core.feature.drop.DropController;
@@ -34,6 +36,7 @@ import pl.chudziudgi.core.feature.protection.ProtectionCommand;
 import pl.chudziudgi.core.feature.protection.ProtectionController;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.feature.protection.ProtectionTask;
+import pl.chudziudgi.core.feature.randomtp.RandomTpCommand;
 import pl.chudziudgi.core.feature.randomtp.RandomTpController;
 import pl.chudziudgi.core.feature.settings.SettingCommand;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoController;
@@ -75,6 +78,7 @@ public final class ChCore extends JavaPlugin {
         new ChatController(this, chatManager, this.config.getChatConfig());
         new VanishController(this, vanishManager);
         new IncognitoController(this, incognitoManager);
+        new DepositController(this);
 
         new CombatTask(this, combatManager, this.config.getCombatConfig());
         new ProtectionTask(this, protectionManager, this.config.getProtectionConfig());
@@ -111,7 +115,9 @@ public final class ChCore extends JavaPlugin {
                 new AbyssCommand(),
                 new KitCommand(this.config.getKitConfig()),
                 new VanishCommand(vanishManager),
-                new BrodcastCommand()
+                new BrodcastCommand(),
+                new CombatCommand(combatManager),
+                new RandomTpCommand()
         );
     }
 }

@@ -30,7 +30,6 @@ public class ProtectionCommand extends PluginCommand {
             ChatUtil.info(player, "&6Wylaczono ochrone!");
             return;
         }
-        ChatUtil.warning(player, "&6Pozostaly czas ochrony: " + (this.protectionManager.getProtectionCache().get(player.getUniqueId())));
-        ChatUtil.warning(player, "&e/ochrona wylacz &6- jezeli chcesz wylaczyc ochrone!");
+        ChatUtil.warning(player, "/ochrona wylacz &3jezeli chcesz wylaczyc ochrone!");
     }
     }

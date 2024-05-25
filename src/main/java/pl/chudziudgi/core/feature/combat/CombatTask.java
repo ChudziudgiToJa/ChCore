@@ -1,6 +1,7 @@
 package pl.chudziudgi.core.feature.combat;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.api.MessageBuilder;
@@ -29,6 +30,7 @@ public class CombatTask extends BukkitRunnable {
                     combat.setLeftTime(combat.getLeftTime() - 20L);
                     if (combat.getLeftTime() < System.currentTimeMillis()) {
                         ChatUtil.sendActionbar(combat.getPlayer(), config.getCombatEndMessage());
+                        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 10 ,10);
                         combatManager.removeCombat(combat);
                     }
                 }

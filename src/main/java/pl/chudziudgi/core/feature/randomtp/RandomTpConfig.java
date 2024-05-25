@@ -7,7 +7,7 @@ public class RandomTpConfig extends OkaeriConfig {
     @Comment(" Wielkość mapy")
     private int worldSize = 1100;
     @Comment("Minimalna ilośc zasięgu random tp")
-    private int minimalReachTp = 100;
+    private int minimalReachTp = 10;
     private int maxReachTp = 600;
 
     public int getMaxReachTp() {

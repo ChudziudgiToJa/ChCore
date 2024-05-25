@@ -6,20 +6,20 @@ import pl.chudziudgi.core.api.command.PluginCommand;
 import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
 import pl.chudziudgi.core.util.ChatUtil;
 
-@CommandInfo(name = "dom", player = true)
+@CommandInfo(name = "dom", player = true, aliases = {"home"})
 public class HomeCommand extends PluginCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
         if (args.length == 0) {
-            ChatUtil.error(sender, "");
-            ChatUtil.error(sender, "Poprawne użycie komendy &3&n/dom");
-            ChatUtil.error(sender, "");
-            ChatUtil.error(sender, "&9/dom ustaw &7otwiera menu ustawiania domów");
-            ChatUtil.error(sender, "&9/dom usuń &7otwiera menu usuwania domów");
-            ChatUtil.error(sender, "&9/dom otwórz &7otwiera menu listy domów");
-            ChatUtil.error(sender, "");
+            ChatUtil.info(sender, "");
+            ChatUtil.info(sender, "Poprawne użycie komendy &3&n/dom");
+            ChatUtil.info(sender, "");
+            ChatUtil.info(sender, "&9/dom ustaw &7otwiera menu ustawiania domów");
+            ChatUtil.info(sender, "&9/dom usuń &7otwiera menu usuwania domów");
+            ChatUtil.info(sender, "&9/dom otwórz &7otwiera menu listy domów");
+            ChatUtil.info(sender, "");
             return;
         }
         if (args[0].equalsIgnoreCase("usuń") || args[0].equalsIgnoreCase("usun")) {

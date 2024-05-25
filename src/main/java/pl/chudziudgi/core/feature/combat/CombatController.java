@@ -1,6 +1,7 @@
 package pl.chudziudgi.core.feature.combat;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -20,6 +21,9 @@ import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.TimeEnum;
+
+import java.sql.Array;
+import java.util.Arrays;
 
 public class CombatController implements Listener {
 
@@ -110,10 +114,10 @@ public class CombatController implements Listener {
         Player killer = deadPlayer.getKiller();
 
         if (killer != null) {
-            ChatUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getDisplayName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", 10, 15, 10);
+            ChatUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getDisplayName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", 10, 40, 10);
             return;
         }
-        ChatUtil.sendTitle(deadPlayer, "", "&cZginąłeś! ", 10, 15, 10);
+        ChatUtil.sendTitle(deadPlayer, "", "&cZginąłeś! ", 10, 40, 10);
     }
 
 
@@ -146,10 +150,13 @@ public class CombatController implements Listener {
         Entity damager = event.getDamager();
         if (damager instanceof Player player) {
             ItemStack itemInHand = player.getInventory().getItemInMainHand();
-            if (itemInHand.getType().name().endsWith("_AXE")) {
-                event.setDamage(event.getDamage() / 0.5);
+            if (isAxe(itemInHand.getType())) {
+                event.setDamage(event.getDamage() / 2);
             }
         }
+    }
+    public static boolean isAxe(Material material) {
+        return Arrays.asList(Material.DIAMOND_AXE, Material.NETHERITE_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.STONE_AXE, Material.WOODEN_AXE).contains(material);
     }
 }
 

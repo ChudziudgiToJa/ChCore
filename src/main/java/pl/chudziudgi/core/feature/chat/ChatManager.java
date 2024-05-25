@@ -40,7 +40,7 @@ public class ChatManager {
             for (int i = 1; i < 50; i++) {
                 player.sendMessage("");
             }
-            ChatUtil.success(player, "&6Chat zostal wyczyszczony przez: &c" + commandSender.getName());
+            ChatUtil.success(player, "&7Chat zostal wyczyszczony przez: &3" + commandSender.getName());
         });
     }
 
