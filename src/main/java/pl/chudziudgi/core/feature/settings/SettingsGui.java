@@ -19,7 +19,7 @@ public class SettingsGui {
         final InventoryBuilder inv = new InventoryBuilder("&9Ustawienia", InventoryType.HOPPER);
         final User user = UserManager.get(player);
 
-        inv.setItem(1, new ItemBuilder(Material.NAME_TAG)
+        inv.setItem(0, new ItemBuilder(Material.NAME_TAG)
                         .setTitle("&fIncognito")
                         .addLore("",
                                 "&8Opis",
@@ -32,7 +32,7 @@ public class SettingsGui {
                 }
         );
 
-        inv.setItem(2, new ItemBuilder(Material.CLOCK)
+        inv.setItem(1, new ItemBuilder(Material.CLOCK)
                         .setTitle("&fWiadomości automatyczne")
                         .addLore("",
                                 "&8Opis",
@@ -44,9 +44,8 @@ public class SettingsGui {
                     ChatManager.changeAutoMessageUserStatus(player);
                 }
         );
-        inv.open(player);
 
-        inv.setItem(3, new ItemBuilder(Material.MAP)
+        inv.setItem(2, new ItemBuilder(Material.MAP)
                         .setTitle("&fIgnorowanie wszystkich wiadomości")
                         .addLore("",
                                 "&8Opis",

@@ -66,6 +66,9 @@ public class User implements Serializable {
     @DatabaseField
     public boolean vanishStatus;
 
+    @DatabaseField
+    public int timeShop;
+
     public User() {
     }
 
@@ -91,6 +94,8 @@ public class User implements Serializable {
         this.ignoreStatus = false;
 
         this.ignoredList = new ArrayList<>();
+
+        this.timeShop = 0;
     }
 
     public Player getPlayer() {

@@ -41,6 +41,8 @@ import pl.chudziudgi.core.feature.randomtp.RandomTpController;
 import pl.chudziudgi.core.feature.settings.SettingCommand;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoController;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
+import pl.chudziudgi.core.feature.shop.ShopCommand;
+import pl.chudziudgi.core.feature.shop.time.TimeShopTask;
 import pl.chudziudgi.core.feature.vanish.VanishCommand;
 import pl.chudziudgi.core.feature.vanish.VanishController;
 import pl.chudziudgi.core.feature.vanish.VanishManager;
@@ -88,6 +90,7 @@ public final class ChCore extends JavaPlugin {
         new NetherEffectTask(this);
         new DepositTask(this);
         new AbyssTask(this);
+        new TimeShopTask(this, combatManager, protectionManager);
 
         new PlaceholderApiHook(protectionManager).register();
 
@@ -117,7 +120,8 @@ public final class ChCore extends JavaPlugin {
                 new VanishCommand(vanishManager),
                 new BrodcastCommand(),
                 new CombatCommand(combatManager),
-                new RandomTpCommand()
+                new RandomTpCommand(),
+                new ShopCommand()
         );
     }
 }
