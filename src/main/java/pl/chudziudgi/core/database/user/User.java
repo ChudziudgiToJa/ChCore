@@ -69,6 +69,9 @@ public class User implements Serializable {
     @DatabaseField
     public int timeShop;
 
+    @DatabaseField
+    public int answerCandle;
+
     public User() {
     }
 
@@ -96,6 +99,8 @@ public class User implements Serializable {
         this.ignoredList = new ArrayList<>();
 
         this.timeShop = 0;
+
+        this.answerCandle = 0;
     }
 
     public Player getPlayer() {

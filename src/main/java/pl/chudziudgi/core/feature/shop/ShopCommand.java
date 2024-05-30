@@ -9,7 +9,7 @@ import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
-@CommandInfo(name = "sklep", player = true, usage = "sklep <czas,itemshop> <czas=add/set/clear>")
+@CommandInfo(name = "sklep", player = true, usage = "<czas,egg> <czas=add/set/clear> <egg=add/set>")
 
 
 public class ShopCommand extends PluginCommand {
@@ -28,12 +28,16 @@ public class ShopCommand extends PluginCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("czas")) {
-            if (args.length < 2) {
-                sendUsage(player);
-                return;
+        if (args[0].equalsIgnoreCase("egg")) {
+            String subCommand = args[1].toLowerCase();
+            switch (subCommand) {
+                case "add" -> handleAddEgg(player, args);
+                case "set" -> handleSetEgg(player, args);
+                default -> sendUsage(player);
             }
+        }
 
+        if (args[0].equalsIgnoreCase("czas")) {
             String subCommand = args[1].toLowerCase();
             switch (subCommand) {
                 case "add" -> handleAddTime(player, args);
@@ -41,8 +45,50 @@ public class ShopCommand extends PluginCommand {
                 case "set" -> handleSetTime(player, args);
                 default -> sendUsage(player);
             }
-        } else {
+        }
+    }
+
+    private void handleSetEgg(Player player, String[] args) {
+        if (args.length < 4) {
             sendUsage(player);
+            return;
+        }
+
+        Player target = Bukkit.getPlayer(args[2]);
+        if (target == null || (!UserManager.isExists(player))) {
+            ChatUtil.error(player, "Nie odnaleziono gracza w bazie danych");
+            return;
+        }
+        User user = UserManager.get(target);
+
+        try {
+            int amountToSet = Integer.parseInt(args[3]);
+            user.answerCandle = amountToSet;
+            ChatUtil.success(player, "Ustawiono eggi na " + amountToSet + " dla " + target.getName());
+        } catch (NumberFormatException e) {
+            noInt(player);
+        }
+    }
+
+    private void handleAddEgg(Player player, String[] args) {
+        if (args.length < 4) {
+            sendUsage(player);
+            return;
+        }
+
+        Player target = Bukkit.getPlayer(args[2]);
+        if (target == null || (!UserManager.isExists(player))) {
+            ChatUtil.error(player, "Nie odnaleziono gracza w bazie danych");
+            return;
+        }
+        User user = UserManager.get(target);
+
+        try {
+            int amountToAdd = Integer.parseInt(args[3]);
+            user.answerCandle += amountToAdd;
+            ChatUtil.success(player, "Dodano " + amountToAdd + " dla " + target.getName() + " do odebrania eggi.");
+        } catch (NumberFormatException e) {
+            noInt(player);
         }
     }
 
@@ -54,7 +100,7 @@ public class ShopCommand extends PluginCommand {
 
         Player target = Bukkit.getPlayer(args[2]);
         if (target == null) {
-            ChatUtil.error(player,"Nie odnaleziono gracza");
+            ChatUtil.error(player, "Nie odnaleziono gracza");
             return;
         }
 
@@ -63,7 +109,7 @@ public class ShopCommand extends PluginCommand {
         try {
             int amountToAdd = Integer.parseInt(args[3]);
             user.timeShop += amountToAdd;
-            ChatUtil.success(player,"Dodano " + amountToAdd + " dla " + target.getName() + " do sklepu czasu.");
+            ChatUtil.success(player, "Dodano " + amountToAdd + " dla " + target.getName() + " do sklepu czasu.");
         } catch (NumberFormatException e) {
             noInt(player);
         }
@@ -77,14 +123,14 @@ public class ShopCommand extends PluginCommand {
 
         Player target = Bukkit.getPlayer(args[2]);
         if (target == null) {
-            ChatUtil.error(player,"Nie odnaleziono gracza");
+            ChatUtil.error(player, "Nie odnaleziono gracza");
             return;
         }
 
         User user = UserManager.get(target);
         user.timeShop = 0;
 
-        ChatUtil.success(player,"Wyczyszczono monety czasu " + target.getName() + ".");
+        ChatUtil.success(player, "Wyczyszczono monety czasu " + target.getName() + ".");
     }
 
     private void handleSetTime(Player player, String[] args) {
@@ -95,7 +141,7 @@ public class ShopCommand extends PluginCommand {
 
         Player target = Bukkit.getPlayer(args[2]);
         if (target == null) {
-            ChatUtil.error(player,"Nie odnaleziono gracza");
+            ChatUtil.error(player, "Nie odnaleziono gracza");
             return;
         }
 
@@ -104,7 +150,7 @@ public class ShopCommand extends PluginCommand {
         try {
             int amountToSet = Integer.parseInt(args[3]);
             user.timeShop = amountToSet;
-            ChatUtil.success(player,"Ustawiono monety czasu na " + amountToSet + " dla " + target.getName());
+            ChatUtil.success(player, "Ustawiono monety czasu na " + amountToSet + " dla " + target.getName());
         } catch (NumberFormatException e) {
             noInt(player);
         }

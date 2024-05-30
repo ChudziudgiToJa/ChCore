@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
+import pl.chudziudgi.core.feature.shop.answer.AnswerGui;
 import pl.chudziudgi.core.feature.shop.time.TimeShopGui;
 import pl.chudziudgi.core.util.ChatUtil;
 
@@ -57,6 +58,7 @@ public class ShopGui {
                         )
                         .build(),
                 event -> {
+                    AnswerGui.open(player);
                 }
         );
 

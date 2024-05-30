@@ -42,6 +42,18 @@ public class TimeShopManager {
                     addRank(player, "iron");
                 }
             }
+            case CANDLE: {
+                if (user.timeShop < config.getIronPrice()) {
+                    ChatUtil.error(player, "Nie posiadasz wystarczającej ilości monet czasu.");
+                    return;
+                }
+
+                if (user.timeShop >= config.getCandlePrice()) {
+                    user.timeShop = user.timeShop - config.getCandlePrice();
+                    ChatUtil.info(player, "Sukces udało ci sie zakupić przedmiot: &7Magiczna świeca");
+                    user.answerCandle++;
+                }
+            }
         }
     }
 
@@ -55,6 +67,9 @@ public class TimeShopManager {
             }
             case GOLD -> {
                 return user.timeShop >= config.getGoldPrice();
+            }
+            case CANDLE -> {
+                return user.timeShop >= config.getCandlePrice();
             }
             default -> {
                 return false;

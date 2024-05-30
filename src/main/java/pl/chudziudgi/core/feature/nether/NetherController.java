@@ -32,7 +32,7 @@ public class NetherController implements Listener {
         Player player = event.getPlayer();
         event.setCancelled(true);
         if (this.combatManager.inCombat(player)) {
-            ChatUtil.error(player, "Nie motego zrobipodczas walki.");
+            ChatUtil.error(player, "Nie motego zrobić podczas walki.");
             return;
         }
         if (!this.netherConfig.isNetherStatus()) {
@@ -61,8 +61,8 @@ public class NetherController implements Listener {
         ChatUtil.success(player, " &8| &7zostateleportowany na &aziemie!");
         ChatUtil.success(player, " &8| ");
         ChatUtil.success(player, " &8| &4&lEVENT PIEKŁO");
-        ChatUtil.success(player, " &8| ");
         ChatUtil.success(player, " &8| &7dostw godzinach &8(&715-17&8)");
+        ChatUtil.success(player, " &8| ");
         ChatUtil.success(player, "");
         player.playSound(player.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_0, 10.0F, 10.0F);
         player.teleport(RandomUtil.getRandomCords(0));

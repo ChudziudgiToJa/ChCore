@@ -1,14 +1,16 @@
 package pl.chudziudgi.core.feature.deposit;
 
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import pl.chudziudgi.core.ChCore;
+
+import java.util.Objects;
 
 public class DepositController implements Listener {
     public DepositController(ChCore plugin) {
@@ -33,9 +35,18 @@ public class DepositController implements Listener {
         }
 
         if (event.getItem().getType() == Material.CHORUS_FRUIT) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5 * 20, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2 * 20, 0));
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 5));
-            return;
+        }
+    }
+
+    @EventHandler
+    public void noPearlDMG(PlayerTeleportEvent event) {
+        Player player = event.getPlayer();
+        if (event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {
+            event.setCancelled(true);
+            player.setNoDamageTicks(player.getNoDamageTicks() / 2);
+            player.teleport(Objects.requireNonNull(event.getTo()));
         }
     }
 }

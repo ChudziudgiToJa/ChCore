@@ -1,6 +1,7 @@
 package pl.chudziudgi.core;
 
 import org.bukkit.Bukkit;
+import org.bukkit.WorldBorder;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.command.managers.CommandManager;
@@ -31,6 +32,7 @@ import pl.chudziudgi.core.feature.drop.DropCommand;
 import pl.chudziudgi.core.feature.drop.DropController;
 import pl.chudziudgi.core.feature.home.HomeCommand;
 import pl.chudziudgi.core.feature.kit.KitCommand;
+import pl.chudziudgi.core.feature.magiccandle.MagicCandleController;
 import pl.chudziudgi.core.feature.nether.*;
 import pl.chudziudgi.core.feature.protection.ProtectionCommand;
 import pl.chudziudgi.core.feature.protection.ProtectionController;
@@ -46,6 +48,7 @@ import pl.chudziudgi.core.feature.shop.time.TimeShopTask;
 import pl.chudziudgi.core.feature.vanish.VanishCommand;
 import pl.chudziudgi.core.feature.vanish.VanishController;
 import pl.chudziudgi.core.feature.vanish.VanishManager;
+import pl.chudziudgi.core.feature.worldborder.WorldBorderController;
 import pl.chudziudgi.core.hook.PlaceholderApiHook;
 
 public final class ChCore extends JavaPlugin {
@@ -81,6 +84,8 @@ public final class ChCore extends JavaPlugin {
         new VanishController(this, vanishManager);
         new IncognitoController(this, incognitoManager);
         new DepositController(this);
+        new MagicCandleController(this);
+        new WorldBorderController(this, this.config.getRandomTpConfig());
 
         new CombatTask(this, combatManager, this.config.getCombatConfig());
         new ProtectionTask(this, protectionManager, this.config.getProtectionConfig());

@@ -10,7 +10,7 @@ import pl.chudziudgi.core.feature.shop.ShopGui;
 public class TimeShopGui {
 
     public static void open(final Player player) {
-        final InventoryBuilder inv = new InventoryBuilder("&9Sklep za czas:", 9*3);
+        final InventoryBuilder inv = new InventoryBuilder("&9Sklep za czas: &3" + UserManager.get(player).timeShop + " monet.", 9*3);
 
         inv.setItem(10, new ItemBuilder(Material.IRON_HELMET)
                         .setTitle("&f&lIRON")
@@ -45,13 +45,22 @@ public class TimeShopGui {
                 }
         );
 
-        inv.setItem(13, new ItemBuilder(Material.COPPER_INGOT)
-                        .setTitle("&7Twoje saldo: " + UserManager.get(player).timeShop)
+        inv.setItem(12, new ItemBuilder(Material.SNIFFER_EGG)
+                        .setTitle("&f&lMagiczna świeca")
+                        .addLore("",
+                                "&8Opis",
+                                "&7Możliwe do odebrania w kategori /sklep –> &fOdbierz zakupione przedmioty",
+                                "",
+                                "&7Koszt: &3400 monet",
+                                "",
+                                (TimeShopManager.canBuy(player ,TimeShopItem.GOLD)) ? "&7Kliknij &3▜&7▛, aby kupić" : "&cNie stać cię")
                         .build(),
                 event -> {
-            inv.open(player);
+                    TimeShopManager.buyItem(player, TimeShopItem.CANDLE);
+                    player.closeInventory();
                 }
         );
+
 
         inv.setItem(16, new ItemBuilder(Material.GRAY_DYE)
                         .setTitle("&cCofnij")
