@@ -1,7 +1,6 @@
 package pl.chudziudgi.core;
 
 import org.bukkit.Bukkit;
-import org.bukkit.WorldBorder;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.command.managers.CommandManager;
@@ -48,7 +47,7 @@ import pl.chudziudgi.core.feature.shop.time.TimeShopTask;
 import pl.chudziudgi.core.feature.vanish.VanishCommand;
 import pl.chudziudgi.core.feature.vanish.VanishController;
 import pl.chudziudgi.core.feature.vanish.VanishManager;
-import pl.chudziudgi.core.feature.worldborder.WorldBorderController;
+import pl.chudziudgi.core.feature.world.WorldBorderController;
 import pl.chudziudgi.core.hook.PlaceholderApiHook;
 
 public final class ChCore extends JavaPlugin {
