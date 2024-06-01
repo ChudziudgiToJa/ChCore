@@ -1,6 +1,7 @@
 package pl.chudziudgi.core.feature.world;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,6 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
@@ -31,8 +33,8 @@ public class WorldBorderController implements Listener {
         Player player = event.getPlayer();
         World world = player.getWorld();
         int worldSize = getWorldSize(world);
-
         Location to = event.getTo();
+
         if (to == null) {
             return;
         }
@@ -70,6 +72,14 @@ public class WorldBorderController implements Listener {
         if (isNearBorder(event.getBlock().getLocation())) {
             event.setCancelled(true);
             ChatUtil.error(event.getPlayer(), "Nie możesz stawiać bloków przy granicy mapy!");
+        }
+    }
+
+    @EventHandler
+    public void onEat(PlayerItemConsumeEvent event) {
+        if (event.getItem().getType() == Material.CHORUS_FRUIT && isNearBorder(event.getPlayer().getLocation())) {
+            event.setCancelled(true);
+            ChatUtil.error(event.getPlayer(), "Nie możesz jeść chorusu przy granicy mapy");
         }
     }
 
