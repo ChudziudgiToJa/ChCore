@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +41,7 @@ public class MagicCandleController implements Listener {
         if (!itemInHand.isSimilar(candle)) return;
 
         Action action = event.getAction();
-        if (action != Action.LEFT_CLICK_BLOCK && action != Action.LEFT_CLICK_AIR) return;
+        if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR) {
 
         event.setCancelled(true);
 
@@ -77,6 +76,7 @@ public class MagicCandleController implements Listener {
                 counter++;
             }
         }.runTaskTimer(plugin, 0, 10);
+        }
     }
 
     @EventHandler
