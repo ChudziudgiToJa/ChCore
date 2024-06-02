@@ -89,7 +89,7 @@ public final class ChCore extends JavaPlugin {
         new VanishController(this, vanishManager);
         new IncognitoController(this, incognitoManager);
         new DepositController(this);
-        new MagicCandleController(this);
+        new MagicCandleController(this, combatManager);
         new WorldBorderController(this, this.config.getRandomTpConfig());
         new BlockerController(this, this.config.getCustomItemConfig());
         new BoyFarmmerController(this, combatManager);
