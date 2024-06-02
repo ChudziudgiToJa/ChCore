@@ -12,6 +12,21 @@ public class MagicCandleDrop {
 
     public static final List<ItemStack> dropList = Arrays.asList(
 
+            new ItemBuilder(Material.DIAMOND ,16)
+                    .build(),
+
+            new ItemBuilder(Material.GOLD_INGOT ,32)
+                    .build(),
+
+            new ItemBuilder(Material.GOLDEN_APPLE ,8)
+                    .build(),
+
+            new ItemBuilder(Material.ARROW ,16)
+                    .build(),
+
+            new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE ,1)
+                    .build(),
+
             new ItemBuilder(Material.TOTEM_OF_UNDYING)
                     .setTitle("&7Totem")
                     .build(),
