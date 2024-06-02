@@ -9,6 +9,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -81,6 +83,12 @@ public class WorldBorderController implements Listener {
             event.setCancelled(true);
             ChatUtil.error(event.getPlayer(), "Nie możesz jeść chorusu przy granicy mapy");
         }
+    }
+
+
+    @EventHandler
+    public void onCreatureSpawn(CreatureSpawnEvent event) {
+        event.setCancelled(true);
     }
 
     private boolean isOutsideBorder(final Location loc, int borderSize) {

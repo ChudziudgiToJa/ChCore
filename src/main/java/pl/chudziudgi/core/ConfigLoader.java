@@ -6,6 +6,7 @@ import eu.okaeri.configs.yaml.bukkit.serdes.SerdesBukkit;
 import org.bukkit.Bukkit;
 import pl.chudziudgi.core.feature.chat.ChatConfig;
 import pl.chudziudgi.core.feature.combat.CombatConfig;
+import pl.chudziudgi.core.feature.customitem.CustomItemConfig;
 import pl.chudziudgi.core.feature.deposit.DepositConfig;
 import pl.chudziudgi.core.feature.drop.DropConfig;
 import pl.chudziudgi.core.feature.kit.KitConfig;
@@ -25,6 +26,11 @@ public class ConfigLoader {
     private CombatConfig combatConfig;
     private KitConfig kitConfig;
     private ProtectionConfig protectionConfig;
+    private CustomItemConfig customItemConfig ;
+
+    public CustomItemConfig getCustomItemConfig() {
+        return customItemConfig;
+    }
 
     public ProtectionConfig getProtectionConfig() {
         return protectionConfig;
@@ -160,6 +166,19 @@ public class ConfigLoader {
             });
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, "Error loading ochrona.yml", exception);
+            Bukkit.getPluginManager().disablePlugin(plugin);
+        }
+        // customitem
+        try {
+            this.customItemConfig = ConfigManager.create(CustomItemConfig.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
+                it.withBindFile(new File(plugin.getDataFolder(), "customitem.yml"));
+                it.withRemoveOrphans(true);
+                it.saveDefaults();
+                it.load(true);
+            });
+        } catch (Exception exception) {
+            plugin.getLogger().log(Level.SEVERE, "Error loading customitem.yml", exception);
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
     }

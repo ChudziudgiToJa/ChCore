@@ -1,4 +1,4 @@
-package pl.chudziudgi.core.feature.magiccandle;
+package pl.chudziudgi.core.feature.customitem.magiccandle;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
