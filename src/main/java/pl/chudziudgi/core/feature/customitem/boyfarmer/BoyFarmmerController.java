@@ -42,8 +42,15 @@ public class BoyFarmmerController implements Listener {
         int y = block.getY();
         int z = block.getZ();
 
+
         if (!this.plugin.getFunnyGuilds().getRegionManager().isInRegion(block.getLocation())) {
             ChatUtil.error(player, "Nie możesz stawiać boyfarmera poza terenem klanu");
+            event.setCancelled(true);
+            return;
+        }
+
+        if (y > 65) {
+            ChatUtil.error(player, "Nie możesz stawiać boyfarmera od poziomu 66 w góre");
             event.setCancelled(true);
             return;
         }

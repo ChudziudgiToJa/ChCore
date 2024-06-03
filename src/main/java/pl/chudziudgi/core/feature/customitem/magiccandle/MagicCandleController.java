@@ -44,12 +44,14 @@ public class MagicCandleController implements Listener {
 
         if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_AIR) return;
 
+
         if (combatManager.inCombat(player)) {
             ChatUtil.error(player, "Nie możesz wykonywać tej czynności podczas walki");
             return;
         }
 
         if (playerInOpening.getOrDefault(player, false)) return;
+
         playerInOpening.put(player, true);
         candle.setAmount(1);
         player.getInventory().removeItem(candle);
@@ -65,12 +67,12 @@ public class MagicCandleController implements Listener {
                     player.getInventory().addItem(randomItem);
                     player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 10, 10);
                     playerInOpening.put(player, false);
-                    ChatUtil.sendTitle(player, "&aᴡʏʟᴏꜱᴏᴡᴀɴᴏ", getName(randomItem), 30, 30, 30);
+                    ChatUtil.sendTitle(player, "&aᴡʏʟᴏꜱᴏᴡᴀɴᴏ", "&7" + getName(randomItem), 30, 30, 30);
                     cancel();
                     return;
                 }
                 ItemStack randomItem = MagicCandleDrop.dropList.get(random.nextInt(MagicCandleDrop.dropList.size()));
-                ChatUtil.sendTitle(player, "&bʟᴏꜱᴜᴊᴇ", getName(randomItem), 0, 20, 0);
+                ChatUtil.sendTitle(player, "&bʟᴏꜱᴜᴊᴇ", "&7" + getName(randomItem), 0, 20, 0);
                 player.playSound(player, Sound.BLOCK_BONE_BLOCK_STEP, 10, 10);
                 counter++;
             }
