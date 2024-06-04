@@ -56,8 +56,8 @@ public class MagicCandleDrop {
                 .build(),
 
             new ItemBuilder(Material.IRON_SWORD)
-                    .setTitle("&7Miecz &35/3")
-                    .addEnchant(Enchantment.DAMAGE_ALL, 5)
+                    .setTitle("&7Miecz &34/3")
+                    .addEnchant(Enchantment.DAMAGE_ALL, 4)
                     .addEnchant(Enchantment.DURABILITY, 3)
                     .build(),
 
@@ -65,12 +65,12 @@ public class MagicCandleDrop {
                 .setTitle("&7Kilof &35/3/3")
                 .addEnchant(Enchantment.DIG_SPEED, 5)
                 .addEnchant(Enchantment.DURABILITY, 3)
-                    .addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3)
+                .addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3)
                 .build(),
 
             new ItemBuilder(Material.BOW)
-                .setTitle("&7łuk &34/2")
-                .addEnchant(Enchantment.ARROW_DAMAGE, 3)
+                .setTitle("&7łuk &32/2")
+                .addEnchant(Enchantment.ARROW_DAMAGE, 2)
                 .addEnchant(Enchantment.ARROW_FIRE, 2)
                 .build()
     );

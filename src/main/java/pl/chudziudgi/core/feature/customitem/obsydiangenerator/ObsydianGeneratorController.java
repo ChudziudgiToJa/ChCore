@@ -1,4 +1,4 @@
-package pl.chudziudgi.core.feature.customitem.boyfarmer;
+package pl.chudziudgi.core.feature.customitem.obsydiangenerator;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,12 +16,12 @@ import pl.chudziudgi.core.feature.combat.CombatManager;
 import pl.chudziudgi.core.feature.customitem.CustomItemStack;
 import pl.chudziudgi.core.util.ChatUtil;
 
-public class BoyFarmmerController implements Listener {
+public class ObsydianGeneratorController implements Listener {
 
     private final ChCore plugin;
     private final CombatManager combatManager;
 
-    public BoyFarmmerController(ChCore plugin, CombatManager combatManager) {
+    public ObsydianGeneratorController(ChCore plugin, CombatManager combatManager) {
         this.plugin = plugin;
         this.combatManager = combatManager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -34,7 +34,7 @@ public class BoyFarmmerController implements Listener {
         Block block = event.getBlock();
         ItemStack itemInHand = event.getItemInHand();
 
-        if (!itemInHand.isSimilar(CustomItemStack.boyfarmer())) {
+        if (!itemInHand.isSimilar(CustomItemStack.obsydianGenerator())) {
             return;
         }
 
@@ -49,8 +49,8 @@ public class BoyFarmmerController implements Listener {
             return;
         }
 
-        if (y > 65) {
-            ChatUtil.error(player, "Nie możesz stawiać boyfarmera od poziomu 66 w góre");
+        if (y > 85) {
+            ChatUtil.error(player, "Generator obsydianu możesz stawiać od 85 poziomu wysokości");
             event.setCancelled(true);
             return;
         }
@@ -90,7 +90,7 @@ public class BoyFarmmerController implements Listener {
         if (event.getInventory().getType() == InventoryType.ANVIL) {
             AnvilInventory anvilInventory = (AnvilInventory) event.getInventory();
             ItemStack item = anvilInventory.getItem(0);
-            if (item != null && item.isSimilar(CustomItemStack.boyfarmer())) {
+            if (item != null && item.isSimilar(CustomItemStack.obsydianGenerator())) {
                 event.setCancelled(true);
             }
         }

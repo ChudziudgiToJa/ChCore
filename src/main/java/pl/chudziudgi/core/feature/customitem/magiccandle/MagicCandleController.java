@@ -22,18 +22,20 @@ public class MagicCandleController implements Listener {
 
     private final ChCore plugin;
     private final CombatManager combatManager;
+    private final MagicCandleManager magicCandleManager;
     private final Map<Player, Boolean> playerInOpening = new HashMap<>();
 
-    public MagicCandleController(ChCore plugin, CombatManager combatManager) {
+    public MagicCandleController(ChCore plugin, CombatManager combatManager, MagicCandleManager magicCandleManager) {
         this.plugin = plugin;
         this.combatManager = combatManager;
+        this.magicCandleManager = magicCandleManager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onUse(PlayerInteractEvent event) {
         final Random random = new Random();
-        ItemStack candle = CustomItemStack.candle();
+        ItemStack candle = CustomItemStack.magicCandle();
         ItemStack itemInHand = event.getItem();
         Player player = event.getPlayer();
 
@@ -68,6 +70,7 @@ public class MagicCandleController implements Listener {
                     player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 10, 10);
                     playerInOpening.put(player, false);
                     ChatUtil.sendTitle(player, "&aᴡʏʟᴏꜱᴏᴡᴀɴᴏ", "&7" + getName(randomItem), 30, 30, 30);
+                    magicCandleManager.brodcast(player, getName(randomItem));
                     cancel();
                     return;
                 }

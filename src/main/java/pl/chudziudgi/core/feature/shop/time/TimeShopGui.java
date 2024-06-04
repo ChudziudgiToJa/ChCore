@@ -45,8 +45,8 @@ public class TimeShopGui {
                 }
         );
 
-        inv.setItem(12, new ItemBuilder(Material.SNIFFER_EGG)
-                        .setTitle("&f&lMagiczna świeca")
+        inv.setItem(12, new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
+                        .setTitle("&fMagiczna świeca &e★")
                         .addLore("",
                                 "&8Opis",
                                 "&7Możliwe do odebrania w kategori /sklep –> &fOdbierz zakupione przedmioty",

@@ -26,45 +26,46 @@ public class Kits {
         List<ItemStack> list = new ArrayList<>();
 
         list.add(new ItemBuilder(Material.IRON_HELMET)
-                .setTitle("&32p/3u")
+                .setTitle("&7Hełm &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_CHESTPLATE)
-                .setTitle("&32p/3u")
+                .setTitle("&7Klata &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_LEGGINGS)
-                .setTitle("&32p/3u")
+                .setTitle("&7Spodnie &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_BOOTS)
-                .setTitle("&32p/3u")
+                .setTitle("&7Buty &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_SWORD)
-                .setTitle("&32s/3u")
-                .addEnchant(Enchantment.DAMAGE_ALL, 2)
+                .setTitle("&7Miecz &34/3")
+                .addEnchant(Enchantment.DAMAGE_ALL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.NETHERITE_PICKAXE)
-                .setTitle("&35e/3u")
+                .setTitle("&7Kilof &35/3/3")
                 .addEnchant(Enchantment.DIG_SPEED, 5)
                 .addEnchant(Enchantment.DURABILITY, 3)
+                .addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.BOW)
-                .setTitle("&33p/1f")
-                .addEnchant(Enchantment.ARROW_DAMAGE, 3)
-                .addEnchant(Enchantment.ARROW_FIRE, 1)
+                .setTitle("&7łuk &32/2")
+                .addEnchant(Enchantment.ARROW_DAMAGE, 2)
+                .addEnchant(Enchantment.ARROW_FIRE, 2)
                 .build());
 
         list.add(new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE, 2)
@@ -101,69 +102,70 @@ public class Kits {
         List<ItemStack> list = new ArrayList<>();
 
         list.add(new ItemBuilder(Material.IRON_HELMET)
-                .setTitle("&32p/3u")
+                .setTitle("&7Hełm &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_CHESTPLATE)
-                .setTitle("&32p/3u")
+                .setTitle("&7Klata &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_LEGGINGS)
-                .setTitle("&32p/3u")
+                .setTitle("&7Spodnie &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_BOOTS)
-                .setTitle("&32p/3u")
+                .setTitle("&7Buty &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_HELMET)
-                .setTitle("&32p/3u")
+                .setTitle("&7Hełm &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_CHESTPLATE)
-                .setTitle("&32p/3u")
+                .setTitle("&7Klata &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_LEGGINGS)
-                .setTitle("&32p/3u")
+                .setTitle("&7Spodnie &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_BOOTS)
-                .setTitle("&32p/3u")
+                .setTitle("&7Buty &34/3")
                 .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.IRON_SWORD)
-                .setTitle("&32s/3u")
-                .addEnchant(Enchantment.DAMAGE_ALL, 2)
+                .setTitle("&7Miecz &34/3")
+                .addEnchant(Enchantment.DAMAGE_ALL, 4)
                 .addEnchant(Enchantment.DURABILITY, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.NETHERITE_PICKAXE)
-                .setTitle("&35e/3u")
+                .setTitle("&7Kilof &35/3/3")
                 .addEnchant(Enchantment.DIG_SPEED, 5)
                 .addEnchant(Enchantment.DURABILITY, 3)
+                .addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3)
                 .build());
 
         list.add(new ItemBuilder(Material.BOW)
-                .setTitle("&33p/1f")
-                .addEnchant(Enchantment.ARROW_DAMAGE, 3)
-                .addEnchant(Enchantment.ARROW_FIRE, 1)
+                .setTitle("&7łuk &32/2")
+                .addEnchant(Enchantment.ARROW_DAMAGE, 2)
+                .addEnchant(Enchantment.ARROW_FIRE, 2)
                 .build());
 
         list.add(new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE, 3)

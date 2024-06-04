@@ -6,7 +6,7 @@ import pl.chudziudgi.core.api.ItemBuilder;
 
 public class CustomItemStack {
 
-    public static ItemStack candle() {
+    public static ItemStack magicCandle() {
         return  new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
                 .setTitle("&fMagiczne świeca &e★")
                 .addLore(
@@ -21,14 +21,14 @@ public class CustomItemStack {
                 .build();
     }
 
-    public static ItemStack boyfarmer() {
+    public static ItemStack obsydianGenerator() {
         return  new ItemBuilder(Material.CRYING_OBSIDIAN)
-                .setTitle("&fGenerator obsydianiu &e★")
+                .setTitle("&fGenerator obsydianiu &e❀")
                 .addLore(
                         "",
                         "&8Opis",
                         "&7Generator obsydianiu to przedmiot,",
-                        "&7który po użyciu generuje obsydian w &b⬇.",
+                        "&7który po użyciu generuje obsydian w &bdół ⬇&7.",
                         "&7Pamiętaj wymagane jest puste pole aby generator &n&fzadziałał",
                         "",
                         "&7Postaw &3▜&7▛&7, aby użyć."

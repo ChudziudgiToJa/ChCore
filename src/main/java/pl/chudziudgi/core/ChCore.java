@@ -22,13 +22,15 @@ import pl.chudziudgi.core.feature.combat.CombatController;
 import pl.chudziudgi.core.feature.combat.CombatManager;
 import pl.chudziudgi.core.feature.combat.CombatTask;
 import pl.chudziudgi.core.feature.command.admin.*;
+import pl.chudziudgi.core.feature.command.admin.invsee.InventorySeeCommand;
 import pl.chudziudgi.core.feature.command.user.EnderchestCommand;
 import pl.chudziudgi.core.feature.command.user.PomocCommand;
 import pl.chudziudgi.core.feature.command.user.WorkbenchCommand;
 import pl.chudziudgi.core.feature.customitem.BlockerController;
 import pl.chudziudgi.core.feature.customitem.CustomItemCommand;
-import pl.chudziudgi.core.feature.customitem.boyfarmer.BoyFarmmerController;
+import pl.chudziudgi.core.feature.customitem.obsydiangenerator.ObsydianGeneratorController;
 import pl.chudziudgi.core.feature.customitem.magiccandle.MagicCandleController;
+import pl.chudziudgi.core.feature.customitem.magiccandle.MagicCandleManager;
 import pl.chudziudgi.core.feature.deposit.DepositCommand;
 import pl.chudziudgi.core.feature.deposit.DepositController;
 import pl.chudziudgi.core.feature.deposit.DepositTask;
@@ -78,6 +80,7 @@ public final class ChCore extends JavaPlugin {
         ChatManager chatManager = new ChatManager(this.config.getChatConfig());
         IncognitoManager incognitoManager = new IncognitoManager();
         VanishManager vanishManager = new VanishManager();
+        MagicCandleManager magicCandleManager = new MagicCandleManager();
 
         new UserController(this);
         new ProtectionController(this, protectionManager);
@@ -89,10 +92,10 @@ public final class ChCore extends JavaPlugin {
         new VanishController(this, vanishManager);
         new IncognitoController(this, incognitoManager);
         new DepositController(this);
-        new MagicCandleController(this, combatManager);
+        new MagicCandleController(this, combatManager, magicCandleManager);
         new WorldBorderController(this, this.config.getRandomTpConfig());
         new BlockerController(this, this.config.getCustomItemConfig());
-        new BoyFarmmerController(this, combatManager);
+        new ObsydianGeneratorController(this, combatManager);
 
         new CombatTask(this, combatManager, this.config.getCombatConfig());
         new ProtectionTask(this, protectionManager, this.config.getProtectionConfig());

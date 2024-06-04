@@ -48,7 +48,6 @@ public class CombatCommand extends PluginCommand {
             }
             return;
         }
-
         sendUsage(sender);
     }
 }

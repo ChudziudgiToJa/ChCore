@@ -61,6 +61,9 @@ public class User implements Serializable {
     public boolean chatAutoMessageStatus;
 
     @DatabaseField
+    public boolean chatMagicCandleStatus;
+
+    @DatabaseField
     public boolean incognito;
 
     @DatabaseField
@@ -94,6 +97,7 @@ public class User implements Serializable {
         this.vanishStatus = false;
 
         this.chatAutoMessageStatus = true;
+        this.chatMagicCandleStatus = true;
         this.ignoreStatus = false;
 
         this.ignoredList = new ArrayList<>();

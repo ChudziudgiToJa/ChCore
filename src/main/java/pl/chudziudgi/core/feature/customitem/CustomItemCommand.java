@@ -8,7 +8,7 @@ import pl.chudziudgi.core.api.command.PluginCommand;
 import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
 import pl.chudziudgi.core.util.ChatUtil;
 
-@CommandInfo(name = "customitemm", player = true, perm = "core.command.customitem", usage = "give <swieca/boyfarmer> <player>")
+@CommandInfo(name = "customitemm", player = true, perm = "core.command.customitem", usage = "give <swieca/obsydian> <player>")
 
 
 public class CustomItemCommand extends PluginCommand {
@@ -47,11 +47,11 @@ public class CustomItemCommand extends PluginCommand {
 
         ItemStack itemStack;
         switch (itemType.toLowerCase()) {
-            case "boyfarmer":
-                itemStack = CustomItemStack.boyfarmer();
+            case "obsydian":
+                itemStack = CustomItemStack.obsydianGenerator();
                 break;
             case "swieca":
-                itemStack = CustomItemStack.candle();
+                itemStack = CustomItemStack.magicCandle();
                 break;
             default:
                 sendUsage(player);

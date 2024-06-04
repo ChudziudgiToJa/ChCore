@@ -21,9 +21,10 @@ public class AnswerManager {
             return;
         }
 
-        final int amount = user.answerCandle;
-        final ItemStack item = CustomItemStack.candle();
-        item.setAmount(amount);
+
+        final ItemStack item = CustomItemStack.magicCandle();
+        item.setAmount(user.answerCandle);
+        user.answerCandle = 0;
         player.getInventory().addItem(item);
     }
 }

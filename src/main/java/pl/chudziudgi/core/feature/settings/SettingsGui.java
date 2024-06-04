@@ -9,6 +9,7 @@ import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.chat.ChatManager;
 import pl.chudziudgi.core.feature.chat.privatemessage.PrivateMessageManager;
+import pl.chudziudgi.core.feature.customitem.magiccandle.MagicCandleManager;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
 
 public class SettingsGui {
@@ -16,6 +17,7 @@ public class SettingsGui {
     public static void open(final Player player) {
         final IncognitoManager incognitoManager = new IncognitoManager();
         final PrivateMessageManager privateMessageManager = new PrivateMessageManager();
+        final MagicCandleManager magicCandleManager = new MagicCandleManager();
         final InventoryBuilder inv = new InventoryBuilder("&9Ustawienia", InventoryType.HOPPER);
         final User user = UserManager.get(player);
 
@@ -57,6 +59,20 @@ public class SettingsGui {
                         .build(),
                 event -> {
                     privateMessageManager.toggle(player);
+                }
+        );
+
+        inv.setItem(3, new ItemBuilder(Material.KNOWLEDGE_BOOK)
+                        .setTitle("&fWiadomości Magicznej świecy &e★")
+                        .addLore("",
+                                "&8Opis",
+                                " &7Wyłącza możliwość widzenia wiadomości o otworzeniu",
+                                " &7magicznej świecy na chacie.",
+                                "",
+                                "&7Status: " + (user.chatMagicCandleStatus ? "&awlaczony" : "&cwylaczony"))
+                        .build(),
+                event -> {
+                    magicCandleManager.toggle(player);
                 }
         );
         inv.open(player);
