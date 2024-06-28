@@ -1,32 +1,43 @@
 package pl.chudziudgi.core.feature.randomtp;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Biome;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 
-import java.util.Objects;
 import java.util.Random;
 
-public final class RandomUtil {
+public class RandomUtil {
 
-    public static final Random RANDOM_INSTANCE = new Random();
+    private static final Random random = new Random();
     private static final RandomTpConfig config = new RandomTpConfig();
 
-    public static Double getRandDouble(final double min, final double max) {
-        return RANDOM_INSTANCE.nextDouble() * (max - min) + min;
-    }
+    public static Location getRandomCord(Player player) {
+        World world = player.getWorld();
+        int maxX, maxZ;
 
-    public static Double getRandomDouble(final double min, final double max) {
-        return RANDOM_INSTANCE.nextDouble() * (max - min) + min;
-    }
-    public static Location getRandomCords(int i) {
-        Location location = new Location(Bukkit.getWorlds().get(i), RandomUtil.getRandomDouble(-config.getMinimalReachTp(), config.getMaxReachTp()), 0.0, RandomUtil.getRandomDouble(-config.getMinimalReachTp(), config.getMaxReachTp()));
-        while (location.getBlock().getBiome() == Biome.OCEAN || location.getBlock().getBiome() == Biome.DEEP_OCEAN || location.getBlock().getBiome() == Biome.RIVER || location.getBlock().getType() == Material.WATER || location.getBlock().getType() == Material.LAVA || !(location.getBlock().getType() == Material.AIR)) {
-            location = new Location(Bukkit.getWorlds().get(0), RandomUtil.getRandomDouble(-config.getMinimalReachTp(), config.getMaxReachTp()), 0.0, RandomUtil.getRandomDouble(-config.getMinimalReachTp(), config.getMaxReachTp()));
+        if (world.getEnvironment() == World.Environment.NETHER) {
+            maxX = config.getMaxNetherReachTp();
+            maxZ = config.getMinimalNetherReachTp();
+        } else {
+            maxX = config.getMaxReachTp();
+            maxZ = config.getMinimalReachTp();
         }
-        location.setY((double) Objects.requireNonNull(location.getWorld()).getHighestBlockYAt(location.getBlockX(), location.getBlockZ()) + 1);
-        return location;
-    }
 
+        Location randomLocation = null;
+        boolean foundSafeLocation = false;
+
+        while (!foundSafeLocation) {
+            int x = random.nextInt(2 * maxX) - maxX;
+            int z = random.nextInt(2 * maxZ) - maxZ;
+            int y = world.getHighestBlockYAt(x, z);
+
+            randomLocation = new Location(world, x, y+1 , z);
+            Material blockType = randomLocation.getBlock().getType();
+            if (blockType != Material.WATER && blockType != Material.LAVA && blockType != Material.AIR) {
+                foundSafeLocation = true;
+            }
+        }
+        return randomLocation;
+    }
 }

@@ -2,7 +2,9 @@ package pl.chudziudgi.core.feature.home;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.database.user.User;
+import pl.chudziudgi.core.feature.teleport.TeleportManager;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.LocationUtil;
 
@@ -24,23 +26,14 @@ public class HomeManager {
     }
 
     public void setHomeNull(User user, HomeType homeType) {
-        Player player = user.getPlayer();
         switch (homeType) {
             case ONE:
                 user.homeLocation1 = null;
                 break;
             case TWO:
-                if (!player.hasPermission("core.home.iron")) {
-                    ChatUtil.error(player,message);
-                    break;
-                }
                 user.homeLocation2 = null;
                 break;
             case THREE:
-                if (!player.hasPermission("core.home.gold")) {
-                    ChatUtil.error(player,message);
-                    break;
-                }
                 user.homeLocation3 = null;
                 break;
         }
@@ -69,21 +62,18 @@ public class HomeManager {
         }
     }
 
-    public void tp(User user, Player player, HomeType type) {
+    public void tp(User user, Player player, HomeType type, TeleportManager teleportManager, final ChCore core) {
         if (!isHome(getHomeString(user, type))) {
-            ChatUtil.error(player, "Nie posaidasz domu.");
-            player.closeInventory();
             return;
         }
-        player.teleport(LocationUtil.fromStringToLocation(getHomeString(user, type)));
+        TeleportManager.startTeleportation(player, LocationUtil.fromStringToLocation(getHomeString(user, type)), core);
     }
 
     public void set(User user, Player player, HomeType type) {
         if (isHome(getHomeString(user, type))) {
-            ChatUtil.error(player, "Masz juustawiony dom");
             return;
         }
         setHomeLocation(user, player, type);
-        ChatUtil.success(player, "Ustaiono nowy dom");
+        ChatUtil.sendTitle(player, "", "&7Ustawiono nowy &3dom", 10,20,10);
     }
 }

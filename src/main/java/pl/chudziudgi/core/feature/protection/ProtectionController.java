@@ -2,6 +2,7 @@ package pl.chudziudgi.core.feature.protection;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -9,7 +10,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.database.user.UserManager;
-import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.TimeEnum;
 
 public class ProtectionController implements Listener {
@@ -23,53 +23,60 @@ public class ProtectionController implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         if (!UserManager.isExists(event.getPlayer())) {
-            protectionManager.giveProtection(event.getPlayer(), TimeEnum.MINUTE, 2);
-        }
-    }
-
-    @EventHandler
-    public void onDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (isProtected(player)) {
-                event.setCancelled(true);
-            }
+            protectionManager.giveProtection(event.getPlayer(), TimeEnum.MINUTE, 5);
         }
     }
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
-        this.protectionManager.giveProtection(event.getPlayer(), TimeEnum.SECOND, 15);
+        this.protectionManager.giveProtection(event.getPlayer(), TimeEnum.MINUTE, 1);
     }
 
     @EventHandler
-    public void onDamager(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player victim)) {
-            return;
-        }
-        Player damager = getDamager(event);
-        if (isProtected(victim)) {
-            event.setCancelled(true);
-            if (damager != null) {
-                ChatUtil.error(victim, "Posiadasz jeszcze ochronę!");
+    public void onDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            if (protectionManager.hasProtection(player)) {
+                event.setCancelled(true);
             }
-            return;
-        }
-
-        if (damager != null && isProtected(damager)) {
-            event.setCancelled(true);
-            ChatUtil.error(damager, "Ten gracz posiada ochronę!");
         }
     }
 
-    private Player getDamager(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player) {
-            return (Player) event.getDamager();
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntityDamage(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof Player entityPlayer)) return;
+        EntityDamageEvent.DamageCause cause = event.getCause();
+
+        switch (cause) {
+            case ENTITY_ATTACK:
+            case ENTITY_SWEEP_ATTACK:
+            case PROJECTILE:
+                if (!(event instanceof EntityDamageByEntityEvent entityDamageByEntityEvent)) return;
+                if (!(entityDamageByEntityEvent.getDamager() instanceof Player damagerPlayer)) return;
+
+                if (protectionManager.hasProtection(entityPlayer)) {
+                    if (damagerPlayer.hasPermission("core.ochrona.admin")) return;
+                    event.setCancelled(true);
+                    return;
+                }
+
+                if (protectionManager.hasProtection(damagerPlayer)) {
+                    if (damagerPlayer.hasPermission("core.ochrona.admin")) return;
+                    event.setCancelled(true);
+                }
+                break;
+            case LAVA:
+            case FALLING_BLOCK:
+            case BLOCK_EXPLOSION:
+            case ENTITY_EXPLOSION:
+            case MAGIC:
+            case POISON:
+            case DROWNING:
+                if (protectionManager.hasProtection(entityPlayer)) {
+                    event.setCancelled(true);
+                }
+                break;
+            default:
+                break;
         }
-        return null;
-    }
-
-
-    private boolean isProtected(final Player p) {
-        return this.protectionManager.hasProtection(p);
     }
 }

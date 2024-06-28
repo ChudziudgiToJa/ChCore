@@ -58,12 +58,13 @@ public class KitGui {
     }
 
     public static void openkit(final Player player, KitType kitType) {
+        final KitConfig kitConfig = new KitConfig();
         final Integer[] slotList = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26};
 
         final InventoryBuilder inv = new InventoryBuilder("&9Podgląd: &3&l" + KitManager.getName(kitType).toUpperCase(), 9 * 5);
         int i = 0;
 
-        for (ItemStack itemStack : Objects.requireNonNull(KitManager.getList(kitType))) {
+        for (ItemStack itemStack : Objects.requireNonNull(KitManager.getList(kitType, kitConfig.getKitType()))) {
             inv.setItem(slotList[i++], itemStack,
                     event -> {
                         player.closeInventory();
@@ -95,7 +96,7 @@ public class KitGui {
                         .build(),
                 event -> {
                     player.closeInventory();
-                    KitManager.giveKit(player,kitType);
+                    KitManager.giveKit(player,kitType, kitConfig.getKitType());
                 }
         );
         inv.open(player);

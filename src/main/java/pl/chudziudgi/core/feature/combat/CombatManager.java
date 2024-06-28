@@ -21,7 +21,7 @@ public class CombatManager {
         if (combat != null) {
             this.combatSet.remove(combat);
         }
-        this.combatSet.add(new Combat(player.getUniqueId(), System.currentTimeMillis() + timeEnum.getTime(time)));
+        this.combatSet.add(new Combat(player.getUniqueId(), System.currentTimeMillis() + timeEnum.getTime(time + 1)));
     }
 
     public boolean inCombat(Player player) {

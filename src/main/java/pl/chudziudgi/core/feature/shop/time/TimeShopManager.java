@@ -77,7 +77,7 @@ public class TimeShopManager {
         }
     }
 
-    private static void addRank(Player player, String rank) {
+    public static void addRank(Player player, String rank) {
         LuckPerms luckPerms = LuckPermsProvider.get();
         net.luckperms.api.model.user.UserManager userManager = luckPerms.getUserManager();
 
@@ -89,12 +89,11 @@ public class TimeShopManager {
                 user.data().add(node);
                 userManager.saveUser(user);
             } else {
-                ChatUtil.error(player, "Coś poszło nie tak skontaktuj się z administracją aby uzyskać pomoc &8(timeshop luckyperm error)");
+                ChatUtil.error(player, "Coś poszło nie tak skontaktuj się z administracją aby uzyskać pomoc &8(timeshop rank error)");
             }
         }).exceptionally(throwable -> {
             throwable.printStackTrace();
             return null;
         });
     }
-
 }

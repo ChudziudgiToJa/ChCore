@@ -28,6 +28,9 @@ repositories {
     maven {
         url = "https://repo.panda-lang.org/releases"
     }
+    maven {
+        url = "https://repo.dmulloy2.net/repository/public/"
+    }
 }
 
 dependencies {
@@ -36,7 +39,6 @@ dependencies {
     compileOnly 'me.neznamy:tab-api:4.0.2'
     compileOnly 'net.luckperms:api:5.4'
     compileOnly "net.dzikoysk.funnyguilds:plugin:4.10.2"
-
 
     implementation 'eu.okaeri:okaeri-configs-yaml-bukkit:5.0.1'
     implementation 'eu.okaeri:okaeri-configs-serdes-bukkit:5.0.1'

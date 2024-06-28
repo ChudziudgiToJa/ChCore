@@ -6,25 +6,28 @@ import com.j256.ormlite.table.DatabaseTable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.feature.drop.Drop;
+import pl.chudziudgi.core.feature.drop.DropUtil;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @DatabaseTable(tableName = "users")
 public class User implements Serializable {
 
+    public ArrayList<Drop> enabledOverWorldDrops = new ArrayList<>();
+    public ArrayList<Drop> enabledNetherDrops = new ArrayList<>();
+
     @DatabaseField(id = true)
     public UUID uuid;
 
-    public transient Set<Drop> enabledDrops = new HashSet<>();
     @DatabaseField
-    public boolean dropOrginalBlock;
+    public boolean dropOriginalBlock;
     @DatabaseField
     public boolean dropMessage;
+    @DatabaseField
+    public int minedStone;
 
     @DatabaseField
     public int dEnchantedGoldenApple;
@@ -67,6 +70,9 @@ public class User implements Serializable {
     public boolean incognito;
 
     @DatabaseField
+    public boolean socialSpyStatus;
+
+    @DatabaseField
     public boolean vanishStatus;
 
     @DatabaseField
@@ -75,15 +81,24 @@ public class User implements Serializable {
     @DatabaseField
     public int answerCandle;
 
+    @DatabaseField
+    public boolean breakBlock;
+
+    @DatabaseField
+    public boolean placeBlock;
+
+    @DatabaseField
+    public boolean useBlock;
+
     public User() {
     }
 
     public User(UUID uuid) {
         this.uuid = uuid;
 
-        this.enabledDrops = new HashSet<>();
         this.dropMessage = true;
-        this.dropOrginalBlock = true;
+        this.dropOriginalBlock = true;
+        this.minedStone = 0;
 
         this.dEnchantedGoldenApple = 0;
         this.dGoldenApple = 0;
@@ -99,31 +114,53 @@ public class User implements Serializable {
         this.chatAutoMessageStatus = true;
         this.chatMagicCandleStatus = true;
         this.ignoreStatus = false;
+        this.socialSpyStatus = false;
 
         this.ignoredList = new ArrayList<>();
 
         this.timeShop = 0;
 
         this.answerCandle = 0;
+
+        this.useBlock = false;
+        this.breakBlock = false;
+        this.placeBlock = false;
+
     }
 
     public Player getPlayer() {
         return Bukkit.getPlayer(this.uuid);
     }
 
-    public void changeDropStatus(Drop p) {
-        if (!this.enabledDrops.contains(p)) {
-            this.enabledDrops.add(p);
+    public void changeOverWorldDropStatus(Drop p) {
+        if (!this.enabledOverWorldDrops.contains(p)) {
+            this.enabledOverWorldDrops.add(p);
         } else {
-            this.enabledDrops.remove(p);
+            this.enabledOverWorldDrops.remove(p);
         }
     }
 
-    public void setDropStatus(Drop p, boolean b) {
+    public void setOverWorldDropStatus(Drop p, boolean b) {
         if (b) {
-            this.enabledDrops.add(p);
+            this.enabledOverWorldDrops.add(p);
         } else {
-            this.enabledDrops.remove(p);
+            this.enabledOverWorldDrops.remove(p);
+        }
+    }
+
+    public void changeNetherDropStatus(Drop p) {
+        if (!this.enabledNetherDrops.contains(p)) {
+            this.enabledNetherDrops.add(p);
+        } else {
+            this.enabledNetherDrops.remove(p);
+        }
+    }
+
+    public void setNetherDropStatus(Drop p, boolean b) {
+        if (b) {
+            this.enabledNetherDrops.add(p);
+        } else {
+            this.enabledNetherDrops.remove(p);
         }
     }
 }

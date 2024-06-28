@@ -44,7 +44,7 @@ public class ObsydianGeneratorController implements Listener {
 
 
         if (!this.plugin.getFunnyGuilds().getRegionManager().isInRegion(block.getLocation())) {
-            ChatUtil.error(player, "Nie możesz stawiać boyfarmera poza terenem klanu");
+            ChatUtil.error(player, "Nie możesz stawiać tego bloku poza terenem klanu");
             event.setCancelled(true);
             return;
         }
@@ -60,6 +60,8 @@ public class ObsydianGeneratorController implements Listener {
             event.setCancelled(true);
             return;
         }
+        block.setType(Material.OBSIDIAN);
+
 
         new BukkitRunnable() {
             int currentY = y;
@@ -70,7 +72,6 @@ public class ObsydianGeneratorController implements Listener {
                     cancel();
                     return;
                 }
-
                 Block currentBlock = block.getWorld().getBlockAt(x, currentY - 1, z);
                 Material blockType = currentBlock.getType();
 
@@ -83,16 +84,5 @@ public class ObsydianGeneratorController implements Listener {
                 currentY--;
             }
         }.runTaskTimer(plugin, 0L, 20L);
-    }
-
-    @EventHandler
-    public void onRename(InventoryClickEvent event) {
-        if (event.getInventory().getType() == InventoryType.ANVIL) {
-            AnvilInventory anvilInventory = (AnvilInventory) event.getInventory();
-            ItemStack item = anvilInventory.getItem(0);
-            if (item != null && item.isSimilar(CustomItemStack.obsydianGenerator())) {
-                event.setCancelled(true);
-            }
-        }
     }
 }

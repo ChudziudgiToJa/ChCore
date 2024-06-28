@@ -1,8 +1,12 @@
 package pl.chudziudgi.core.feature.combat;
 
+import net.dzikoysk.funnyguilds.FunnyGuilds;
+import net.dzikoysk.funnyguilds.user.User;
+import net.dzikoysk.funnyguilds.user.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -17,6 +21,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import panda.std.Option;
 import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.util.ChatUtil;
@@ -27,14 +32,18 @@ import java.util.Arrays;
 
 public class CombatController implements Listener {
 
+    private final ChCore plugin;
     private final CombatManager combatManager;
     private final CombatConfig config;
     private final ProtectionManager protectionManager;
+    private final FunnyGuilds funnyGuilds;
 
-    public CombatController(final ChCore plugin, CombatManager combatManager, CombatConfig config, ProtectionManager protectionManager) {
+    public CombatController(final ChCore plugin, CombatManager combatManager, CombatConfig config, ProtectionManager protectionManager, FunnyGuilds funnyGuilds) {
+        this.plugin = plugin;
         this.combatManager = combatManager;
         this.config = config;
         this.protectionManager = protectionManager;
+        this.funnyGuilds = funnyGuilds;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -88,6 +97,7 @@ public class CombatController implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamage(final EntityDamageByEntityEvent event) {
         Entity entity = event.getEntity();
+        UserManager userManager = funnyGuilds.getUserManager();
 
         if (!(entity instanceof Player)) return;
 
@@ -98,12 +108,27 @@ public class CombatController implements Listener {
                 damager = projectile.getShooter();
             }
         }
+
         if (damager instanceof Player playerDamager && entity != damager) {
+            Option<User> userDamager = userManager.findByPlayer(playerDamager);
+            Option<User> user = userManager.findByPlayer((Player) entity);
             Player playerEntity = (Player) entity;
 
+            if (user.isPresent() && userDamager.isPresent() &&
+                    user.get().getGuild().isPresent() &&
+                    userDamager.get().getGuild().isPresent() &&
+                    user.get().getGuild().get().equals(userDamager.get().getGuild().get())) {
+                return;
+            }
 
-            combatManager.createCombat(playerEntity, TimeEnum.SECOND, 31);
-            combatManager.createCombat(playerDamager, TimeEnum.SECOND, 31);
+            if (protectionManager.hasProtection(playerEntity)) return;
+
+            if (!playerEntity.hasPermission("core.combat.admin")) {
+                combatManager.createCombat(playerEntity, TimeEnum.SECOND, 30);
+            }
+            if (!playerDamager.hasPermission("core.combat.admin")) {
+                combatManager.createCombat(playerDamager, TimeEnum.SECOND, 30);
+            }
         }
     }
 
@@ -112,6 +137,9 @@ public class CombatController implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player deadPlayer = event.getEntity();
         Player killer = deadPlayer.getKiller();
+
+        World world = event.getEntity().getWorld();
+        world.strikeLightning(deadPlayer.getLocation());
 
         if (killer != null) {
             ChatUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getDisplayName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", 10, 40, 10);
@@ -140,7 +168,7 @@ public class CombatController implements Listener {
         double newHealth = victimHealth - damage;
         if (newHealth < 0) return;
 
-        String message = "&f" + String.format("%.1f", newHealth) + "&4❤";
+        String message = "&7" + String.format("%.1f", newHealth) + "&4❤";
         shooter.playSound(shooter, Sound.BLOCK_CANDLE_HIT, 5, 5);
         ChatUtil.sendTitle(shooter, "", message, 5, 20, 5);
     }

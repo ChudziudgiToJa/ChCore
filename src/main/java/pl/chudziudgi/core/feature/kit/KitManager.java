@@ -14,76 +14,108 @@ import java.util.Map;
 
 public class KitManager {
 
-    public static void giveKitFree(Player player, KitType kitType) {
+    public static void giveKitFree(Player player, KitType kitType, KitStandard kitStandard) {
+        List<ItemStack> ironKit = null;
+        List<ItemStack> goldKit = null;
+        switch (kitStandard) {
+            case IRON -> ironKit = Kits.ironIron();
+            case DIAMOND -> ironKit = Kits.ironDiamond();
+            case NETHERITE -> ironKit = Kits.ironNetherite();
+        }
+
+        switch (kitStandard) {
+            case IRON -> goldKit = Kits.goldIron();
+            case DIAMOND -> goldKit = Kits.goldDiamoend();
+            case NETHERITE -> goldKit = Kits.goldNetherite();
+        }
+
         switch (kitType) {
             case START:
                 addItemsToPlayer(player, Kits.start());
                 break;
             case IRON:
-                addItemsToPlayer(player, Kits.iron());
+                addItemsToPlayer(player, ironKit);
                 break;
             case GOLD:
-                addItemsToPlayer(player, Kits.gold());
+                addItemsToPlayer(player, goldKit);
                 break;
         }
     }
 
-    public static void giveKit(Player player, KitType kitType) {
+    public static void giveKit(Player player, KitType kitType, KitStandard kitStandard) {
         User user = UserManager.get(player);
         Instant now = Instant.now();
+
+        List<ItemStack> ironKit = null;
+        List<ItemStack> goldKit = null;
+        switch (kitStandard) {
+            case IRON -> ironKit = Kits.ironIron();
+            case DIAMOND -> ironKit = Kits.ironDiamond();
+            case NETHERITE -> ironKit = Kits.ironNetherite();
+        }
+
+        switch (kitStandard) {
+            case IRON -> goldKit = Kits.goldIron();
+            case DIAMOND -> goldKit = Kits.goldDiamoend();
+            case NETHERITE -> goldKit = Kits.goldNetherite();
+        }
 
         switch (kitType) {
             case START:
                 if (player.hasPermission("core.kit.admin")) {
                     addItemsToPlayer(player, Kits.start());
+                    return;
+                }
+                if (!player.hasPermission("core.kit.start")) {
+                    ChatUtil.error(player, "Nie posiadasz wymaganej rangi.");
                     return;
                 }
                 if (canReceiveKit(user.kitStart, now, 1)) {
                     user.kitStart = now;
                     addItemsToPlayer(player, Kits.start());
                 } else {
-                    ChatUtil.error(player, "Zestaw możesz odbierać co 1h.");
+                    ChatUtil.sendTitle(player, "","&7Zestaw możesz odbierać co 1h.",10,20,10);
                     player.closeInventory();
                 }
                 break;
             case IRON:
                 if (player.hasPermission("core.kit.admin")) {
-                    addItemsToPlayer(player, Kits.iron());
+                    addItemsToPlayer(player, ironKit);
                     return;
                 }
                 if (!player.hasPermission("core.kit.iron")) {
-                    ChatUtil.error(player, "Nie posiadasz wymaganej rangi.");
+                    ChatUtil.error(player, "Nie posiadasz wymaganej rangi &f&lIRON&7.");
                     return;
                 }
                 if (canReceiveKit(user.kitIron, now, 24)) {
                     user.kitIron = now;
-                    addItemsToPlayer(player, Kits.iron());
+                    addItemsToPlayer(player, ironKit);
                 } else {
-                    ChatUtil.error(player, "Zestaw możesz odbierać co 24h.");
+                    ChatUtil.sendTitle(player, "","&7Zestaw możesz odbierać co 24h.",10,20,10);
                     player.closeInventory();
                 }
                 break;
             case GOLD:
                 if (player.hasPermission("core.kit.admin")) {
-                    addItemsToPlayer(player, Kits.gold());
+                    addItemsToPlayer(player, goldKit);
                     return;
                 }
                 if (!player.hasPermission("core.kit.gold")) {
-                    ChatUtil.error(player, "Nie posiadasz wymaganej rangi.");
+                    ChatUtil.error(player, "Nie posiadasz wymaganej rangi &e&lGOLD&7.");
                     return;
                 }
                 if (canReceiveKit(user.kitGold, now, 24)) {
                     user.kitGold = now;
-                    addItemsToPlayer(player, Kits.gold());
+                    addItemsToPlayer(player, goldKit);
                 } else {
-                    ChatUtil.error(player, "Zestaw możesz odbierać co 24h.");
+                    ChatUtil.sendTitle(player, "","&7Zestaw możesz odbierać co 24h.",10,20,10);
                     player.closeInventory();
                 }
                 break;
         }
     }
 
-    private static boolean canReceiveKit(Instant before, Instant after, int czas) {
+    public static boolean canReceiveKit(Instant before, Instant after, int czas) {
         if (before == null) return true;
         Duration duration = Duration.between(before, after);
         return duration.toHours() >= czas;
@@ -99,11 +131,25 @@ public class KitManager {
         return duration.toHours() >= 24;
     }
 
-    public static List<ItemStack> getList(KitType kitType) {
+    public static List<ItemStack> getList(KitType kitType, KitStandard kitStandard) {
+        List<ItemStack> ironKit = null;
+        List<ItemStack> goldKit = null;
+        switch (kitStandard) {
+            case IRON -> ironKit = Kits.ironIron();
+            case DIAMOND -> ironKit = Kits.ironDiamond();
+            case NETHERITE -> ironKit = Kits.ironNetherite();
+        }
+
+        switch (kitStandard) {
+            case IRON -> goldKit = Kits.goldIron();
+            case DIAMOND -> goldKit = Kits.goldDiamoend();
+            case NETHERITE -> goldKit = Kits.goldNetherite();
+        }
+
         return switch (kitType) {
             case START -> Kits.start();
-            case IRON -> Kits.iron();
-            case GOLD -> Kits.gold();
+            case IRON -> ironKit;
+            case GOLD -> goldKit;
         };
     }
 

@@ -91,22 +91,15 @@ public class DepositUtil {
     }
 
     private static int getUserAmount(User user, Material material) {
-        switch (material) {
-            case ENCHANTED_GOLDEN_APPLE:
-                return user.dEnchantedGoldenApple;
-            case GOLDEN_APPLE:
-                return user.dGoldenApple;
-            case ENDER_PEARL:
-                return user.dEnderPearl;
-            case TOTEM_OF_UNDYING:
-                return user.dTotemOfUndying;
-            case ARROW:
-                return user.dArrow;
-            case CHORUS_FRUIT:
-                return user.dChorus;
-            default:
-                throw new IllegalArgumentException("Unsupported material: " + material);
-        }
+        return switch (material) {
+            case ENCHANTED_GOLDEN_APPLE -> user.dEnchantedGoldenApple;
+            case GOLDEN_APPLE -> user.dGoldenApple;
+            case ENDER_PEARL -> user.dEnderPearl;
+            case TOTEM_OF_UNDYING -> user.dTotemOfUndying;
+            case ARROW -> user.dArrow;
+            case CHORUS_FRUIT -> user.dChorus;
+            default -> throw new IllegalArgumentException("Unsupported material: " + material);
+        };
     }
 
     private static void setUserAmount(User user, Material material, int amount) {

@@ -38,5 +38,4 @@ public class ProtectionManager {
     public Map<UUID, Long> getProtectionCache() {
         return this.protectionCache;
     }
-
 }

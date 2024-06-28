@@ -30,7 +30,7 @@ public class CombatCommand extends PluginCommand {
 
         if (args[0].equalsIgnoreCase("add")) {
             if (target != null && target.isOnline()) {
-                combatManager.createCombat(target, TimeEnum.SECOND, 31);
+                combatManager.createCombat(target, TimeEnum.SECOND, 30);
                 ChatUtil.success(sender, "Nadano walkę dla: &7" + target.getName());
             } else {
                 ChatUtil.error(sender, "Gracz " + args[1] + " nie jest online.");
@@ -41,8 +41,12 @@ public class CombatCommand extends PluginCommand {
         if (args[0].equalsIgnoreCase("clear")) {
             if (target != null && target.isOnline()) {
                 final Combat combat = combatManager.getCombat(target);
-                combatManager.removeCombat(combat);
-                ChatUtil.success(sender, "Walka wyczyszczona dla: &7" + target.getName());
+                if (combat != null) {
+                    combatManager.removeCombat(combat);
+                    ChatUtil.success(sender, "Walka wyczyszczona dla: &7" + target.getName());
+                } else {
+                    ChatUtil.error(sender, "Gracz " + target.getName() + " nie jest w trakcie walki.");
+                }
             } else {
                 ChatUtil.error(sender, "Gracz " + args[1] + " nie jest online.");
             }

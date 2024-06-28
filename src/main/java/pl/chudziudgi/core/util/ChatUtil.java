@@ -31,6 +31,10 @@ public class ChatUtil {
     }
 
 
+    public static String booleanString(Boolean b) {
+        return ChatUtil.fixColor(b ? "&3✔&7" : "&c✖&7");
+    }
+
     public static void msg(final CommandSender commandSender, final String string) {
         commandSender.sendMessage(fixColor(string));
     }

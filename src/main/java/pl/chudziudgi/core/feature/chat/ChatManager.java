@@ -55,6 +55,10 @@ public class ChatManager {
         Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.success(player, "Chat zostal: " + (config.getChatMessageBlock() ? "&awlaczony" : "&cwylaczony") + " &7przez: &3" + commandSender.getName()));
     }
 
+    public boolean canUseChat(Player player) {
+        return !(UserManager.get(player).minedStone >= 100);
+    }
+
     public Cache<UUID, Long> getTimeCache() {
         return timeCache;
     }

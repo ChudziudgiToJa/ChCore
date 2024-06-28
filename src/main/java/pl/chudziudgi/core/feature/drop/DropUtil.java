@@ -1,6 +1,7 @@
 package pl.chudziudgi.core.feature.drop;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -15,11 +16,11 @@ public class DropUtil {
     public static int addFortuneEnchant(final int amount, final ItemStack tool) {
         Random random = new Random();
         int a = amount;
-        if (random.nextDouble(0, 100) < 30.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 1) {
+        if (random.nextDouble(0, 100) < 50.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 1) {
             ++a;
-        } else if (random.nextDouble(0, 100) < 20.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 2) {
+        } else if (random.nextDouble(0, 100) < 40.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 2) {
             a += 2;
-        } else if (random.nextDouble(0, 100) < 10.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 3) {
+        } else if (random.nextDouble(0, 100) < 30.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 3) {
             a += 3;
         }
         return a;
@@ -72,7 +73,9 @@ public class DropUtil {
             String itemName = drop.getType().toString();
             itemNames.add(itemName);
         }
-        String message = ChatUtil.fixColor(new MessageBuilder().setText("&8[&d&l!&8] &7Udało ci się wydobyć: &e{ITEM}").addField("{ITEM}", itemNames.toString().toLowerCase()).build());
+        String message = ChatUtil.fixColor(new MessageBuilder().setText("&8[&d&l!&8] &7Udało ci się wydobyć: &e{ITEM}")
+                .addField("{ITEM}", itemNames.toString().toLowerCase())
+                .build());
         ChatUtil.sendActionbar(player, message);
     }
 }

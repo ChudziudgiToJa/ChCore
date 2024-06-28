@@ -1,6 +1,7 @@
 package pl.chudziudgi.core.database.user;
 
 import org.bukkit.entity.Player;
+import panda.std.Option;
 import pl.chudziudgi.core.database.Database;
 
 public class UserManager extends Database {

@@ -69,17 +69,17 @@ public class MagicCandleController implements Listener {
                     player.getInventory().addItem(randomItem);
                     player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 10, 10);
                     playerInOpening.put(player, false);
-                    ChatUtil.sendTitle(player, "&aᴡʏʟᴏꜱᴏᴡᴀɴᴏ", "&7" + getName(randomItem), 30, 30, 30);
+                    ChatUtil.sendTitle(player, "&aᴡʏʟᴏꜱᴏᴡᴀɴᴏ &710/10", "&7" + getName(randomItem), 30, 30, 30);
                     magicCandleManager.brodcast(player, getName(randomItem));
                     cancel();
                     return;
                 }
                 ItemStack randomItem = MagicCandleDrop.dropList.get(random.nextInt(MagicCandleDrop.dropList.size()));
-                ChatUtil.sendTitle(player, "&bʟᴏꜱᴜᴊᴇ", "&7" + getName(randomItem), 0, 20, 0);
+                ChatUtil.sendTitle(player, "&bʟᴏꜱᴜᴊᴇ &7"+ counter +" /10", "&7" + getName(randomItem), 0, 20, 0);
                 player.playSound(player, Sound.BLOCK_BONE_BLOCK_STEP, 10, 10);
                 counter++;
             }
-        }.runTaskTimer(plugin, 0, 10);
+        }.runTaskTimer(plugin, 0, 8);
     }
 
     @EventHandler

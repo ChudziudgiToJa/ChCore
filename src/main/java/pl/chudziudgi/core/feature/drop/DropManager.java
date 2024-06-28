@@ -7,6 +7,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import pl.chudziudgi.core.api.ItemBuilder;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 
@@ -30,9 +31,9 @@ public class DropManager {
 
         List<ItemStack> drops = new ArrayList<>();
         User user = UserManager.get(player);
-        int experience = 1;
+        user.minedStone ++;
 
-        for (Drop drop : user.enabledDrops) {
+        for (Drop drop : user.enabledOverWorldDrops) {
             World.Environment playerEnvironment = player.getWorld().getEnvironment();
 
             if ((playerEnvironment == World.Environment.NORMAL && drop.getWorldType() != World.Environment.NORMAL) || (playerEnvironment == World.Environment.NETHER && drop.getWorldType() != World.Environment.NETHER)) {
@@ -40,7 +41,7 @@ public class DropManager {
             }
 
 
-            ItemStack item = drop.getItemStack();
+            ItemStack item = new ItemBuilder(drop.getMaterial()).build();
             int dropExperience = drop.getExp();
             double chance = drop.getChance();
 
@@ -50,16 +51,14 @@ public class DropManager {
                     amount = DropUtil.isPermission(player, amount);
 
                     item.setAmount(amount);
-                    dropExperience *= amount;
                 }
                 drops.add(item);
+                player.giveExp(dropExperience);
                 player.playSound(player, Sound.ENTITY_AXOLOTL_SPLASH, 0.5f, (float) (Math.random() * 20.0) / 10.0f);
-                experience += dropExperience;
             }
         }
 
-        event.setDropItems(user.dropOrginalBlock);
-        player.giveExp(experience);
+        event.setDropItems(user.dropOriginalBlock);
         DropUtil.addItemsToPlayer(player, drops, block);
         DropUtil.isMessage(drops, player, user);
     }

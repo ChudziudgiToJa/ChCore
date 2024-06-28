@@ -33,20 +33,5 @@ public class DepositController implements Listener {
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 5 * 20, 2));
             return;
         }
-
-        if (event.getItem().getType() == Material.CHORUS_FRUIT) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2 * 20, 0));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 5));
-        }
-    }
-
-    @EventHandler
-    public void noPearlDMG(PlayerTeleportEvent event) {
-        Player player = event.getPlayer();
-        if (event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {
-            event.setCancelled(true);
-            player.setNoDamageTicks(player.getNoDamageTicks() / 2);
-            player.teleport(Objects.requireNonNull(event.getTo()));
-        }
     }
 }

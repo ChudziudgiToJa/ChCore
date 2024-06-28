@@ -1,7 +1,7 @@
 package pl.chudziudgi.core.feature.drop;
 
+import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.WorldType;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.Serializable;
@@ -14,9 +14,9 @@ public class Drop implements Serializable {
     private final int maxAmount;
     private final int exp;
     private final World.Environment worldType;
-    private final ItemStack itemStack;
+    private final Material material;
 
-    public Drop(final String name, final double chance, final boolean fortune, final int minAmount, final int maxAmount, final int exp, World.Environment worldType, final ItemStack itemStack) {
+    public Drop(final String name, final double chance, final boolean fortune, final int minAmount, final int maxAmount, final int exp, World.Environment worldType, final Material material) {
         this.name = name;
         this.chance = chance;
         this.fortune = fortune;
@@ -24,11 +24,11 @@ public class Drop implements Serializable {
         this.maxAmount = maxAmount;
         this.exp = exp;
         this.worldType = worldType;
-        this.itemStack = itemStack;
+        this.material = material;
     }
 
-    public World.Environment getWorldType() {
-        return worldType;
+    public Material getMaterial() {
+        return material;
     }
 
     public String getName() {
@@ -55,7 +55,7 @@ public class Drop implements Serializable {
         return exp;
     }
 
-    public ItemStack getItemStack() {
-        return itemStack;
+    public World.Environment getWorldType() {
+        return worldType;
     }
 }

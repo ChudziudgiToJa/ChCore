@@ -1,9 +1,13 @@
 package pl.chudziudgi.core.feature.chat;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.command.PluginCommand;
 import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
+import pl.chudziudgi.core.util.TimeEnum;
 
 @CommandInfo(name = "chat",
         player = true,
@@ -13,11 +17,9 @@ import pl.chudziudgi.core.util.ChatUtil;
 public class ChatCommand extends PluginCommand {
 
     private final ChatManager chatManager;
-    private final ChatConfig chatConfig;
 
-    public ChatCommand(ChatManager chatManager, ChatConfig chatConfig) {
+    public ChatCommand(ChatManager chatManager) {
         this.chatManager = chatManager;
-        this.chatConfig = chatConfig;
     }
 
     @Override
@@ -36,6 +38,22 @@ public class ChatCommand extends PluginCommand {
                 break;
             case "auto":
                 chatManager.switchAuto(sender);
+                break;
+            case "set":
+
+                Player target = Bukkit.getPlayer(args[1]);
+                if (target == null || !target.isOnline()) {
+                    ChatUtil.error(sender, "Gracz nie jest online");
+                    return;
+                }
+
+                try {
+                    int amount = Integer.parseInt(args[1]);
+                    UserManager.get((Player) sender).minedStone = amount;
+                    ChatUtil.success(sender, "Ustawiono wykopane bloki na &3" + amount + " &7dla &3" + target.getName());
+                } catch (NumberFormatException e) {
+                    ChatUtil.error(sender, "Błędny format liczby.");
+                }
                 break;
             default:
                 sendUsage(sender);

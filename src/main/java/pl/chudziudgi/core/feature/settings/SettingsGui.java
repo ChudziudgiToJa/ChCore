@@ -8,9 +8,10 @@ import pl.chudziudgi.core.api.ItemBuilder;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.chat.ChatManager;
-import pl.chudziudgi.core.feature.chat.privatemessage.PrivateMessageManager;
+import pl.chudziudgi.core.feature.privatemessage.PrivateMessageManager;
 import pl.chudziudgi.core.feature.customitem.magiccandle.MagicCandleManager;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
+import pl.chudziudgi.core.util.ChatUtil;
 
 public class SettingsGui {
 
@@ -27,7 +28,11 @@ public class SettingsGui {
                                 "&8Opis",
                                 " &7Zakrywa twój: nick, range, gildie",
                                 "",
-                                "&7Status: " + (user.incognito ? "&awlaczony" : "&cwylaczony"))
+                                "&7Status: " + ChatUtil.booleanString(user.incognito),
+                                "",
+                                "&7Kliknij &3▜&7▛, aby zmienić",
+                                ""
+                        )
                         .build(),
                 event -> {
                     incognitoManager.toggleInkognito(player);
@@ -40,7 +45,11 @@ public class SettingsGui {
                                 "&8Opis",
                                 " &7Wyłącza możliwość widzenia automatycznych wiadomości na chacie",
                                 "",
-                                "&7Status: " + (user.chatAutoMessageStatus ? "&awlaczony" : "&cwylaczony"))
+                                "&7Status: " + ChatUtil.booleanString(user.chatAutoMessageStatus),
+                                "",
+                                "&7Kliknij &3▜&7▛, aby zmienić",
+                                ""
+                        )
                         .build(),
                 event -> {
                     ChatManager.changeAutoMessageUserStatus(player);
@@ -55,7 +64,11 @@ public class SettingsGui {
                                 " &7aby wyciszyć poszczególne osoby /ignore <gracz>",
                                 " &7masz również możliwość odciszenia.",
                                 "",
-                                "&7Status: " + (user.ignoreStatus ? "&awlaczony" : "&cwylaczony"))
+                                "&7Status: " + ChatUtil.booleanString(user.ignoreStatus),
+                                "",
+                                "&7Kliknij &3▜&7▛, aby zmienić",
+                                ""
+                        )
                         .build(),
                 event -> {
                     privateMessageManager.toggle(player);
@@ -69,7 +82,11 @@ public class SettingsGui {
                                 " &7Wyłącza możliwość widzenia wiadomości o otworzeniu",
                                 " &7magicznej świecy na chacie.",
                                 "",
-                                "&7Status: " + (user.chatMagicCandleStatus ? "&awlaczony" : "&cwylaczony"))
+                                "&7Status: " + ChatUtil.booleanString(user.chatMagicCandleStatus),
+                                "",
+                                "&7Kliknij &3▜&7▛, aby zmienić",
+                                ""
+                        )
                         .build(),
                 event -> {
                     magicCandleManager.toggle(player);

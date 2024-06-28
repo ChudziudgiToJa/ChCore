@@ -9,7 +9,7 @@ import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
-@CommandInfo(name = "sklep", player = true, usage = "<czas,egg> <czas=add/set/clear> <egg=add/set>")
+@CommandInfo(name = "sklep", player = true, usage = "<czas,swieca> <czas=add/set/clear> <egg=add/set>")
 
 
 public class ShopCommand extends PluginCommand {
@@ -28,22 +28,42 @@ public class ShopCommand extends PluginCommand {
             return;
         }
 
-        if (args[0].equalsIgnoreCase("egg")) {
-            String subCommand = args[1].toLowerCase();
-            switch (subCommand) {
-                case "add" -> handleAddEgg(player, args);
-                case "set" -> handleSetEgg(player, args);
-                default -> sendUsage(player);
+        if (args[0].equalsIgnoreCase("swieca")) {
+            if (args.length < 2) {
+                sendUsage(player);
+                return;
             }
-        }
-
-        if (args[0].equalsIgnoreCase("czas")) {
             String subCommand = args[1].toLowerCase();
             switch (subCommand) {
-                case "add" -> handleAddTime(player, args);
-                case "clear" -> handleClearTime(player, args);
-                case "set" -> handleSetTime(player, args);
-                default -> sendUsage(player);
+                case "add":
+                    handleAddEgg(player, args);
+                    break;
+                case "set":
+                    handleSetEgg(player, args);
+                    break;
+                default:
+                    sendUsage(player);
+                    break;
+            }
+        } else if (args[0].equalsIgnoreCase("czas")) {
+            if (args.length < 2) {
+                sendUsage(player);
+                return;
+            }
+            String subCommand = args[1].toLowerCase();
+            switch (subCommand) {
+                case "add":
+                    handleAddTime(player, args);
+                    break;
+                case "clear":
+                    handleClearTime(player, args);
+                    break;
+                case "set":
+                    handleSetTime(player, args);
+                    break;
+                default:
+                    sendUsage(player);
+                    break;
             }
         }
     }

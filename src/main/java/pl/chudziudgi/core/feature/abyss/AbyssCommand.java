@@ -18,17 +18,6 @@ public class AbyssCommand extends PluginCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         ChatUtil.success(sender, "Przedmioty z ziemi zostały usunięte.");
-        itemClear();
-    }
-
-    public void itemClear() {
-        for (World world : Bukkit.getWorlds()) {
-            List<Entity> entList = world.getEntities();
-            for (Entity current : entList) {
-                if (current instanceof Item) {
-                    current.remove();
-                }
-            }
-        }
+        AbyssUtil.itemClear();
     }
 }

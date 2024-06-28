@@ -55,9 +55,11 @@ public class WorldBorderController implements Listener {
         Player player = event.getPlayer();
         Location to = event.getTo();
 
-        if (to != null && isNearBorder(to)) {
-            ChatUtil.error(player, "Nie możesz używać pereł przy granicy mapy!");
-            event.setCancelled(true);
+        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)) {
+            if (to != null && isNearBorder(to)) {
+                ChatUtil.error(player, "Nie możesz używać pereł przy granicy mapy!");
+                event.setCancelled(true);
+            }
         }
     }
 

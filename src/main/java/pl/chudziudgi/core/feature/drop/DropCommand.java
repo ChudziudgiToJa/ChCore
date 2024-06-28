@@ -1,6 +1,5 @@
 package pl.chudziudgi.core.feature.drop;
 
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.command.PluginCommand;
@@ -14,6 +13,6 @@ public class DropCommand extends PluginCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        DropGui.open(player);
+        DropGui.openOverWorld(player);
     }
 }

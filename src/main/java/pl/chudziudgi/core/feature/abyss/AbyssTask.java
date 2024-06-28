@@ -13,35 +13,19 @@ import java.util.List;
 
 public class AbyssTask extends BukkitRunnable {
 
-    private final ChCore plugin;
     private int countdown;
 
     public AbyssTask(final ChCore plugin) {
-        this.plugin = plugin;
         this.countdown = 60;
-        runTaskTimerAsynchronously(plugin, 0, 20* 600L);
+        runTaskTimerAsynchronously(plugin, 0, 300 * 20);
     }
-
-    public void itemClear() {
-        plugin.getServer().getScheduler().runTask(plugin, () -> {
-            for (World world : Bukkit.getWorlds()) {
-                List<Entity> entList = world.getEntities();
-                for (Entity current : entList) {
-                    if (current instanceof Item) {
-                        current.remove();
-                    }
-                }
-            }
-        });
-    }
-
     @Override
     public void run() {
         if (countdown == 60 || countdown == 30 || countdown == 10) {
             Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player, Sound.ENTITY_BAT_HURT, 5 ,5 ));
             Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.info(player, "&8ⓚⓄⓈⓏ Przedmioty z ziemi zostaną usunięte za " + countdown + " sekund."));
         } else if (countdown == 0) {
-            itemClear();
+            AbyssUtil.itemClear();
             Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 5 ,5 ));
             Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.info(player, "Przedmioty z ziemi zostały usunięte."));
             this.cancel();

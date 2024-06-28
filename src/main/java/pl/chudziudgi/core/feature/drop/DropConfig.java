@@ -12,7 +12,7 @@ import java.util.List;
 public class DropConfig extends OkaeriConfig {
 
     @Comment("Lista dropów")
-    private List<Drop> dropList = Arrays.asList(
+    private List<Drop> overWorldDropList = Arrays.asList(
             new Drop("Diamenty",
                     0.02,
                     true,
@@ -20,25 +20,25 @@ public class DropConfig extends OkaeriConfig {
                     1,
                     2,
                     World.Environment.NORMAL,
-                    new ItemStack(Material.DIAMOND)),
+                    Material.DIAMOND),
 
             new Drop("Czerwony proch",
-                    0.07,
+                    0.05,
                     true,
                     1,
                     2,
                     1,
                     World.Environment.NORMAL,
-                    new ItemStack(Material.REDSTONE)),
+                    Material.REDSTONE),
 
             new Drop("Węgiel",
-                    0.09,
+                    0.06,
                     true,
                     1,
                     4,
                     1,
                     World.Environment.NORMAL,
-                    new ItemStack(Material.COAL)),
+                    Material.COAL),
 
             new Drop("Lapiz",
                     0.04,
@@ -47,34 +47,73 @@ public class DropConfig extends OkaeriConfig {
                     4,
                     1,
                     World.Environment.NORMAL,
-                    new ItemStack(Material.LAPIS_LAZULI)),
+                    Material.LAPIS_LAZULI),
 
             new Drop("Złoto",
+                    0.03,
+                    true,
+                    1,
+                    2,
+                    2,
+                    World.Environment.NORMAL,
+                    Material.GOLD_ORE),
+
+            new Drop("Żelazo",
                     0.04,
                     true,
                     1,
-                    3,
+                    2,
                     2,
                     World.Environment.NORMAL,
-                    new ItemStack(Material.GOLD_ORE)),
+                    Material.IRON_ORE),
 
-            new Drop("Żelazo",
+            new Drop("Miedź",
                     0.05,
                     true,
                     1,
                     3,
-                    2,
+                    1,
                     World.Environment.NORMAL,
-                    new ItemStack(Material.IRON_ORE)),
+                    Material.COPPER_ORE),
 
-            new Drop("Miedź",
-                    0.08,
+            new Drop("Obsydian",
+                    0.02,
                     true,
                     1,
-                    4,
+                    3,
                     1,
                     World.Environment.NORMAL,
-                    new ItemStack(Material.COPPER_ORE)),
+                    Material.OBSIDIAN),
+
+            new Drop("Perła",
+                    0.02,
+                    false,
+                    1,
+                    1,
+                    3,
+                    World.Environment.NORMAL,
+                    Material.ENDER_PEARL),
+
+            new Drop("Jabłko",
+                    0.04,
+                    false,
+                    1,
+                    2,
+                    2,
+                    World.Environment.NORMAL,
+                    Material.APPLE),
+
+            new Drop("Skóra",
+                    0.02,
+                    false,
+                    1,
+                    1,
+                    3,
+                    World.Environment.NORMAL,
+                    Material.LEATHER)
+    );
+
+    private List<Drop> netherDropList = Arrays.asList(
 
             new Drop("Płomienna różdżka",
                     0.01,
@@ -83,7 +122,7 @@ public class DropConfig extends OkaeriConfig {
                     1,
                     2,
                     World.Environment.NETHER,
-                    new ItemStack(Material.BLAZE_ROD)),
+                    Material.BLAZE_ROD),
 
             new Drop("Proch",
                     0.03,
@@ -92,25 +131,16 @@ public class DropConfig extends OkaeriConfig {
                     3,
                     2,
                     World.Environment.NETHER,
-                    new ItemStack(Material.GUNPOWDER)),
+                    Material.GUNPOWDER),
 
             new Drop("Perła",
-                    0.02,
+                    0.04,
                     false,
                     1,
                     1,
                     3,
                     World.Environment.NETHER,
-                    new ItemStack(Material.ENDER_PEARL)),
-
-            new Drop("Odłamek netherytu",
-                    0.01,
-                    false,
-                    1,
-                    1,
-                    3,
-                    World.Environment.NETHER,
-                    new ItemStack(Material.NETHERITE_SCRAP)),
+                    Material.ENDER_PEARL),
 
             new Drop("Brodawka",
                     0.02,
@@ -119,7 +149,7 @@ public class DropConfig extends OkaeriConfig {
                     3,
                     2,
                     World.Environment.NETHER,
-                    new ItemStack(Material.NETHER_WART)),
+                    Material.NETHER_WART),
 
             new Drop("Złoto",
                     0.05,
@@ -128,21 +158,14 @@ public class DropConfig extends OkaeriConfig {
                     1,
                     2,
                     World.Environment.NETHER,
-                    new ItemStack(Material.GOLD_INGOT)),
-
-            new Drop("Odłaek złota",
-                    0.04,
-                    true,
-                    1,
-                    2,
-                    1,
-                    World.Environment.NETHER,
-                    new ItemStack(Material.GOLD_NUGGET)
-            ));
+                    Material.GOLD_INGOT)
+    );
 
 
-    public List<Drop> getDropList() {
-        return this.dropList;
+    public List<Drop> getOverWorldDropList() {
+        return this.overWorldDropList;
     }
-
+    public List<Drop> getNetherDropList() {
+        return netherDropList;
+    }
 }

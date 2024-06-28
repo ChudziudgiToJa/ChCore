@@ -33,7 +33,7 @@ public class RandomTpController implements Listener {
         Player player = event.getEntity();
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             player.spigot().respawn();
-            player.teleport(RandomUtil.getRandomCords(0));
+            player.teleport(RandomUtil.getRandomCord(player));
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2 * 20, 10));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 5 * 20, 1));
         }, 1);
@@ -41,15 +41,8 @@ public class RandomTpController implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        final Location location = RandomUtil.getRandomCords(0);
         if (!UserManager.isExists(event.getPlayer())) {
-            event.getPlayer().teleport(location);
-        }
-    }
-    @EventHandler
-    public void onWeatherChange(WeatherChangeEvent event) {
-        if (event.toWeatherState()) {
-            event.setCancelled(true);
+            event.getPlayer().teleport(RandomUtil.getRandomCord(event.getPlayer()));
         }
     }
 }

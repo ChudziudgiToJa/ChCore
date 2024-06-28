@@ -10,7 +10,7 @@ import pl.chudziudgi.core.util.TimeEnum;
 
 @CommandInfo(name = "ochrona",
         player = true,
-        usage = " <wylacz> aby wyłączyć ochrone"
+        usage = " <wylacz> / <add/liczba>/<clear>"
 )
 public class ProtectionCommand extends PluginCommand {
 
@@ -22,7 +22,6 @@ public class ProtectionCommand extends PluginCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-
         Player player = (Player) sender;
 
         if (args.length == 1 && args[0].equalsIgnoreCase("wylacz")) {
@@ -41,40 +40,41 @@ public class ProtectionCommand extends PluginCommand {
         }
 
         if (args.length < 2) {
-            ChatUtil.error(player, "Podaj nazwę gracza!");
+            sendUsage(sender);
             return;
         }
 
         Player target = Bukkit.getPlayer(args[1]);
 
         if (target == null || !target.isOnline()) {
-            ChatUtil.error(player, "Gracz nie jest aktywny!");
+            ChatUtil.error(sender, "Gracz " + args[1] + " nie jest online.");
             return;
         }
 
         switch (args[0].toLowerCase()) {
             case "add":
-                if (args.length < 4) {
-                    ChatUtil.error(player, "Podaj czas ochrony!");
+                if (args.length < 3) {
+                    ChatUtil.error(sender, "Podaj czas ochrony!");
                     return;
                 }
 
                 try {
-                    int time = Integer.parseInt(args[3]);
+                    int time = Integer.parseInt(args[2]);
                     protectionManager.giveProtection(target, TimeEnum.SECOND, time);
-                    ChatUtil.success(player, "Nadano ochrone dla " + target.getName() + " na czas " + time + "s.");
+                    ChatUtil.success(sender, "Nadano ochrone dla " + target.getName() + " na czas " + time + "s.");
                 } catch (NumberFormatException e) {
-                    ChatUtil.error(player, "Błędny format liczby.");
+                    ChatUtil.error(sender, "Błędny format liczby.");
                 }
                 break;
 
             case "clear":
                 protectionManager.endProtection(target);
-                ChatUtil.success(player, "Usunięto ochrone dla " + target.getName());
+                ChatUtil.success(sender, "Usunięto ochrone dla " + target.getName());
                 break;
 
             default:
                 sendUsage(sender);
+                break;
         }
     }
 }

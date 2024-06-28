@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.DataUtils;
 import pl.chudziudgi.core.util.TimeEnum;
@@ -30,7 +31,13 @@ public class ChatController implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        if (config.getChatMessageBlock()) {
+        if (!player.hasPermission("core.chat.admin") && chatManager.canUseChat(player)) {
+            ChatUtil.error(player, "Nie odblokowałeś jeszcze chatu! &8(wykop 100 kamienia) &8pozostało " + (100 - UserManager.get(player).minedStone));
+            event.setCancelled(true);
+            return;
+        }
+
+        if (!player.hasPermission("core.chat.admin") && config.getChatMessageBlock()) {
             ChatUtil.error(player, "Chat jest wylaczony!");
             event.setCancelled(true);
             return;
@@ -46,7 +53,7 @@ public class ChatController implements Listener {
 
         final Cache<UUID, String> messageCache = this.chatManager.getMessageCache();
         String lastMessage = messageCache.getIfPresent(player.getUniqueId());
-        if (!player.hasPermission("core.chat.slowmode") && message.equals(lastMessage)) {
+        if (!player.hasPermission("core.chat.sameMessage") && message.equals(lastMessage)) {
             ChatUtil.error(player, "Wiadomości nie mogą sie powtarzać");
             event.setCancelled(true);
             return;

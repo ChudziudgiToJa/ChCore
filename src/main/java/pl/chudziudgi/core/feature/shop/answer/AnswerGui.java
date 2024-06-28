@@ -5,12 +5,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
+import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.shop.ShopGui;
+import pl.chudziudgi.core.feature.shop.time.TimeShopManager;
 
 public class AnswerGui {
     public static void open(final Player player) {
         final InventoryBuilder inv = new InventoryBuilder("&9Sklep menu:", InventoryType.HOPPER);
+        User user = UserManager.get(player);
 
         inv.setItem(1, new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
                         .setTitle("&fMagiczna świeca &e★")
@@ -21,12 +24,40 @@ public class AnswerGui {
                                 "",
                                 "&8Posiadasz do odebrania: " + UserManager.get(player).answerCandle,
                                 "",
-                                (AnswerManager.isHave(player) ? "&7Kliknij &3▜&7▛, aby odebrać" : "&cNie posiadasz nic do odebrania")
+                                (AnswerManager.isHaveCandle(user) ? "&7Kliknij &3▜&7▛, aby odebrać" : "&cNie posiadasz nic do odebrania")
                         )
                         .build(),
                 event -> {
-            AnswerManager.giveCandle(player);
+            AnswerManager.giveCandle(user);
             player.closeInventory();
+                }
+        );
+
+        inv.setItem(1, new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
+                        .setTitle("&fRanga &f&lIRON")
+                        .addLore("",
+                                "&8Opis",
+                                "&7Otrzymasz wybraną range na cały sezon",
+                                "",
+                                (AnswerManager.isHaveCandle(user) ? "&7Kliknij &3▜&7▛, aby odebrać" : "&cNie posiadasz nic do odebrania")
+                        )
+                        .build(),
+                event -> {
+                    player.closeInventory();
+                }
+        );
+
+        inv.setItem(1, new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
+                        .setTitle("&fRanga &e&lGOLD")
+                        .addLore("",
+                                "&8Opis",
+                                "&7Otrzymasz wybraną range na cały sezon",
+                                "",
+                                (AnswerManager.isHaveCandle(user) ? "&7Kliknij &3▜&7▛, aby odebrać" : "&cNie posiadasz nic do odebrania")
+                        )
+                        .build(),
+                event -> {
+                    player.closeInventory();
                 }
         );
 
