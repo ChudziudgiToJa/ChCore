@@ -69,6 +69,7 @@ public class DepositUtil {
                 DepositUtil.giveItems(player, new ItemStack(material, withdrawAmount));
                 setUserAmount(user, material, userAmount - withdrawAmount);
                 ChatUtil.success(player, withdrawMessage(material, withdrawAmount));
+                DepositGui.open(player);
             } else {
                 ChatUtil.error(player, maxLimitMessage(material));
             }

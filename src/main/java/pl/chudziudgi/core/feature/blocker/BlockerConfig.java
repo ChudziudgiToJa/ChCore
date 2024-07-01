@@ -28,6 +28,7 @@ public class BlockerConfig extends OkaeriConfig {
             Material.DIAMOND_LEGGINGS,
             Material.DIAMOND_BOOTS,
             Material.DIAMOND_SWORD,
-            Material.ARMOR_STAND
+            Material.ARMOR_STAND,
+            Material.SHIELD
     );
 }

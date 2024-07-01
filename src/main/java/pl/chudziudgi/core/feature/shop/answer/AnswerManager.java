@@ -26,9 +26,8 @@ public class AnswerManager {
         user.getPlayer().getInventory().addItem(item);
     }
 
-    //Dokończ sklep odbiearanie rangi i candli i dopisz do tego cmd
 
-    public static boolean is(User user) {
+    private static void is(User user) {
         TimeShopManager.addRank(user.getPlayer(), "gold");
     }
 }

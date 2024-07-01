@@ -16,11 +16,11 @@ public class DropUtil {
     public static int addFortuneEnchant(final int amount, final ItemStack tool) {
         Random random = new Random();
         int a = amount;
-        if (random.nextDouble(0, 100) < 50.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 1) {
+        if (random.nextDouble(0, 100) < 15.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 1) {
             ++a;
-        } else if (random.nextDouble(0, 100) < 40.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 2) {
+        } else if (random.nextDouble(0, 100) < 35.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 2) {
             a += 2;
-        } else if (random.nextDouble(0, 100) < 30.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 3) {
+        } else if (random.nextDouble(0, 100) < 50.0 && tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) >= 3) {
             a += 3;
         }
         return a;
@@ -29,11 +29,11 @@ public class DropUtil {
     public static int isPermission(final Player player, final int amount) {
         Random random = new Random();
         int a = amount;
-        if (random.nextDouble(0, 100) < 20.0 && player.hasPermission("core.drop.gold")) {
+        if (random.nextDouble(0, 100) < 70.0 && player.hasPermission("core.drop.gold")) {
             ++a;
             return a;
         }
-        if (random.nextDouble(0, 100) < 30.0 && player.hasPermission("core.drop.iron")) {
+        if (random.nextDouble(0, 100) < 85.0 && player.hasPermission("core.drop.iron")) {
             a += 2;
             return a;
         }

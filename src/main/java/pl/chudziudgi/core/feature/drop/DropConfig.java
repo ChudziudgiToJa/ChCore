@@ -59,7 +59,7 @@ public class DropConfig extends OkaeriConfig {
                     Material.GOLD_ORE),
 
             new Drop("Żelazo",
-                    0.04,
+                    0.02,
                     true,
                     1,
                     2,
@@ -104,7 +104,7 @@ public class DropConfig extends OkaeriConfig {
                     Material.APPLE),
 
             new Drop("Skóra",
-                    0.02,
+                    0.03,
                     false,
                     1,
                     1,
