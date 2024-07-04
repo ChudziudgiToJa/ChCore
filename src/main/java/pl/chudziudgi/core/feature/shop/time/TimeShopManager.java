@@ -3,7 +3,10 @@ package pl.chudziudgi.core.feature.shop.time;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.node.Node;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import pl.chudziudgi.core.api.MessageBuilder;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
@@ -12,69 +15,22 @@ import java.util.concurrent.CompletableFuture;
 
 public class TimeShopManager {
 
-    public static void buyItem(Player player, TimeShopItem timeShopItem) {
-        final TimeShopConfig config = new TimeShopConfig();
-
-        User user = UserManager.get(player);
-        switch (timeShopItem) {
-            case GOLD: {
-                if (user.timeShop < config.getGoldPrice()) {
-                    ChatUtil.error(player, "Nie posiadasz wystarczającej ilości monet czasu.");
-                    return;
-                }
-
-                if (user.timeShop >= config.getGoldPrice()) {
-                    user.timeShop = user.timeShop - config.getGoldPrice();
-                    ChatUtil.info(player, "Sukces udało ci sie zakupić range: &e&lGOLD");
-                    addRank(player, "gold");
-                    return;
-                }
-            }
-            case IRON: {
-                if (user.timeShop < config.getIronPrice()) {
-                    ChatUtil.error(player, "Nie posiadasz wystarczającej ilości monet czasu.");
-                    return;
-                }
-
-                if (user.timeShop >= config.getIronPrice()) {
-                    user.timeShop = user.timeShop - config.getIronPrice();
-                    ChatUtil.info(player, "Sukces udało ci sie zakupić range: &f&lIRON");
-                    addRank(player, "iron");
-                }
-            }
-            case CANDLE: {
-                if (user.timeShop < config.getIronPrice()) {
-                    ChatUtil.error(player, "Nie posiadasz wystarczającej ilości monet czasu.");
-                    return;
-                }
-
-                if (user.timeShop >= config.getCandlePrice()) {
-                    user.timeShop = user.timeShop - config.getCandlePrice();
-                    ChatUtil.info(player, "Sukces udało ci sie zakupić przedmiot: &7Magiczna świeca");
-                    user.answerCandle++;
-                }
-            }
+    public static void buyItem(Player player, TimeShop timeShop) {
+        User user = UserManager .get(player);
+        if (!(user.timeCoin >= timeShop.getPrice())) {
+            ChatUtil.sendTitle(player, "","&cNie posiadasz tylu monet czasu!",20,40,20);
+            player.playSound(player, Sound.ENTITY_VILLAGER_NO, 10, 10);
+            return;
         }
-    }
 
-    public static boolean canBuy(Player player, TimeShopItem timeShopItem) {
-        final TimeShopConfig config = new TimeShopConfig();
-        User user = UserManager.get(player);
+        String command = new MessageBuilder().setText(timeShop.getCommand())
+                .addField("{PLAYER}", player.getName())
+                .build();
 
-        switch (timeShopItem) {
-            case IRON -> {
-                return user.timeShop >= config.getIronPrice();
-            }
-            case GOLD -> {
-                return user.timeShop >= config.getGoldPrice();
-            }
-            case CANDLE -> {
-                return user.timeShop >= config.getCandlePrice();
-            }
-            default -> {
-                return false;
-            }
-        }
+        user.timeCoin = user.timeCoin - timeShop.getPrice();
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+        player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_1, 10, 10);
+        ChatUtil.sendTitle(player, "", "&7Zakupiono " + timeShop.getName(), 20,20,20);
     }
 
     public static void addRank(Player player, String rank) {
@@ -95,5 +51,11 @@ public class TimeShopManager {
             throwable.printStackTrace();
             return null;
         });
+    }
+    public void toggle(Player player) {
+        User user = UserManager.get(player);
+        user.timeMessage = !user.timeMessage;
+        ChatUtil.success(player, "Widoczność wiadomości o otrzymaniu monety czasu: " + (user.timeMessage ? "&awlaczono" : "&cwylaczono"));
+        player.closeInventory();
     }
 }

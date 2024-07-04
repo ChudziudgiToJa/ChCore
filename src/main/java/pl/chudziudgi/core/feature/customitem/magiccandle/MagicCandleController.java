@@ -12,6 +12,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.feature.combat.CombatManager;
 import pl.chudziudgi.core.feature.customitem.CustomItemStack;
+import pl.chudziudgi.core.feature.deposit.DepositUtil;
+import pl.chudziudgi.core.feature.drop.DropUtil;
+import pl.chudziudgi.core.feature.kit.KitManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.HashMap;
@@ -66,7 +69,7 @@ public class MagicCandleController implements Listener {
                 if (counter >= 10) {
                     ItemStack randomItem = MagicCandleDrop.dropList.get(random.nextInt(MagicCandleDrop.dropList.size()));
 
-                    player.getInventory().addItem(randomItem);
+                    DepositUtil.giveItems(player, randomItem);
                     player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 10, 10);
                     playerInOpening.put(player, false);
                     ChatUtil.sendTitle(player, "&aᴡʏʟᴏꜱᴏᴡᴀɴᴏ &710/10", "&7" + getName(randomItem), 30, 30, 30);

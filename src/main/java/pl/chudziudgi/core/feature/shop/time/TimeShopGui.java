@@ -2,67 +2,45 @@ package pl.chudziudgi.core.feature.shop.time;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.shop.ShopGui;
 
+import static pl.chudziudgi.core.feature.drop.DropGui.getSlotList;
+
 public class TimeShopGui {
 
+    private static final Integer[] slotList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+    private static final TimeShopConfig config = new TimeShopConfig();
+
     public static void open(final Player player) {
-        final InventoryBuilder inv = new InventoryBuilder("&9Sklep za czas: &3" + UserManager.get(player).timeShop + " monet.", 9*3);
+        final InventoryBuilder inv = new InventoryBuilder("&9Sklep za czas: &3" + UserManager.get(player).timeCoin + " monet.", 9 * 4);
 
-        inv.setItem(10, new ItemBuilder(Material.IRON_HELMET)
-                        .setTitle("&f&lIRON")
-                        .addLore("",
-                                "&8Opis",
-                                "&7Otrzymasz wybraną range na cały sezon",
-                                "",
-                                "&7Koszt: &3720 monet",
-                                "",
-                                (TimeShopManager.canBuy(player ,TimeShopItem.IRON)) ? "&7Kliknij &3▜&7▛, aby kupić" : "&cNie stać cię"
-                        )
-                        .build(),
-                event -> {
-            TimeShopManager.buyItem(player, TimeShopItem.IRON);
-            player.closeInventory();
-                }
-        );
+        int i = 0;
+        for (TimeShop timeShop : config.getItem()) {
+            ItemStack itemStack = new ItemBuilder(timeShop.getMaterial())
+                    .setTitle(timeShop.getName())
+                    .addLore(
+                            "",
+                            "&8Cena:",
+                            " &3" + timeShop.getPrice() + " &7monet czasu",
+                            "",
+                            "&7Kliknij &3▜&7▛, aby kupić"
+                    )
+                    .build();
 
-        inv.setItem(11, new ItemBuilder(Material.GOLDEN_HELMET)
-                        .setTitle("&e&lGOLD")
-                        .addLore("",
-                                "&8Opis",
-                                "&7Otrzymasz wybraną range na cały sezon",
-                                "",
-                                "&7Koszt: &31440 monet",
-                                "",
-                                (TimeShopManager.canBuy(player ,TimeShopItem.GOLD)) ? "&7Kliknij &3▜&7▛, aby kupić" : "&cNie stać cię")
-                        .build(),
-                event -> {
-                    TimeShopManager.buyItem(player, TimeShopItem.GOLD);
-                    player.closeInventory();
-                }
-        );
-
-        inv.setItem(12, new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
-                        .setTitle("&fMagiczna świeca &e★")
-                        .addLore("",
-                                "&8Opis",
-                                "&7Możliwe do odebrania w kategori /sklep –> &fOdbierz zakupione przedmioty",
-                                "",
-                                "&7Koszt: &3400 monet",
-                                "",
-                                (TimeShopManager.canBuy(player ,TimeShopItem.GOLD)) ? "&7Kliknij &3▜&7▛, aby kupić" : "&cNie stać cię")
-                        .build(),
-                event -> {
-                    TimeShopManager.buyItem(player, TimeShopItem.CANDLE);
-                    player.closeInventory();
-                }
-        );
+            inv.setItem(getSlotList()[i++], itemStack,
+                    event -> {
+                        TimeShopManager.buyItem(player, timeShop);
+                        player.closeInventory();
+                    }
+            );
+        }
 
 
-        inv.setItem(16, new ItemBuilder(Material.GRAY_DYE)
+        inv.setItem(35, new ItemBuilder(Material.STRUCTURE_VOID)
                         .setTitle("&cCofnij")
                         .build(),
                 event -> {

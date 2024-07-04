@@ -128,7 +128,7 @@ public class ShopCommand extends PluginCommand {
 
         try {
             int amountToAdd = Integer.parseInt(args[3]);
-            user.timeShop += amountToAdd;
+            user.timeCoin += amountToAdd;
             ChatUtil.success(player, "Dodano " + amountToAdd + " dla " + target.getName() + " do sklepu czasu.");
         } catch (NumberFormatException e) {
             noInt(player);
@@ -148,7 +148,7 @@ public class ShopCommand extends PluginCommand {
         }
 
         User user = UserManager.get(target);
-        user.timeShop = 0;
+        user.timeCoin = 0;
 
         ChatUtil.success(player, "Wyczyszczono monety czasu " + target.getName() + ".");
     }
@@ -169,7 +169,7 @@ public class ShopCommand extends PluginCommand {
 
         try {
             int amountToSet = Integer.parseInt(args[3]);
-            user.timeShop = amountToSet;
+            user.timeCoin = amountToSet;
             ChatUtil.success(player, "Ustawiono monety czasu na " + amountToSet + " dla " + target.getName());
         } catch (NumberFormatException e) {
             noInt(player);

@@ -5,15 +5,15 @@ import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
 import eu.okaeri.configs.yaml.bukkit.serdes.SerdesBukkit;
 import org.bukkit.Bukkit;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.feature.blocker.BlockerConfig;
 import pl.chudziudgi.core.feature.chat.ChatConfig;
 import pl.chudziudgi.core.feature.combat.CombatConfig;
-import pl.chudziudgi.core.feature.blocker.BlockerConfig;
 import pl.chudziudgi.core.feature.deposit.DepositConfig;
 import pl.chudziudgi.core.feature.drop.DropConfig;
 import pl.chudziudgi.core.feature.kit.KitConfig;
-
 import pl.chudziudgi.core.feature.protection.ProtectionConfig;
 import pl.chudziudgi.core.feature.randomtp.RandomTpConfig;
+import pl.chudziudgi.core.feature.shop.time.TimeShopConfig;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -21,13 +21,21 @@ import java.util.logging.Level;
 public class ConfigLoader {
     private DropConfig dropConfig;
     private ChatConfig chatConfig;
-
     private DepositConfig depositConfig;
     private RandomTpConfig randomTpConfig;
     private CombatConfig combatConfig;
     private KitConfig kitConfig;
     private ProtectionConfig protectionConfig;
     private BlockerConfig blockerConfig;
+    private TimeShopConfig timeShopConfig;
+
+    public BlockerConfig getBlockerConfig() {
+        return blockerConfig;
+    }
+
+    public TimeShopConfig getTimeShopConfig() {
+        return timeShopConfig;
+    }
 
     public BlockerConfig getCustomItemConfig() {
         return blockerConfig;
@@ -177,6 +185,19 @@ public class ConfigLoader {
             });
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, "Error loading customitem.yml", exception);
+            Bukkit.getPluginManager().disablePlugin(plugin);
+        }
+        // timeShop
+        try {
+            this.timeShopConfig = ConfigManager.create(TimeShopConfig.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
+                it.withBindFile(new File(plugin.getDataFolder(), "timeshop.yml"));
+                it.withRemoveOrphans(true);
+                it.saveDefaults();
+                it.load(true);
+            });
+        } catch (Exception exception) {
+            plugin.getLogger().log(Level.SEVERE, "Error loading timeshop.yml", exception);
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
     }

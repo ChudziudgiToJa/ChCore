@@ -32,14 +32,12 @@ import java.util.Arrays;
 
 public class CombatController implements Listener {
 
-    private final ChCore plugin;
     private final CombatManager combatManager;
     private final CombatConfig config;
     private final ProtectionManager protectionManager;
     private final FunnyGuilds funnyGuilds;
 
     public CombatController(final ChCore plugin, CombatManager combatManager, CombatConfig config, ProtectionManager protectionManager, FunnyGuilds funnyGuilds) {
-        this.plugin = plugin;
         this.combatManager = combatManager;
         this.config = config;
         this.protectionManager = protectionManager;

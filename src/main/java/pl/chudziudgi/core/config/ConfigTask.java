@@ -21,5 +21,7 @@ public class ConfigTask extends BukkitRunnable {
         configLoader.getCustomItemConfig().save();
         configLoader.getRandomTpConfig().save();
         configLoader.getProtectionConfig().save();
+        configLoader.getBlockerConfig().save();
+        configLoader.getTimeShopConfig().save();
     }
 }

@@ -76,7 +76,7 @@ public class KitGui {
 
 
 
-        inv.setItem(36, new ItemBuilder(Material.GRAY_DYE)
+        inv.setItem(36, new ItemBuilder(Material.STRUCTURE_VOID)
                         .setTitle("&cCofnij")
                         .addLore("",
                                 "&7Kliknij &3▜&7▛, aby cofnąć strone",

@@ -11,6 +11,7 @@ import pl.chudziudgi.core.feature.chat.ChatManager;
 import pl.chudziudgi.core.feature.privatemessage.PrivateMessageManager;
 import pl.chudziudgi.core.feature.customitem.magiccandle.MagicCandleManager;
 import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
+import pl.chudziudgi.core.feature.shop.time.TimeShopManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 public class SettingsGui {
@@ -19,6 +20,7 @@ public class SettingsGui {
         final IncognitoManager incognitoManager = new IncognitoManager();
         final PrivateMessageManager privateMessageManager = new PrivateMessageManager();
         final MagicCandleManager magicCandleManager = new MagicCandleManager();
+        final TimeShopManager timeShopManager = new TimeShopManager();
         final InventoryBuilder inv = new InventoryBuilder("&9Ustawienia", InventoryType.HOPPER);
         final User user = UserManager.get(player);
 
@@ -90,6 +92,23 @@ public class SettingsGui {
                         .build(),
                 event -> {
                     magicCandleManager.toggle(player);
+                }
+        );
+        inv.setItem(4, new ItemBuilder(Material.KNOWLEDGE_BOOK)
+                        .setTitle("&fWiadomości o otrzymaniu monety czasu")
+                        .addLore("",
+                                "&8Opis",
+                                " &7Wyłącza możliwość widzenia wiadomości o otworzeniu",
+                                " &7otrzymaniu monety czasu.",
+                                "",
+                                "&7Status: " + ChatUtil.booleanString(user.timeMessage),
+                                "",
+                                "&7Kliknij &3▜&7▛, aby zmienić",
+                                ""
+                        )
+                        .build(),
+                event -> {
+                    timeShopManager.toggle(player);
                 }
         );
         inv.open(player);

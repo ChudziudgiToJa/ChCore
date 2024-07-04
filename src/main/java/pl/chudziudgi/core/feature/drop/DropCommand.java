@@ -13,6 +13,6 @@ public class DropCommand extends PluginCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        DropGui.openOverWorld(player);
+        DropGui.openChose(player);
     }
 }

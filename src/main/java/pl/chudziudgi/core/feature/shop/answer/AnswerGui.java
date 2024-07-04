@@ -15,7 +15,7 @@ public class AnswerGui {
         final InventoryBuilder inv = new InventoryBuilder("&9Sklep menu:", InventoryType.HOPPER);
         User user = UserManager.get(player);
 
-        inv.setItem(1, new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
+        inv.setItem(0, new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
                         .setTitle("&fMagiczna świeca &e★")
                         .addLore("",
                                 "&8Opis",
@@ -30,34 +30,6 @@ public class AnswerGui {
                 event -> {
             AnswerManager.giveCandle(user);
             player.closeInventory();
-                }
-        );
-
-        inv.setItem(1, new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
-                        .setTitle("&fRanga &f&lIRON")
-                        .addLore("",
-                                "&8Opis",
-                                "&7Otrzymasz wybraną range na cały sezon",
-                                "",
-                                (AnswerManager.isHaveCandle(user) ? "&7Kliknij &3▜&7▛, aby odebrać" : "&cNie posiadasz nic do odebrania")
-                        )
-                        .build(),
-                event -> {
-                    player.closeInventory();
-                }
-        );
-
-        inv.setItem(1, new ItemBuilder(Material.LIGHT_BLUE_CANDLE)
-                        .setTitle("&fRanga &e&lGOLD")
-                        .addLore("",
-                                "&8Opis",
-                                "&7Otrzymasz wybraną range na cały sezon",
-                                "",
-                                (AnswerManager.isHaveCandle(user) ? "&7Kliknij &3▜&7▛, aby odebrać" : "&cNie posiadasz nic do odebrania")
-                        )
-                        .build(),
-                event -> {
-                    player.closeInventory();
                 }
         );
 

@@ -11,7 +11,7 @@ import pl.chudziudgi.core.util.ChatUtil;
 
 @CommandInfo(
         name = "zestaw",
-        player = true,
+        player = false,
         aliases = {"kit"},
         usage = "toggle|czysc <gracz> <zestaw>|daj <gracz> <zestaw>|zmień <iron/diamond/netherite>"
 )
@@ -26,9 +26,11 @@ public class KitCommand extends PluginCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        Player player = (Player) sender;
-
         if (args.length == 0) {
+            if (!(sender instanceof Player player)) {
+                ChatUtil.error(sender, "&8[&4!&8] &7Tej komendy nie mozna wywolac z poziomu konsoli!");
+                return;
+            }
             if (!kitConfig.isKitStarts()) {
                 ChatUtil.error(sender, "Zestawy są aktualnie wyłączone.");
                 return;
@@ -36,6 +38,47 @@ public class KitCommand extends PluginCommand {
             KitGui.openMain(player);
             return;
         }
+
+        if (args[0].equalsIgnoreCase("daj")) {
+            if (args.length < 3) {
+                ChatUtil.error(sender, "Musisz podać nazwę gracza oraz nazwę zestawu (gold, iron, start)");
+                return;
+            }
+
+            Player targetGive = Bukkit.getPlayer(args[1]);
+
+            if (targetGive == null || !targetGive.isOnline()) {
+                ChatUtil.error(sender, "Gracz nie jest online");
+                return;
+            }
+
+            String kitNameGive = args[2].toLowerCase();
+
+            switch (kitNameGive) {
+                case "gold":
+                    KitManager.giveKitFree(targetGive, KitType.GOLD, kitConfig.getKitType());
+                    break;
+                case "iron":
+                    KitManager.giveKitFree(targetGive, KitType.IRON, kitConfig.getKitType());
+                    break;
+                case "start":
+                    KitManager.giveKitFree(targetGive, KitType.START, kitConfig.getKitType());
+                    break;
+                default:
+                    ChatUtil.error(sender, "Nieznany zestaw. Dostępne zestawy: gold, iron, start");
+                    return;
+            }
+            ChatUtil.success(sender, "Zestaw " + kitNameGive + " został przekazany graczowi " + targetGive.getName());
+            ChatUtil.info(targetGive, "Otrzymałeś zestaw od administratora");
+            return;
+        }
+
+        if (!(sender instanceof Player)) {
+            ChatUtil.error(sender, "This command can only be executed by a player.");
+            return;
+        }
+
+        Player player = (Player) sender;
 
         if (!player.hasPermission("core.command.kit.admin")) {
             ChatUtil.error(sender, "Nie masz uprawnien! &8(&7core.command.kit.admin&8)");
@@ -53,7 +96,7 @@ public class KitCommand extends PluginCommand {
                     kitConfig.setKitType(newStatus);
                     ChatUtil.success(sender, "Zmieniono status otwierania kitów na: " + newStatus);
                 } catch (IllegalArgumentException e) {
-                    ChatUtil.error(sender, "Aktualny: "+ kitConfig.getKitType() +"  Nieprawidłowy status: IRON, DIAMOND, NETHERITE");
+                    ChatUtil.error(sender, "Aktualny: " + kitConfig.getKitType() + "  Nieprawidłowy status: IRON, DIAMOND, NETHERITE");
                 }
                 break;
 
@@ -93,39 +136,6 @@ public class KitCommand extends PluginCommand {
                         return;
                 }
                 ChatUtil.success(sender, "Czas zestawu " + kitNameClear + " został wyczyszczony graczowi " + targetClear.getName());
-                break;
-
-            case "daj":
-                if (args.length < 3) {
-                    ChatUtil.error(sender, "Musisz podać nazwę gracza oraz nazwę zestawu (gold, iron, start)");
-                    return;
-                }
-
-                Player targetGive = Bukkit.getPlayer(args[1]);
-
-                if (targetGive == null || !targetGive.isOnline()) {
-                    ChatUtil.error(sender, "Gracz nie jest online");
-                    return;
-                }
-
-                String kitNameGive = args[2].toLowerCase();
-
-                switch (kitNameGive) {
-                    case "gold":
-                        KitManager.giveKitFree(targetGive, KitType.GOLD, kitConfig.getKitType());
-                        break;
-                    case "iron":
-                        KitManager.giveKitFree(targetGive, KitType.IRON, kitConfig.getKitType());
-                        break;
-                    case "start":
-                        KitManager.giveKitFree(targetGive, KitType.START, kitConfig.getKitType());
-                        break;
-                    default:
-                        ChatUtil.error(sender, "Nieznany zestaw. Dostępne zestawy: gold, iron, start");
-                        return;
-                }
-                ChatUtil.success(sender, "Zestaw " + kitNameGive + " został przekazany graczowi " + targetGive.getName());
-                ChatUtil.info(targetGive, "Otrzymałeś zestaw od administratora");
                 break;
 
             default:

@@ -6,7 +6,6 @@ import com.j256.ormlite.table.DatabaseTable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.feature.drop.Drop;
-import pl.chudziudgi.core.feature.drop.DropUtil;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -76,7 +75,9 @@ public class User implements Serializable {
     public boolean vanishStatus;
 
     @DatabaseField
-    public int timeShop;
+    public int timeCoin;
+    @DatabaseField
+    public boolean timeMessage;
 
     @DatabaseField
     public int answerCandle;
@@ -118,7 +119,8 @@ public class User implements Serializable {
 
         this.ignoredList = new ArrayList<>();
 
-        this.timeShop = 0;
+        this.timeCoin = 0;
+        this.timeMessage = true;
 
         this.answerCandle = 0;
 

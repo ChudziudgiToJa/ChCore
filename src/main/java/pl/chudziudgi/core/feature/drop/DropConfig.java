@@ -76,6 +76,15 @@ public class DropConfig extends OkaeriConfig {
                     World.Environment.NORMAL,
                     Material.COPPER_ORE),
 
+            new Drop("Emerald",
+                    0.02,
+                    false,
+                    1,
+                    1,
+                    2,
+                    World.Environment.NORMAL,
+                    Material.EMERALD),
+
             new Drop("Obsydian",
                     0.02,
                     true,
