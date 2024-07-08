@@ -12,6 +12,7 @@ import pl.chudziudgi.core.feature.deposit.DepositConfig;
 import pl.chudziudgi.core.feature.drop.DropConfig;
 import pl.chudziudgi.core.feature.kit.KitConfig;
 import pl.chudziudgi.core.feature.protection.ProtectionConfig;
+import pl.chudziudgi.core.feature.question.QuestionConfig;
 import pl.chudziudgi.core.feature.randomtp.RandomTpConfig;
 import pl.chudziudgi.core.feature.shop.time.TimeShopConfig;
 
@@ -28,6 +29,11 @@ public class ConfigLoader {
     private ProtectionConfig protectionConfig;
     private BlockerConfig blockerConfig;
     private TimeShopConfig timeShopConfig;
+    private QuestionConfig  questionConfig;
+
+    public QuestionConfig getQuestionConfig() {
+        return questionConfig;
+    }
 
     public BlockerConfig getBlockerConfig() {
         return blockerConfig;
@@ -79,6 +85,7 @@ public class ConfigLoader {
         blockerConfig.save();
         randomTpConfig.save();
         protectionConfig.save();
+        questionConfig.save();
         plugin.getLogger().info("Zapisano configi");
     }
 
@@ -198,6 +205,19 @@ public class ConfigLoader {
             });
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, "Error loading timeshop.yml", exception);
+            Bukkit.getPluginManager().disablePlugin(plugin);
+        }
+        // Question
+        try {
+            this.questionConfig = ConfigManager.create(QuestionConfig.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
+                it.withBindFile(new File(plugin.getDataFolder(), "question.yml"));
+                it.withRemoveOrphans(true);
+                it.saveDefaults();
+                it.load(true);
+            });
+        } catch (Exception exception) {
+            plugin.getLogger().log(Level.SEVERE, "Error loading question.yml", exception);
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
     }

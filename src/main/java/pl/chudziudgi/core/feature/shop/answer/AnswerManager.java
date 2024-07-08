@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.customitem.CustomItemStack;
+import pl.chudziudgi.core.feature.deposit.DepositUtil;
 import pl.chudziudgi.core.feature.shop.time.TimeShopManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
@@ -23,7 +24,7 @@ public class AnswerManager {
         final ItemStack item = CustomItemStack.magicCandle();
         item.setAmount(user.answerCandle);
         user.answerCandle = 0;
-        user.getPlayer().getInventory().addItem(item);
+        DepositUtil.giveItems(user.getPlayer(), item);
     }
 
 

@@ -31,13 +31,6 @@ public class UserController implements Listener {
             ChatUtil.success(player, "Wczytano twój profil. &3✔");
         } else {
             UserManager.createUser(new User(player.getUniqueId()));
-            User user = UserManager.get(player);
-            for (Drop drop : dropConfig.getOverWorldDropList()) {
-                user.setOverWorldDropStatus(drop, true);
-            }
-            for (Drop drop : dropConfig.getNetherDropList()) {
-                user.setNetherDropStatus(drop, true);
-            }
             new BukkitRunnable() {
                 @Override
                 public void run() {

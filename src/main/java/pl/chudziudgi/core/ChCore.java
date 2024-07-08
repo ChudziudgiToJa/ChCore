@@ -52,6 +52,9 @@ import pl.chudziudgi.core.feature.protection.ProtectionCommand;
 import pl.chudziudgi.core.feature.protection.ProtectionController;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.feature.protection.ProtectionTask;
+import pl.chudziudgi.core.feature.question.QuestionController;
+import pl.chudziudgi.core.feature.question.QuestionManager;
+import pl.chudziudgi.core.feature.question.QuestionTask;
 import pl.chudziudgi.core.feature.randomtp.RandomTpCommand;
 import pl.chudziudgi.core.feature.randomtp.RandomTpController;
 import pl.chudziudgi.core.feature.settings.SettingCommand;
@@ -101,6 +104,7 @@ public final class ChCore extends JavaPlugin {
         TeleportManager teleportManager = new TeleportManager();
         HelpOpManager helpOpManager = new HelpOpManager();
         TpaManager tpaManager = new TpaManager();
+        QuestionManager questionManager = new QuestionManager();
 
         new UserController(this, this.config.getDropConfig());
         new ProtectionController(this, protectionManager);
@@ -123,6 +127,7 @@ public final class ChCore extends JavaPlugin {
         new AnvilController(this);
         new StoneGeneratorController(combatManager, this);
         new WorldController(this);
+        new QuestionController(this, questionManager);
 
         new DatabaseTask(this);
         new CombatTask(this, combatManager, this.config.getCombatConfig());
@@ -132,6 +137,7 @@ public final class ChCore extends JavaPlugin {
         new AbyssTask(this);
         new TimeShopTask(this, combatManager, protectionManager);
         new ConfigTask(this, this.config);
+        new QuestionTask(this, questionManager, this.config.getQuestionConfig());
 
         new PlaceholderApiHook(protectionManager).register();
 
