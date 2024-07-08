@@ -5,8 +5,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import pl.chudziudgi.core.feature.backup.Backup;
 import pl.chudziudgi.core.feature.drop.Drop;
-import pl.chudziudgi.core.feature.drop.DropConfig;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -15,8 +15,6 @@ import java.util.UUID;
 
 @DatabaseTable(tableName = "users")
 public class User implements Serializable {
-
-    private final DropConfig dropConfig = new DropConfig();
 
     public ArrayList<Drop> enabledOverWorldDrops = new ArrayList<>();
     public ArrayList<Drop> enabledNetherDrops = new ArrayList<>();
@@ -64,10 +62,8 @@ public class User implements Serializable {
     public boolean ignoreStatus;
     @DatabaseField
     public boolean chatAutoMessageStatus;
-
     @DatabaseField
     public boolean chatMagicCandleStatus;
-
     @DatabaseField
     public boolean chatQuestionStatus;
 
@@ -90,12 +86,13 @@ public class User implements Serializable {
 
     @DatabaseField
     public boolean breakBlock;
-
     @DatabaseField
     public boolean placeBlock;
-
     @DatabaseField
     public boolean useBlock;
+
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    public ArrayList<Backup> backupList;
 
     public User() {
     }
@@ -106,7 +103,6 @@ public class User implements Serializable {
         this.dropMessage = true;
         this.dropOriginalBlock = true;
         this.minedStone = 0;
-        enableAllOverWorldDrops();
 
         this.dEnchantedGoldenApple = 0;
         this.dGoldenApple = 0;
@@ -136,6 +132,8 @@ public class User implements Serializable {
         this.breakBlock = false;
         this.placeBlock = false;
 
+        this.backupList = new ArrayList<>();
+
     }
 
     public Player getPlayer() {
@@ -155,12 +153,6 @@ public class User implements Serializable {
             this.enabledOverWorldDrops.add(p);
         } else {
             this.enabledOverWorldDrops.remove(p);
-        }
-    }
-
-    public void enableAllOverWorldDrops() {
-        for (Drop drop : dropConfig.getOverWorldDropList()) {
-            setOverWorldDropStatus(drop, true);
         }
     }
 

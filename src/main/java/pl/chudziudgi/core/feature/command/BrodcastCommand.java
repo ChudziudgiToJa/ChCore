@@ -19,7 +19,7 @@ public class BrodcastCommand extends PluginCommand {
     public void execute(CommandSender sender, String[] args) {
         String message = StringUtils.join(args, " ");
         ChatUtil.broadcast(" ");
-        ChatUtil.broadcast("&8[&d&l!&8] &cⓤⓌⓐⒼⓐ&7: " + message);
+        ChatUtil.broadcast("&cⓤⓌⓐⒼⓐ&7: " + message);
         ChatUtil.broadcast(" ");
         Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.sendTitle(player, "&cⓤⓌⓐⒼⓐ", "Spójrz na chat!", 10,50,10));
     }

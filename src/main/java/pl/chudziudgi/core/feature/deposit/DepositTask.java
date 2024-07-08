@@ -24,6 +24,5 @@ public class DepositTask extends BukkitRunnable {
             DepositUtil.processMaterial(player, Material.CHORUS_FRUIT, depositConfig.chorusLimit, 6);
         });
     }
-
 }
 

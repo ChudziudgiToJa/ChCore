@@ -33,7 +33,7 @@ public class AutoMessageTask extends BukkitRunnable {
             User user = UserManager.get(player);
             if (user.chatAutoMessageStatus) {
                 player.playSound(player, Sound.ENTITY_COD_FLOP, 5, 5);
-                ChatUtil.info(player, "&3ⒾⓃⒻⓄ &7" + messages.get(currentIndex));
+                ChatUtil.msg(player, "&3ⒾⓃⒻⓄ &7" + messages.get(currentIndex));
             }
         });
         currentIndex++;

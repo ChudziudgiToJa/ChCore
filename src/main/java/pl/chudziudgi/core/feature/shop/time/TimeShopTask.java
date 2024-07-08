@@ -34,7 +34,7 @@ public class TimeShopTask extends BukkitRunnable {
             if (combatManager.inCombat(player)) return;
             if (protectionManager.hasProtection(player)) return;
             if (!user.timeMessage) return;
-            ChatUtil.sendActionbar(player, "&3✈ &7Otrzymałeś &3&nonete&7 czasu");
+            ChatUtil.sendActionbar(player, "&3✈ &7Otrzymałeś &3&nmonete&7 czasu");
             player.playSound(player, Sound.BLOCK_BUBBLE_COLUMN_BUBBLE_POP, 5, 5);
         });
     }

@@ -12,6 +12,9 @@ import pl.chudziudgi.core.database.DatabaseTask;
 import pl.chudziudgi.core.database.user.UserController;
 import pl.chudziudgi.core.feature.abyss.AbyssCommand;
 import pl.chudziudgi.core.feature.abyss.AbyssTask;
+import pl.chudziudgi.core.feature.backup.BackupCommand;
+import pl.chudziudgi.core.feature.backup.BackupController;
+import pl.chudziudgi.core.feature.backup.BackupManager;
 import pl.chudziudgi.core.feature.blocker.AnvilController;
 import pl.chudziudgi.core.feature.blocker.CraftingController;
 import pl.chudziudgi.core.feature.blocker.EnchantController;
@@ -104,6 +107,7 @@ public final class ChCore extends JavaPlugin {
         TeleportManager teleportManager = new TeleportManager();
         HelpOpManager helpOpManager = new HelpOpManager();
         TpaManager tpaManager = new TpaManager();
+        BackupManager backupManager = new BackupManager();
         QuestionManager questionManager = new QuestionManager();
 
         new UserController(this, this.config.getDropConfig());
@@ -128,6 +132,7 @@ public final class ChCore extends JavaPlugin {
         new StoneGeneratorController(combatManager, this);
         new WorldController(this);
         new QuestionController(this, questionManager);
+        new BackupController(this);
 
         new DatabaseTask(this);
         new CombatTask(this, combatManager, this.config.getCombatConfig());
@@ -174,6 +179,7 @@ public final class ChCore extends JavaPlugin {
                 new TpaRequestCommand(tpaManager, vanishManager, this),
                 new SocialSpyCommand(),
                 new HelpOpCommand(helpOpManager),
+                new BackupCommand(),
                 new CustomItemCommand());
     }
 
