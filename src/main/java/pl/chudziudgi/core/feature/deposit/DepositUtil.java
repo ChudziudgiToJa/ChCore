@@ -87,6 +87,7 @@ public class DepositUtil {
             case TOTEM_OF_UNDYING -> depositConfig.getTotemOfUndyingLimit();
             case ARROW -> depositConfig.getArrowLimit();
             case CHORUS_FRUIT -> depositConfig.getChorusLimit();
+            case PACKED_ICE -> depositConfig.getIceLimit();
             default -> throw new IllegalArgumentException("Unsupported material: " + material);
         };
     }
@@ -99,6 +100,7 @@ public class DepositUtil {
             case TOTEM_OF_UNDYING -> user.dTotemOfUndying;
             case ARROW -> user.dArrow;
             case CHORUS_FRUIT -> user.dChorus;
+            case PACKED_ICE -> user.dIce;
             default -> throw new IllegalArgumentException("Unsupported material: " + material);
         };
     }
@@ -122,6 +124,9 @@ public class DepositUtil {
                 break;
             case CHORUS_FRUIT:
                 user.dChorus = amount;
+                break;
+            case PACKED_ICE:
+                user.dIce = amount;
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported material: " + material);
@@ -172,6 +177,9 @@ public class DepositUtil {
                     break;
                 case 6:
                     user.dChorus += amount;
+                    break;
+                case 7:
+                    user.dIce += amount;
                     break;
             }
             ChatUtil.info(onlinePlayer, takeMessage(material, amount));

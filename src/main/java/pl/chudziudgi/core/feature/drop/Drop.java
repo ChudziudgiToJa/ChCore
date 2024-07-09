@@ -13,21 +13,23 @@ public class Drop implements Serializable {
     private final int minAmount;
     private final int maxAmount;
     private final int exp;
-    private final World.Environment worldType;
-    private final Material material;
+    private final String material;
 
-    public Drop(final String name, final double chance, final boolean fortune, final int minAmount, final int maxAmount, final int exp, World.Environment worldType, final Material material) {
+    public Drop(final String name, final double chance, final boolean fortune, final int minAmount, final int maxAmount, final int exp, final String material) {
         this.name = name;
         this.chance = chance;
         this.fortune = fortune;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
         this.exp = exp;
-        this.worldType = worldType;
         this.material = material;
     }
 
     public Material getMaterial() {
+        return Material.getMaterial(material);
+    }
+
+    public String getMaterialString() {
         return material;
     }
 
@@ -53,9 +55,5 @@ public class Drop implements Serializable {
 
     public int getExp() {
         return exp;
-    }
-
-    public World.Environment getWorldType() {
-        return worldType;
     }
 }

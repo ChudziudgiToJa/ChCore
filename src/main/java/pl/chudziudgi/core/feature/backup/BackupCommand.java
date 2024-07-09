@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.command.PluginCommand;
 import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
+import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
@@ -21,9 +22,19 @@ public class BackupCommand extends PluginCommand {
     public void execute(CommandSender sender, String[] args) {
 
         Player player = (Player) sender;
+        User user= UserManager.get(player);
 
         if (args.length != 1) {
-            sendUsage(player);
+            if (user.backupAnswerList.isEmpty()) {
+                ChatUtil.error(player, "Nie posiadasz żadnych backupów do odebrania.");
+                return;
+            }
+            BackupGui.openBackup(player);
+            return;
+        }
+
+        if (!player.hasPermission("core.command.backup.admin")) {
+            ChatUtil.error(player, String.format("Nie masz uprawnien! &8(&7%s&8)", "core.command.backup.admin"));
             return;
         }
 
@@ -33,6 +44,6 @@ public class BackupCommand extends PluginCommand {
             ChatUtil.error(player, "Gracz nie jest online.");
             return;
         }
-        BackupGui.openBackup(player, target);
+        BackupAdminGui.openBackup(player, target);
     }
 }

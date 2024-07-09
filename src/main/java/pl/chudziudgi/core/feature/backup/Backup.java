@@ -6,19 +6,27 @@ import pl.chudziudgi.core.util.ItemStackUtil;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class Backup implements Serializable {
 
     private final User user;
     private final String itemStack;
     private final int lvl;
+    private final float exp;
     private final Instant instant;
 
-    public Backup(User user, String itemStack, int lvl, Instant instant) {
+    public Backup(User user, String itemStack, int lvl, float exp, Instant instant) {
         this.user = user;
         this.itemStack = itemStack;
         this.lvl = lvl;
+        this.exp = exp;
         this.instant = instant;
+    }
+
+    public float getExp() {
+        return exp;
     }
 
     public User getUser() {
@@ -35,5 +43,10 @@ public class Backup implements Serializable {
 
     public Instant getInstant() {
         return instant;
+    }
+
+    public String getInstantFormat() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").withZone(ZoneId.systemDefault());
+        return formatter.format(instant);
     }
 }

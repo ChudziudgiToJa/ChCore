@@ -11,9 +11,9 @@ public class DepositGui {
 
     public static void open(final Player player) {
         final DepositConfig depositConfig = new DepositConfig();
-        final InventoryBuilder inv = new InventoryBuilder("&9Schowek", 9);
+        final InventoryBuilder inv = new InventoryBuilder("&9Schowek", 9*4);
         final User user = UserManager.get(player);
-        inv.setItem(0, new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE)
+        inv.setItem(10, new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE)
                 .setTitle("&fKoxy")
                 .addLore(
                         "",
@@ -22,10 +22,12 @@ public class DepositGui {
                         "",
                         "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                 )
-                .build(), event ->
-                DepositUtil.withdrawItem(player, Material.ENCHANTED_GOLDEN_APPLE, user.dEnchantedGoldenApple)
+                .build(), event -> {
+                    DepositUtil.withdrawItem(player, Material.ENCHANTED_GOLDEN_APPLE, user.dEnchantedGoldenApple);
+                    inv.open(player);
+                }
         );
-        inv.setItem(1, new ItemBuilder(Material.GOLDEN_APPLE)
+        inv.setItem(11, new ItemBuilder(Material.GOLDEN_APPLE)
                 .setTitle("&fRefile")
                 .addLore(
                         "",
@@ -34,10 +36,12 @@ public class DepositGui {
                         "",
                         "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                 )
-                .build(), event ->
-                DepositUtil.withdrawItem(player, Material.GOLDEN_APPLE, user.dGoldenApple)
+                .build(), event -> {
+                    DepositUtil.withdrawItem(player, Material.GOLDEN_APPLE, user.dGoldenApple);
+            inv.open(player);
+                }
         );
-        inv.setItem(2, new ItemBuilder(Material.ENDER_PEARL)
+        inv.setItem(12, new ItemBuilder(Material.ENDER_PEARL)
                 .setTitle("&fPerły")
                 .addLore(
                         "",
@@ -46,22 +50,28 @@ public class DepositGui {
                         "",
                         "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                 )
-                .build(), event ->
-                DepositUtil.withdrawItem(player, Material.ENDER_PEARL, user.dEnderPearl)
+                .build(), event -> {
+                    DepositUtil.withdrawItem(player, Material.ENDER_PEARL, user.dEnderPearl);
+                    inv.open(player);
+                }
         );
 
-        inv.setItem(4, new ItemBuilder(Material.RECOVERY_COMPASS).setTitle("&fWypłać wszystko").addLore("","&7Kliknij &3▜&7▛, aby wypłacić wszystkie przedmioty").build(), event -> {
-            DepositUtil.withdrawItem(player, Material.GOLDEN_APPLE, user.dGoldenApple);
-            DepositUtil.withdrawItem(player, Material.ENCHANTED_GOLDEN_APPLE, user.dEnchantedGoldenApple);
-            DepositUtil.withdrawItem(player, Material.ENDER_PEARL, user.dEnderPearl);
-            DepositUtil.withdrawItem(player, Material.TOTEM_OF_UNDYING, user.dTotemOfUndying);
-            DepositUtil.withdrawItem(player, Material.ARROW, user.dArrow);
-            DepositUtil.withdrawItem(player, Material.CHORUS_FRUIT, user.dChorus);
-            player.closeInventory();
+        inv.setItem(13, new ItemBuilder(Material.PACKED_ICE)
+                .setTitle("&fLód")
+                .addLore(
+                        "",
+                        " &fW schowku&8: &3" + user.dIce,
+                        " &fLimit w EQ&8: &3" + depositConfig.getIceLimit(),
+                        "",
+                        "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
+                )
+                .build(), event -> {
+                    DepositUtil.withdrawItem(player, Material.PACKED_ICE, user.dIce);
+                    inv.open(player);
+                }
+        );
 
-        });
-
-        inv.setItem(6, new ItemBuilder(Material.TOTEM_OF_UNDYING)
+        inv.setItem(14, new ItemBuilder(Material.TOTEM_OF_UNDYING)
                 .setTitle("&fTotemy")
                 .addLore(
                         "",
@@ -70,20 +80,24 @@ public class DepositGui {
                         "",
                         "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                 )
-                .build(), event ->
-                DepositUtil.withdrawItem(player, Material.TOTEM_OF_UNDYING, user.dTotemOfUndying)
+                .build(), event -> {
+                    DepositUtil.withdrawItem(player, Material.TOTEM_OF_UNDYING, user.dTotemOfUndying);
+                    inv.open(player);
+                }
         );
-        inv.setItem(7, new ItemBuilder(Material.ARROW)
+        inv.setItem(15, new ItemBuilder(Material.ARROW)
                 .setTitle("&fStrzały").addLore("",
                         " &fW schowku&8: &3" + user.dArrow,
                         " &fLimit w EQ&8: &3" + depositConfig.getArrowLimit(),
                         "",
                         "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                 )
-                .build(), event ->
-                DepositUtil.withdrawItem(player, Material.ARROW, user.dArrow)
+                .build(), event -> {
+                DepositUtil.withdrawItem(player, Material.ARROW, user.dArrow);
+                    inv.open(player);
+    }
         );
-        inv.setItem(8, new ItemBuilder(Material.CHORUS_FRUIT)
+        inv.setItem(16, new ItemBuilder(Material.CHORUS_FRUIT)
                 .setTitle("&fChorus")
                 .addLore("",
                         " &fW schowku&8: &3" + user.dChorus,
@@ -91,9 +105,24 @@ public class DepositGui {
                         "",
                         "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                 )
-                .build(), event ->
-                DepositUtil.withdrawItem(player, Material.CHORUS_FRUIT, user.dChorus)
+                .build(), event -> {
+                    DepositUtil.withdrawItem(player, Material.CHORUS_FRUIT, user.dChorus);
+                    inv.open(player);
+                }
         );
+
+        inv.setItem(22, new ItemBuilder(Material.HOPPER).setTitle("&fWypłać wszystko").addLore("","&7Kliknij &3▜&7▛, aby wypłacić wszystkie przedmioty").build(), event -> {
+            DepositUtil.withdrawItem(player, Material.GOLDEN_APPLE, user.dGoldenApple);
+            DepositUtil.withdrawItem(player, Material.ENCHANTED_GOLDEN_APPLE, user.dEnchantedGoldenApple);
+            DepositUtil.withdrawItem(player, Material.ENDER_PEARL, user.dEnderPearl);
+            DepositUtil.withdrawItem(player, Material.TOTEM_OF_UNDYING, user.dTotemOfUndying);
+            DepositUtil.withdrawItem(player, Material.ARROW, user.dArrow);
+            DepositUtil.withdrawItem(player, Material.CHORUS_FRUIT, user.dChorus);
+            DepositUtil.withdrawItem(player, Material.PACKED_ICE, user.dIce);
+
+            player.closeInventory();
+
+        });
         inv.open(player);
     }
 }

@@ -1,7 +1,6 @@
 package pl.chudziudgi.core.feature.drop;
 
 import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -21,25 +20,13 @@ public class DropManager {
 
     public static void onMine(Player player, Block block, ItemStack itemStack, BlockBreakEvent event) {
 
-        if (player.getWorld().getEnvironment() == World.Environment.NETHER) {
-            if (!DropUtil.isBreakableMaterialNether(block.getType())) return;
-        }
-
-        if (player.getWorld().getEnvironment() == World.Environment.NORMAL) {
-            if (!DropUtil.isBreakableMaterialOverWorld(block.getType())) return;
-        }
+        if (!DropUtil.isBreakableMaterialOverWorld(block.getType())) return;
 
         List<ItemStack> drops = new ArrayList<>();
         User user = UserManager.get(player);
-        user.minedStone ++;
+        user.minedStone++;
 
-        for (Drop drop : user.enabledOverWorldDrops) {
-            World.Environment playerEnvironment = player.getWorld().getEnvironment();
-
-            if ((playerEnvironment == World.Environment.NORMAL && drop.getWorldType() != World.Environment.NORMAL) || (playerEnvironment == World.Environment.NETHER && drop.getWorldType() != World.Environment.NETHER)) {
-                continue;
-            }
-
+        for (Drop drop : user.dropList) {
 
             ItemStack item = new ItemBuilder(drop.getMaterial()).build();
             int dropExperience = drop.getExp();

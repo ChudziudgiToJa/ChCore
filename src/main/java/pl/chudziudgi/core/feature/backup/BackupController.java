@@ -16,40 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BackupController implements Listener {
+    private final BackupManager backupManager;
 
-    public BackupController(final ChCore plugin) {
+    public BackupController(final ChCore plugin, final BackupManager backupManager) {
+        this.backupManager = backupManager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onDead(PlayerDeathEvent event) {
         Player player = event.getEntity();
-
-        if (!UserManager.isExists(player)) return;
-        User user = UserManager.get(player);
-
-        if (user.backupList.size() >= 9) {
-            user.backupList.remove(0);
-        }
-
-        ItemStack[] inventory = player.getInventory().getContents();
-        ArrayList<ItemStack> itemList = new ArrayList<>();
-
-        for (ItemStack itemStack : inventory) {
-            if (itemStack != null) {
-                itemList.add(itemStack);
-            }
-        }
-
-        if (itemList.isEmpty()) return;
-
-        user.backupList.add(new Backup(
-                user,
-                ItemStackUtil.write(itemList),
-                player.getLevel(),
-                Instant.now()
-        ));
-
-        ChatUtil.info(player, "Zapisano twój ekwipunek przed śmiercią");
+        backupManager.createBackup(player);
     }
 }

@@ -22,6 +22,7 @@ public class DepositTask extends BukkitRunnable {
             DepositUtil.processMaterial(player, Material.ARROW, depositConfig.arrowLimit, 4);
             DepositUtil.processMaterial(player, Material.TOTEM_OF_UNDYING, depositConfig.totemOfUndyingLimit, 5);
             DepositUtil.processMaterial(player, Material.CHORUS_FRUIT, depositConfig.chorusLimit, 6);
+            DepositUtil.processMaterial(player, Material.PACKED_ICE, depositConfig.iceLimit, 7);
         });
     }
 }

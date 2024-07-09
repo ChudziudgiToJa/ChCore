@@ -9,6 +9,11 @@ public class DepositConfig extends OkaeriConfig {
     int totemOfUndyingLimit = 1;
     int arrowLimit = 16;
     int chorusLimit = 5;
+    int iceLimit = 16;
+
+    public int getIceLimit() {
+        return iceLimit;
+    }
 
     public int getChorusLimit() {
         return chorusLimit;

@@ -132,7 +132,7 @@ public final class ChCore extends JavaPlugin {
         new StoneGeneratorController(combatManager, this);
         new WorldController(this);
         new QuestionController(this, questionManager);
-        new BackupController(this);
+        new BackupController(this, backupManager);
 
         new DatabaseTask(this);
         new CombatTask(this, combatManager, this.config.getCombatConfig());

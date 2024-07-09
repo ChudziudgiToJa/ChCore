@@ -16,12 +16,12 @@ import java.util.UUID;
 @DatabaseTable(tableName = "users")
 public class User implements Serializable {
 
-    public ArrayList<Drop> enabledOverWorldDrops = new ArrayList<>();
-    public ArrayList<Drop> enabledNetherDrops = new ArrayList<>();
 
     @DatabaseField(id = true)
     public UUID uuid;
 
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    public ArrayList<Drop> dropList;
     @DatabaseField
     public boolean dropOriginalBlock;
     @DatabaseField
@@ -41,6 +41,9 @@ public class User implements Serializable {
     public int dArrow;
     @DatabaseField
     public int dChorus;
+    @DatabaseField
+    public int dIce;
+
 
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     public Instant kitStart;
@@ -93,6 +96,9 @@ public class User implements Serializable {
 
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     public ArrayList<Backup> backupList;
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    public ArrayList<Backup> backupAnswerList;
+
 
     public User() {
     }
@@ -100,6 +106,7 @@ public class User implements Serializable {
     public User(UUID uuid) {
         this.uuid = uuid;
 
+        this.dropList = new ArrayList<>();
         this.dropMessage = true;
         this.dropOriginalBlock = true;
         this.minedStone = 0;
@@ -133,6 +140,7 @@ public class User implements Serializable {
         this.placeBlock = false;
 
         this.backupList = new ArrayList<>();
+        this.backupAnswerList = new ArrayList<>();
 
     }
 
@@ -141,34 +149,18 @@ public class User implements Serializable {
     }
 
     public void changeOverWorldDropStatus(Drop p) {
-        if (!this.enabledOverWorldDrops.contains(p)) {
-            this.enabledOverWorldDrops.add(p);
+        if (!this.dropList.contains(p)) {
+            this.dropList.add(p);
         } else {
-            this.enabledOverWorldDrops.remove(p);
+            this.dropList.remove(p);
         }
     }
 
     public void setOverWorldDropStatus(Drop p, boolean b) {
         if (b) {
-            this.enabledOverWorldDrops.add(p);
+            this.dropList.add(p);
         } else {
-            this.enabledOverWorldDrops.remove(p);
-        }
-    }
-
-    public void changeNetherDropStatus(Drop p) {
-        if (!this.enabledNetherDrops.contains(p)) {
-            this.enabledNetherDrops.add(p);
-        } else {
-            this.enabledNetherDrops.remove(p);
-        }
-    }
-
-    public void setNetherDropStatus(Drop p, boolean b) {
-        if (b) {
-            this.enabledNetherDrops.add(p);
-        } else {
-            this.enabledNetherDrops.remove(p);
+            this.dropList.remove(p);
         }
     }
 }
