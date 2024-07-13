@@ -80,7 +80,7 @@ public class DepositController implements Listener {
                         block.setType(Material.AIR);
                     }
                 }
-            }.runTaskLater(this.plugin, 60*5 * 20);
+            }.runTaskLater(this.plugin, (60*2) * 20);
         }
     }
 }

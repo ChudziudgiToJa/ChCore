@@ -1,4 +1,4 @@
-package pl.chudziudgi.core.feature.command;
+package pl.chudziudgi.core.feature.enderchest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -15,7 +15,7 @@ public class EnderchestCommand extends PluginCommand {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.openInventory(player.getEnderChest());
+            EnderChestGui.openkit(player , player);
             ChatUtil.success(player, "Otworzono &3enderchest");
             return;
         }
@@ -31,7 +31,7 @@ public class EnderchestCommand extends PluginCommand {
             return;
         }
 
-        player.openInventory(target.getEnderChest());
+        EnderChestGui.openkit(player, target);
         ChatUtil.success(player, "Otworzono &3enderchest &7gracza &3" + target.getName());
     }
 }

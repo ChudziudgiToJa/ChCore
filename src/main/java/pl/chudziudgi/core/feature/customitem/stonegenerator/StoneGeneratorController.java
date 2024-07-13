@@ -40,7 +40,6 @@ public class StoneGeneratorController implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockBreak(final BlockBreakEvent event) {
         Block block = event.getBlock();
-        Block blockUp = block.getLocation().add(0, 1, 0).getBlock();
         Block blockDown = block.getLocation().add(0, -1, 0).getBlock();
 
         if (!isStoneGenerator(blockDown)) return;
@@ -49,7 +48,7 @@ public class StoneGeneratorController implements Listener {
             @Override
             public void run() {
                 if (!plugin.getFunnyGuilds().getRegionManager().isInRegion(block.getLocation())) return;
-                if (isNotValidBlockToChange(blockUp)) return;
+                if (isNotValidBlockToChange(block)) return;
                 if (!isStoneGenerator(blockDown)) return;
                 block.setType(getRandomStone());
             }

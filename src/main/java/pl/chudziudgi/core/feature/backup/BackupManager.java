@@ -28,7 +28,7 @@ public class BackupManager {
         if (!UserManager.isExists(player)) return;
         User user = UserManager.get(player);
 
-        if (user.backupList.size() >= 9) {
+        if (user.backupList.size() >= 17) {
             user.backupList.remove(0);
         }
 

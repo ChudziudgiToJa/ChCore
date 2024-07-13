@@ -22,6 +22,10 @@ import pl.chudziudgi.core.feature.chat.AutoMessageTask;
 import pl.chudziudgi.core.feature.chat.ChatCommand;
 import pl.chudziudgi.core.feature.chat.ChatController;
 import pl.chudziudgi.core.feature.chat.ChatManager;
+import pl.chudziudgi.core.feature.customitem.CustomItemRecipe;
+import pl.chudziudgi.core.feature.enderchest.EnderChestController;
+import pl.chudziudgi.core.feature.enderchest.EnderChestGuiListener;
+import pl.chudziudgi.core.feature.enderchest.EnderchestCommand;
 import pl.chudziudgi.core.feature.helpop.HelpOpCommand;
 import pl.chudziudgi.core.feature.helpop.HelpOpManager;
 import pl.chudziudgi.core.feature.privatemessage.*;
@@ -110,6 +114,7 @@ public final class ChCore extends JavaPlugin {
         BackupManager backupManager = new BackupManager();
         QuestionManager questionManager = new QuestionManager();
 
+
         new UserController(this, this.config.getDropConfig());
         new ProtectionController(this, protectionManager);
         new CombatController(this, combatManager, this.config.getCombatConfig(), protectionManager, funnyGuilds);
@@ -133,6 +138,13 @@ public final class ChCore extends JavaPlugin {
         new WorldController(this);
         new QuestionController(this, questionManager);
         new BackupController(this, backupManager);
+
+        new EnderChestGuiListener(this);
+        new EnderChestController(this);
+
+        CustomItemRecipe.loadIceRecipe(this);
+        CustomItemRecipe.loadObsydianRecipe(this);
+        CustomItemRecipe.loadStoneRecipe(this);
 
         new DatabaseTask(this);
         new CombatTask(this, combatManager, this.config.getCombatConfig());
@@ -180,6 +192,7 @@ public final class ChCore extends JavaPlugin {
                 new SocialSpyCommand(),
                 new HelpOpCommand(helpOpManager),
                 new BackupCommand(),
+                new InventorySeeCommand(),
                 new CustomItemCommand());
     }
 

@@ -41,7 +41,7 @@ public class DropManager {
                 }
                 drops.add(item);
                 player.giveExp(dropExperience);
-                player.playSound(player, Sound.ENTITY_AXOLOTL_SPLASH, 0.5f, (float) (Math.random() * 20.0) / 10.0f);
+                player.playSound(player, Sound.ENTITY_AXOLOTL_SPLASH, 10,10);
             }
         }
 

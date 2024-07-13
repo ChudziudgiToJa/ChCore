@@ -99,6 +99,9 @@ public class User implements Serializable {
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     public ArrayList<Backup> backupAnswerList;
 
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    public String enderChestList;
+
 
     public User() {
     }
@@ -142,6 +145,7 @@ public class User implements Serializable {
         this.backupList = new ArrayList<>();
         this.backupAnswerList = new ArrayList<>();
 
+        this.enderChestList = "";
     }
 
     public Player getPlayer() {

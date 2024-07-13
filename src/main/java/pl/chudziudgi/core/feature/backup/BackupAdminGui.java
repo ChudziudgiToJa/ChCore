@@ -13,10 +13,10 @@ import pl.chudziudgi.core.util.ChatUtil;
 public class BackupAdminGui {
 
     public static void openBackup(final Player player, final Player target) {
-        final Integer[] slotList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11};
+        final Integer[] slotList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
 
 
-        final InventoryBuilder inv = new InventoryBuilder("&7Zapisane ekwipunki gracza: &f" + target.getName(), 9 * 3);
+        final InventoryBuilder inv = new InventoryBuilder("&7Zapisane ekwipunki gracza: &f" + target.getName(), 9 * 4);
         User user = UserManager.get(target);
         int i = 0;
 
@@ -35,7 +35,7 @@ public class BackupAdminGui {
 
         }
 
-        inv.setItem(26, new ItemBuilder(Material.STRUCTURE_VOID).setTitle("&cZamknij").addLore("", "&7Kliknij &3▜&7▛, aby zamknąć", "").build(), event -> {
+        inv.setItem(35, new ItemBuilder(Material.STRUCTURE_VOID).setTitle("&cZamknij").addLore("", "&7Kliknij &3▜&7▛, aby zamknąć", "").build(), event -> {
             player.closeInventory();
         });
 

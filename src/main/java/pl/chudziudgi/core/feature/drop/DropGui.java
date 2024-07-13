@@ -24,8 +24,19 @@ public class DropGui {
         final InventoryBuilder inv = new InventoryBuilder("&9Drop", 9 * 6);
         final User user = UserManager.get(player);
         int i = 0;
-        for (Drop drop : dropConfig.getDropItemList()) {
-            inv.setItem(getSlotList()[i++], new ItemBuilder(drop.getMaterial()).setTitle("&f" + drop.getName()).addLore("&7Szansa: &f" + drop.getChance() + "%", "&7Ilosc: &f" + drop.getMinAmount() + "-" + drop.getMaxAmount(), "&7exp: &7" + drop.getExp(), "&7Fortuna: " + ChatUtil.booleanString(drop.isFortune()), "", "&7Status: " + ChatUtil.booleanString(user.dropList.contains(drop)),"", "&7Kliknij &3▜&7▛, aby zmienić status").setGlow(user.dropList.contains(drop)).build(), e -> {
+        for (final Drop drop : dropConfig.getDropItemList()) {
+            inv.setItem(getSlotList()[i++], new ItemBuilder(drop.getMaterial())
+                    .setTitle("&f" + drop.getName())
+                    .addLore(
+                            "&7Szansa: &f" + drop.getChance() + "%", "&7Ilosc: &f" + drop.getMinAmount() + "-" + drop.getMaxAmount(),
+                            "&7exp: &7" + drop.getExp(),
+                            "&7Fortuna: " + ChatUtil.booleanString(drop.isFortune()),
+                            "",
+                            "&7Status: " + ChatUtil.booleanString(user.dropList.contains(drop)),
+                            "",
+                            "&7Kliknij &3▜&7▛, aby zmienić status"
+                    )
+                    .setGlow(user.dropList.contains(drop)).build(), e -> {
                 user.changeOverWorldDropStatus(drop);
                 openOverWorld(player);
             });
