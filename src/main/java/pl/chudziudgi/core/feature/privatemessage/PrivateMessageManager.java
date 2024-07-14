@@ -65,11 +65,4 @@ public class PrivateMessageManager {
 
         return two.ignoredList.contains(player.getUniqueId());
     }
-
-    public void toggle(Player player) {
-        User user = UserManager.get(player);
-        user.ignoreStatus = !user.ignoreStatus;
-        ChatUtil.success(player, "Ignorowanie wszystkich wiadomości prywatnych " + (user.ignoreStatus ? "&awlaczono" : "&cwylaczono"));
-        player.closeInventory();
-    }
 }

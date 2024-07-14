@@ -22,6 +22,7 @@ public class EnderChestGui {
 
         if (!user.enderChestList.isEmpty()) {
             for (ItemStack itemStack : ItemStackUtil.read(user.enderChestList)) {
+                if (i > inv.getSize()) return;
                 inv.setItem(i++, itemStack);
             }
         }

@@ -65,8 +65,6 @@ import pl.chudziudgi.core.feature.question.QuestionTask;
 import pl.chudziudgi.core.feature.randomtp.RandomTpCommand;
 import pl.chudziudgi.core.feature.randomtp.RandomTpController;
 import pl.chudziudgi.core.feature.settings.SettingCommand;
-import pl.chudziudgi.core.feature.settings.incognito.IncognitoController;
-import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
 import pl.chudziudgi.core.feature.shop.ShopCommand;
 import pl.chudziudgi.core.feature.shop.time.TimeShopTask;
 import pl.chudziudgi.core.feature.teleport.TeleportController;
@@ -105,7 +103,6 @@ public final class ChCore extends JavaPlugin {
         CombatManager combatManager = new CombatManager();
         PrivateMessageManager privateMessageManager = new PrivateMessageManager();
         ChatManager chatManager = new ChatManager(this.config.getChatConfig());
-        IncognitoManager incognitoManager = new IncognitoManager();
         VanishManager vanishManager = new VanishManager();
         MagicCandleManager magicCandleManager = new MagicCandleManager();
         TeleportManager teleportManager = new TeleportManager();
@@ -122,7 +119,6 @@ public final class ChCore extends JavaPlugin {
         new DropController(this, combatManager);
         new ChatController(this, chatManager, this.config.getChatConfig());
         new VanishController(this, vanishManager);
-        new IncognitoController(this, incognitoManager);
         new DepositController(this);
         new MagicCandleController(this, combatManager, magicCandleManager);
         new WorldBorderController(this, this.config.getRandomTpConfig());

@@ -52,10 +52,4 @@ public class TimeShopManager {
             return null;
         });
     }
-    public void toggle(Player player) {
-        User user = UserManager.get(player);
-        user.timeMessage = !user.timeMessage;
-        ChatUtil.success(player, "Widoczność wiadomości o otrzymaniu monety czasu: " + (user.timeMessage ? "&awlaczono" : "&cwylaczono"));
-        player.closeInventory();
-    }
 }

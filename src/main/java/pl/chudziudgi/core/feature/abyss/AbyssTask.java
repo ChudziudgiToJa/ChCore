@@ -2,14 +2,11 @@ package pl.chudziudgi.core.feature.abyss;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
-
-import java.util.List;
 
 public class AbyssTask extends BukkitRunnable {
 
@@ -17,17 +14,25 @@ public class AbyssTask extends BukkitRunnable {
 
     public AbyssTask(final ChCore plugin) {
         this.countdown = 60;
-        runTaskTimerAsynchronously(plugin, 0, 300 * 20);
+        this.runTaskTimerAsynchronously(plugin, 40, 400 * 20);
     }
+
     @Override
     public void run() {
         if (countdown == 60 || countdown == 30 || countdown == 10) {
-            Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player, Sound.ENTITY_BAT_HURT, 5 ,5 ));
-            Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.info(player, "&8ⓚⓄⓈⓏ Przedmioty z ziemi zostaną usunięte za " + countdown + " sekund."));
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (UserManager.get(player).chatAbyssStatus) {
+                    player.playSound(player, Sound.ENTITY_BAT_HURT, 5, 5);
+                    ChatUtil.msg(player, "&3ⓚⓄⓈⓏ &7Przedmioty z ziemi zostaną usunięte za &3&n" + countdown + "&7 sekund.");
+                }
+            }
         } else if (countdown == 0) {
-            AbyssUtil.itemClear();
-            Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 5 ,5 ));
-            Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.info(player, "Przedmioty z ziemi zostały usunięte."));
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (UserManager.get(player).chatAbyssStatus) {
+                    player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 5, 5);
+                    ChatUtil.msg(player, "&3ⓚⓄⓈⓏ &7Przedmioty z ziemi zostały &3&nusunięte&7.");
+                }
+            }
             this.cancel();
         }
         countdown--;

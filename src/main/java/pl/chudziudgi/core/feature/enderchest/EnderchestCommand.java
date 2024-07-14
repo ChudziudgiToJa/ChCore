@@ -20,7 +20,7 @@ public class EnderchestCommand extends PluginCommand {
             return;
         }
 
-        if (!player.hasPermission("core.command.enderchest.admin")) {
+        if (!player.hasPermission("core.command.enderchest.other")) {
             ChatUtil.error(player, "Nie masz uprawnien! &8(&7core.command.enderchest.other&8)");
             return;
         }

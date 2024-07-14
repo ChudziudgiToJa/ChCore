@@ -88,6 +88,9 @@ public class User implements Serializable {
     public int answerCandle;
 
     @DatabaseField
+    public boolean chatAbyssStatus;
+
+    @DatabaseField
     public boolean breakBlock;
     @DatabaseField
     public boolean placeBlock;
@@ -101,6 +104,7 @@ public class User implements Serializable {
 
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     public String enderChestList;
+
 
 
     public User() {
@@ -146,6 +150,8 @@ public class User implements Serializable {
         this.backupAnswerList = new ArrayList<>();
 
         this.enderChestList = "";
+
+        this.chatAbyssStatus = true;
     }
 
     public Player getPlayer() {

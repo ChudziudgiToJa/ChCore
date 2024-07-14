@@ -7,43 +7,15 @@ import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
-import pl.chudziudgi.core.feature.chat.ChatManager;
-import pl.chudziudgi.core.feature.privatemessage.PrivateMessageManager;
-import pl.chudziudgi.core.feature.customitem.magiccandle.MagicCandleManager;
-import pl.chudziudgi.core.feature.question.QuestionManager;
-import pl.chudziudgi.core.feature.settings.incognito.IncognitoManager;
-import pl.chudziudgi.core.feature.shop.time.TimeShopManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 public class SettingsGui {
 
     public static void open(final Player player) {
-        final IncognitoManager incognitoManager = new IncognitoManager();
-        final PrivateMessageManager privateMessageManager = new PrivateMessageManager();
-        final MagicCandleManager magicCandleManager = new MagicCandleManager();
-        final TimeShopManager timeShopManager = new TimeShopManager();
-        final QuestionManager questionManager = new QuestionManager();
-        final InventoryBuilder inv = new InventoryBuilder("&9Ustawienia", 9);
+        final InventoryBuilder inv = new InventoryBuilder("&9Ustawienia", InventoryType.DROPPER);
         final User user = UserManager.get(player);
 
-        inv.setItem(0, new ItemBuilder(Material.NAME_TAG)
-                        .setTitle("&fIncognito")
-                        .addLore("",
-                                "&8Opis",
-                                " &7Zakrywa twój: nick, range, gildie",
-                                "",
-                                "&7Status: " + ChatUtil.booleanString(user.incognito),
-                                "",
-                                "&7Kliknij &3▜&7▛, aby zmienić",
-                                ""
-                        )
-                        .build(),
-                event -> {
-                    incognitoManager.toggleInkognito(player);
-                }
-        );
-
-        inv.setItem(1, new ItemBuilder(Material.MAP)
+        inv.setItem(0, new ItemBuilder(Material.MAP)
                         .setTitle("&fIgnorowanie wszystkich wiadomości")
                         .addLore("",
                                 "&8Opis",
@@ -58,11 +30,12 @@ public class SettingsGui {
                         )
                         .build(),
                 event -> {
-                    privateMessageManager.toggle(player);
+                    user.ignoreStatus = !user.ignoreStatus;
+                    open(player);
                 }
         );
 
-        inv.setItem(5, new ItemBuilder(Material.KNOWLEDGE_BOOK)
+        inv.setItem(1, new ItemBuilder(Material.KNOWLEDGE_BOOK)
                         .setTitle("&fWiadomości automatyczne")
                         .addLore("",
                                 "&8Opis",
@@ -75,11 +48,12 @@ public class SettingsGui {
                         )
                         .build(),
                 event -> {
-                    ChatManager.changeAutoMessageUserStatus(player);
+                    user.chatAutoMessageStatus = !user.chatAutoMessageStatus;
+                    open(player);
                 }
         );
 
-        inv.setItem(6, new ItemBuilder(Material.KNOWLEDGE_BOOK)
+        inv.setItem(2, new ItemBuilder(Material.KNOWLEDGE_BOOK)
                         .setTitle("&fWiadomości Magicznej świecy &e★")
                         .addLore("",
                                 "&8Opis",
@@ -93,10 +67,11 @@ public class SettingsGui {
                         )
                         .build(),
                 event -> {
-                    magicCandleManager.toggle(player);
+                    user.chatMagicCandleStatus = !user.chatMagicCandleStatus;
+                    open(player);
                 }
         );
-        inv.setItem(7, new ItemBuilder(Material.KNOWLEDGE_BOOK)
+        inv.setItem(3, new ItemBuilder(Material.KNOWLEDGE_BOOK)
                         .setTitle("&fWiadomości o otrzymaniu monety czasu")
                         .addLore("",
                                 "&8Opis",
@@ -110,10 +85,11 @@ public class SettingsGui {
                         )
                         .build(),
                 event -> {
-                    timeShopManager.toggle(player);
+                    user.timeMessage = !user.timeMessage;
+                    open(player);
                 }
         );
-        inv.setItem(8, new ItemBuilder(Material.KNOWLEDGE_BOOK)
+        inv.setItem(4, new ItemBuilder(Material.KNOWLEDGE_BOOK)
                         .setTitle("&fWiadomości o pytaniach")
                         .addLore("",
                                 "&8Opis",
@@ -127,7 +103,26 @@ public class SettingsGui {
                         )
                         .build(),
                 event -> {
-                    questionManager.toggle(UserManager.get(player));
+                    user.chatQuestionStatus = !user.chatQuestionStatus;
+                    open(player);
+                }
+        );
+        inv.setItem(5, new ItemBuilder(Material.KNOWLEDGE_BOOK)
+                        .setTitle("&fWiadomości o koszu")
+                        .addLore("",
+                                "&8Opis",
+                                " &7Wyłącza możliwość widzenia wiadomości",
+                                " &7automatycznego czyszczenia przedmiotów.",
+                                "",
+                                "&7Status: " + ChatUtil.booleanString(user.chatAbyssStatus),
+                                "",
+                                "&7Kliknij &3▜&7▛, aby zmienić",
+                                ""
+                        )
+                        .build(),
+                event -> {
+                    user.chatAbyssStatus = !user.chatAbyssStatus;
+                    open(player);
                 }
         );
         inv.open(player);
