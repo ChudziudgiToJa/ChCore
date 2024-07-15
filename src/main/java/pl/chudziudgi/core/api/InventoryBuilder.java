@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.HashMap;
@@ -72,7 +73,7 @@ public class InventoryBuilder implements InventoryHolder {
     }
 
     @Override
-    public Inventory getInventory() {
+    public @NotNull Inventory getInventory() {
         return inventory;
     }
 

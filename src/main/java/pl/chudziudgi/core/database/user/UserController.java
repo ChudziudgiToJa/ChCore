@@ -13,12 +13,8 @@ import pl.chudziudgi.core.feature.drop.DropConfig;
 import pl.chudziudgi.core.util.ChatUtil;
 
 public class UserController implements Listener {
-    private final DropConfig dropConfig;
-    private final ChCore plugin;
 
-    public UserController(final ChCore plugin, DropConfig dropConfig) {
-        this.dropConfig = dropConfig;
-        this.plugin = plugin;
+    public UserController(final ChCore plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -27,16 +23,15 @@ public class UserController implements Listener {
         event.setJoinMessage("");
         Player player = event.getPlayer();
 
-        if (UserManager.isExists(player)) {
-            ChatUtil.success(player, "Wczytano twój profil. &3✔");
-        } else {
-            UserManager.createUser(new User(player.getUniqueId()));
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    player.kickPlayer(ChatUtil.fixColor("&aTwóje konto zostało stworzone\n\n&b&lDołącz ponownie!"));
-                }
-            }.runTaskLater(plugin, 20L);
+        try {
+            if (UserManager.isExists(player)) {
+                ChatUtil.success(player, "Wczytano twój profil. &3✔");
+            } else {
+                UserManager.createUser(new User(player.getUniqueId()));
+                ChatUtil.success(player, "Utworzono nowy profil. &3✔");
+            }
+        } catch (Exception e) {
+            player.kickPlayer(ChatUtil.fixColor("&7Wystąpił błąd podczas wczytywania twojego profilu.\n&4Proszę spróbuj ponownie później.\n&7Dalej nie działą? wbij na naszego discorda &3discord.klanmc.pl"));
         }
     }
 

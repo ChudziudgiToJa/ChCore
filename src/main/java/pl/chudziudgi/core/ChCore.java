@@ -12,6 +12,7 @@ import pl.chudziudgi.core.database.DatabaseTask;
 import pl.chudziudgi.core.database.user.UserController;
 import pl.chudziudgi.core.feature.abyss.AbyssCommand;
 import pl.chudziudgi.core.feature.abyss.AbyssTask;
+import pl.chudziudgi.core.feature.access.AccessController;
 import pl.chudziudgi.core.feature.backup.BackupCommand;
 import pl.chudziudgi.core.feature.backup.BackupController;
 import pl.chudziudgi.core.feature.backup.BackupManager;
@@ -112,7 +113,7 @@ public final class ChCore extends JavaPlugin {
         QuestionManager questionManager = new QuestionManager();
 
 
-        new UserController(this, this.config.getDropConfig());
+        new UserController(this);
         new ProtectionController(this, protectionManager);
         new CombatController(this, combatManager, this.config.getCombatConfig(), protectionManager, funnyGuilds);
         new RandomTpController(this);
@@ -134,6 +135,7 @@ public final class ChCore extends JavaPlugin {
         new WorldController(this);
         new QuestionController(this, questionManager);
         new BackupController(this, backupManager);
+        new AccessController(this);
 
         new EnderChestGuiListener(this);
         new EnderChestController(this);
