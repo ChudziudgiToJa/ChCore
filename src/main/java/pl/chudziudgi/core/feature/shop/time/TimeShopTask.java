@@ -27,6 +27,7 @@ public class TimeShopTask extends BukkitRunnable {
         Bukkit.getOnlinePlayers().forEach(player -> {
             User user = UserManager.get(player);
             if (!UserManager.isExists(player)) return;
+            if (user == null) return;
 
             int amount = 1;
             user.timeCoin = user.timeCoin + amount;

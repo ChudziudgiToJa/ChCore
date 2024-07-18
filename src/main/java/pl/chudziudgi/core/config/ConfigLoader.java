@@ -5,6 +5,7 @@ import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
 import eu.okaeri.configs.yaml.bukkit.serdes.SerdesBukkit;
 import org.bukkit.Bukkit;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.feature.access.AccessConfig;
 import pl.chudziudgi.core.feature.blocker.BlockerConfig;
 import pl.chudziudgi.core.feature.chat.ChatConfig;
 import pl.chudziudgi.core.feature.combat.CombatConfig;
@@ -30,6 +31,11 @@ public class ConfigLoader {
     private BlockerConfig blockerConfig;
     private TimeShopConfig timeShopConfig;
     private QuestionConfig  questionConfig;
+    private AccessConfig accessConfig;
+
+    public AccessConfig getAccessConfig() {
+        return accessConfig;
+    }
 
     public QuestionConfig getQuestionConfig() {
         return questionConfig;
@@ -86,6 +92,7 @@ public class ConfigLoader {
         randomTpConfig.save();
         protectionConfig.save();
         questionConfig.save();
+        accessConfig.save();
         plugin.getLogger().info("Zapisano configi");
     }
 
@@ -218,6 +225,19 @@ public class ConfigLoader {
             });
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, "Error loading question.yml", exception);
+            Bukkit.getPluginManager().disablePlugin(plugin);
+        }
+        // Access
+        try {
+            this.accessConfig = ConfigManager.create(AccessConfig.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
+                it.withBindFile(new File(plugin.getDataFolder(), "access.yml"));
+                it.withRemoveOrphans(true);
+                it.saveDefaults();
+                it.load(true);
+            });
+        } catch (Exception exception) {
+            plugin.getLogger().log(Level.SEVERE, "Error loading access.yml", exception);
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
     }

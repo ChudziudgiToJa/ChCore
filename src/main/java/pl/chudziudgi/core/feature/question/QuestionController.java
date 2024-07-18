@@ -32,6 +32,7 @@ public class QuestionController implements Listener {
         if (!message.toLowerCase().contains(question.getAnswer().toLowerCase())) return;
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             User user = UserManager.get(player);
+            if (user == null) return;
             if (!user.chatQuestionStatus) return;
             ChatUtil.msg(onlinePlayer, new MessageBuilder()
                     .setText("&3ⓅⓎⓉⓐⓝⒾⒺ &7Gracz &b{PLAYER}&7 odpowiedział jako pierwszy!")

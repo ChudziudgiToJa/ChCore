@@ -108,6 +108,14 @@ public class DropConfig extends OkaeriConfig {
                     1,
                     1,
                     3,
-                    "LEATHER")
+                    "LEATHER"),
+
+            new Drop("Proch",
+                    0.02,
+                    false,
+                    1,
+                    2,
+                    2,
+                    "GUNPOWDER")
     );
 }

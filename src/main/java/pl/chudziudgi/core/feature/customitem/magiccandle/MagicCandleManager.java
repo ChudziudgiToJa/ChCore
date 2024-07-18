@@ -18,6 +18,7 @@ public class MagicCandleManager {
     public void brodcast(Player target, String name) {
         Bukkit.getOnlinePlayers().forEach(player -> {
                     User user = UserManager.get(player);
+                    if (user == null) return;
                     if (user.chatMagicCandleStatus) {
                         ChatUtil.info(player, "&b" + target.getName() + "&7 otworzył &fMagiczną świece &e★ &7i wylosował: &b" + name);
                     }

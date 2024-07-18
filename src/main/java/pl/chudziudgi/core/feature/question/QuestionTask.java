@@ -11,6 +11,7 @@ import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.api.MessageBuilder;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
+import pl.chudziudgi.core.feature.chat.ChatConfig;
 import pl.chudziudgi.core.util.ChatUtil;
 
 public class QuestionTask extends BukkitRunnable {
@@ -18,22 +19,25 @@ public class QuestionTask extends BukkitRunnable {
     private final QuestionManager questionManager;
     private final QuestionConfig questionConfig;
     private final ChCore plugin;
+    private final ChatConfig chatConfig;
 
-    public QuestionTask(final ChCore plugin, QuestionManager questionManager, QuestionConfig questionConfig) {
+    public QuestionTask(final ChCore plugin, QuestionManager questionManager, QuestionConfig questionConfig, ChatConfig chatConfig) {
         this.plugin = plugin;
         this.questionManager = questionManager;
         this.questionConfig = questionConfig;
-        this.runTaskTimerAsynchronously(plugin, 120* 20, (60*60) * 20);
+        this.chatConfig = chatConfig;
+        this.runTaskTimerAsynchronously(plugin, 120 * 20, (60 * 60) * 20);
     }
 
     @Override
     public void run() {
+        if (this.chatConfig.getChatMessageBlock()) return;
         Question question = questionManager.getRandomQuestion(questionConfig.getQuestionList());
         questionManager.setQuestion(question);
 
         TextComponent messageComponent = new TextComponent();
         messageComponent.setText(ChatUtil.fixColor(new MessageBuilder().setText("&3ⓅⓎⓉⓐⓃⒾⒺ &7{QUESTION}").addField("{QUESTION}", questionManager.getQuestion().getQuestion()).build()));
-        messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatUtil.fixColor("&8[&d&l!&8] &7Odpowiedz na pytanie jako pierwszy na chat'cie i wygraj nagrodę!\n&8[&d&l!&8] &7Na odpowiedz masz 30 sekund")).create()));
+        messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatUtil.fixColor("&8[&d&l!&8] &7Odpowiedz na pytanie jako pierwszy na chat'cie i wygraj nagrodę!\n&7Na odpowiedz masz 30 sekund")).create()));
 
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
@@ -52,7 +56,7 @@ public class QuestionTask extends BukkitRunnable {
                         User user = UserManager.get(player);
                         if (!user.chatQuestionStatus) return;
                         ChatUtil.msg(player, "&3ⓅⓎⓉⓐⓃⒾⒺ &7Nikt nie odpowiedział. Odpowiedź: &f" + question.getAnswer());
-                        player.playSound(player, Sound.ENTITY_VILLAGER_NO, 10 ,10);
+                        player.playSound(player, Sound.ENTITY_VILLAGER_NO, 10, 10);
                     });
                 }
             }

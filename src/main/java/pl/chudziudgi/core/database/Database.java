@@ -9,11 +9,11 @@ import pl.chudziudgi.core.database.user.User;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Database {
-    public static final HashMap<UUID, User> objects = new HashMap<>();
+    public static final ConcurrentHashMap<UUID, User> objects = new ConcurrentHashMap<>();
     public static Dao<User, String> dao;
 
     public static void load(final ChCore plugin) {

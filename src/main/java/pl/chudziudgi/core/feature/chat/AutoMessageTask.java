@@ -31,6 +31,7 @@ public class AutoMessageTask extends BukkitRunnable {
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             User user = UserManager.get(player);
+            if (user == null) return;
             if (user.chatAutoMessageStatus) {
                 player.playSound(player, Sound.ENTITY_COD_FLOP, 5, 5);
                 ChatUtil.msg(player, "&3ⒾⓃⒻⓄ &7" + messages.get(currentIndex));

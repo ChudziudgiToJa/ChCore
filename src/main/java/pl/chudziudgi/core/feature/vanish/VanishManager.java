@@ -39,6 +39,7 @@ public class VanishManager {
             Bukkit.getOnlinePlayers().forEach(online -> {
                 if (!UserManager.isExists(player)) return;
                 User user = UserManager.get(online);
+                if (user == null) return;
                 if (user.vanishStatus) {
                     player.hidePlayer(online);
                 }

@@ -12,6 +12,7 @@ import pl.chudziudgi.core.database.DatabaseTask;
 import pl.chudziudgi.core.database.user.UserController;
 import pl.chudziudgi.core.feature.abyss.AbyssCommand;
 import pl.chudziudgi.core.feature.abyss.AbyssTask;
+import pl.chudziudgi.core.feature.access.AccessCommand;
 import pl.chudziudgi.core.feature.access.AccessController;
 import pl.chudziudgi.core.feature.backup.BackupCommand;
 import pl.chudziudgi.core.feature.backup.BackupController;
@@ -29,6 +30,7 @@ import pl.chudziudgi.core.feature.enderchest.EnderChestGuiListener;
 import pl.chudziudgi.core.feature.enderchest.EnderchestCommand;
 import pl.chudziudgi.core.feature.helpop.HelpOpCommand;
 import pl.chudziudgi.core.feature.helpop.HelpOpManager;
+import pl.chudziudgi.core.feature.itemshop.ItemShopCommand;
 import pl.chudziudgi.core.feature.privatemessage.*;
 import pl.chudziudgi.core.feature.combat.CombatCommand;
 import pl.chudziudgi.core.feature.combat.CombatController;
@@ -135,7 +137,7 @@ public final class ChCore extends JavaPlugin {
         new WorldController(this);
         new QuestionController(this, questionManager);
         new BackupController(this, backupManager);
-        new AccessController(this);
+        new AccessController(this, this.config.getAccessConfig());
 
         new EnderChestGuiListener(this);
         new EnderChestController(this);
@@ -152,7 +154,7 @@ public final class ChCore extends JavaPlugin {
         new AbyssTask(this);
         new TimeShopTask(this, combatManager, protectionManager);
         new ConfigTask(this, this.config);
-        new QuestionTask(this, questionManager, this.config.getQuestionConfig());
+        new QuestionTask(this, questionManager, this.config.getQuestionConfig(), this.config.getChatConfig());
 
         new PlaceholderApiHook(protectionManager).register();
 
@@ -178,12 +180,15 @@ public final class ChCore extends JavaPlugin {
                 new SettingCommand(),
                 new IgnoreCommand(),
                 new AbyssCommand(),
+                new AccessCommand(this.config.getAccessConfig()),
                 new KitCommand(this.config.getKitConfig()),
                 new VanishCommand(vanishManager),
                 new BrodcastCommand(),
                 new CombatCommand(combatManager),
                 new RandomTpCommand(teleportManager, this),
                 new ShopCommand(),
+                new AnvilCommand(),
+                new OnlineCommand(),
                 new PermissionCommand(this),
                 new TpaAcceptCommand(tpaManager, this),
                 new TpaRequestCommand(tpaManager, vanishManager, this),
@@ -191,6 +196,7 @@ public final class ChCore extends JavaPlugin {
                 new HelpOpCommand(helpOpManager),
                 new BackupCommand(),
                 new InventorySeeCommand(),
+                new ItemShopCommand(),
                 new CustomItemCommand());
     }
 

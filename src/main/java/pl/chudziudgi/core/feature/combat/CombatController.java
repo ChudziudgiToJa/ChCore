@@ -135,10 +135,6 @@ public class CombatController implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player deadPlayer = event.getEntity();
         Player killer = deadPlayer.getKiller();
-
-        World world = event.getEntity().getWorld();
-        world.strikeLightning(deadPlayer.getLocation());
-
         if (killer != null) {
             ChatUtil.sendTitle(deadPlayer, "", "&7Zabójca: &f" + killer.getDisplayName() + " &7na &f" + String.format("%.1f", killer.getHealth()) + " &4❤", 10, 40, 10);
             return;
