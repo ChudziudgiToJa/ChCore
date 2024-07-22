@@ -15,14 +15,20 @@ public class Backup implements Serializable {
     private final String itemStack;
     private final int lvl;
     private final float exp;
+    private final int points;
     private final Instant instant;
 
-    public Backup(User user, String itemStack, int lvl, float exp, Instant instant) {
+    public Backup(User user, String itemStack, int lvl, float exp, int points, Instant instant) {
         this.user = user;
         this.itemStack = itemStack;
         this.lvl = lvl;
         this.exp = exp;
+        this.points = points;
         this.instant = instant;
+    }
+
+    public int getPoints() {
+        return points;
     }
 
     public float getExp() {

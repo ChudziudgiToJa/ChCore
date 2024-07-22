@@ -16,7 +16,7 @@ public class BackupAdminGui {
         final Integer[] slotList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
 
 
-        final InventoryBuilder inv = new InventoryBuilder("&7Zapisane ekwipunki gracza: &f" + target.getName(), 9 * 4);
+        final InventoryBuilder inv = new InventoryBuilder("&7Zapisane ekwipunki: &f" + target.getName(), 9 * 4);
         User user = UserManager.get(target);
         int i = 0;
 
@@ -62,10 +62,11 @@ public class BackupAdminGui {
             openBackup(player, target);
         });
 
-        inv.setItem(49, new ItemBuilder(Material.EXPERIENCE_BOTTLE)
-                .setTitle(new MessageBuilder().setText("&7lvl: &3{lvl} & &7exp: &3{exp}")
+        inv.setItem(49, new ItemBuilder(Material.BOOK)
+                .setTitle(new MessageBuilder().setText("&7lvl: &3{lvl} &f& &7exp: &3{exp} &f& &7ranking: &3{points}")
                         .addField("{lvl}", Integer.toString(backup.getLvl()))
                         .addField("{exp}", Float.toString(backup.getExp()))
+                        .addField("{points}", String.valueOf(backup.getPoints()))
                         .build())
                 .build(), event -> {
         });

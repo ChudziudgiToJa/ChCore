@@ -7,15 +7,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.feature.backup.Backup;
 import pl.chudziudgi.core.feature.drop.Drop;
+import pl.chudziudgi.core.feature.kit.Kit;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 @DatabaseTable(tableName = "users")
 public class User implements Serializable {
-
 
     @DatabaseField(id = true)
     public UUID uuid;
@@ -43,14 +43,6 @@ public class User implements Serializable {
     public int dChorus;
     @DatabaseField
     public int dIce;
-
-
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
-    public Instant kitStart;
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
-    public Instant kitIron;
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
-    public Instant kitGold;
 
     @DatabaseField
     public String homeLocation1;
@@ -105,7 +97,8 @@ public class User implements Serializable {
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     public String enderChestList;
 
-
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    public HashMap<String, Long> kitList;
 
     public User() {
     }
@@ -152,6 +145,8 @@ public class User implements Serializable {
         this.enderChestList = "";
 
         this.chatAbyssStatus = true;
+
+        this.kitList = new HashMap<>();
     }
 
     public Player getPlayer() {

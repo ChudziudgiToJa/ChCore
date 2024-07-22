@@ -13,8 +13,6 @@ import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.feature.combat.CombatManager;
 import pl.chudziudgi.core.feature.customitem.CustomItemStack;
 import pl.chudziudgi.core.feature.deposit.DepositUtil;
-import pl.chudziudgi.core.feature.drop.DropUtil;
-import pl.chudziudgi.core.feature.kit.KitManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.HashMap;

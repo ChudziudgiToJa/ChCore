@@ -24,13 +24,16 @@ import pl.chudziudgi.core.feature.chat.AutoMessageTask;
 import pl.chudziudgi.core.feature.chat.ChatCommand;
 import pl.chudziudgi.core.feature.chat.ChatController;
 import pl.chudziudgi.core.feature.chat.ChatManager;
-import pl.chudziudgi.core.feature.customitem.CustomItemRecipe;
+import pl.chudziudgi.core.feature.crafting.CraftingCommand;
+import pl.chudziudgi.core.feature.crafting.CraftingRecipe;
 import pl.chudziudgi.core.feature.enderchest.EnderChestController;
 import pl.chudziudgi.core.feature.enderchest.EnderChestGuiListener;
 import pl.chudziudgi.core.feature.enderchest.EnderchestCommand;
 import pl.chudziudgi.core.feature.helpop.HelpOpCommand;
 import pl.chudziudgi.core.feature.helpop.HelpOpManager;
 import pl.chudziudgi.core.feature.itemshop.ItemShopCommand;
+import pl.chudziudgi.core.feature.kit.KitCommand;
+import pl.chudziudgi.core.feature.kit.KitManager;
 import pl.chudziudgi.core.feature.privatemessage.*;
 import pl.chudziudgi.core.feature.combat.CombatCommand;
 import pl.chudziudgi.core.feature.combat.CombatController;
@@ -53,7 +56,6 @@ import pl.chudziudgi.core.feature.guild.permission.PermissionController;
 import pl.chudziudgi.core.feature.home.command.DelHomeCommand;
 import pl.chudziudgi.core.feature.home.command.HomeCommand;
 import pl.chudziudgi.core.feature.home.command.SetHomeCommand;
-import pl.chudziudgi.core.feature.kit.KitCommand;
 import pl.chudziudgi.core.feature.privatemessage.command.IgnoreCommand;
 import pl.chudziudgi.core.feature.privatemessage.command.MsgCommand;
 import pl.chudziudgi.core.feature.privatemessage.command.ReplyCommand;
@@ -113,6 +115,10 @@ public final class ChCore extends JavaPlugin {
         TpaManager tpaManager = new TpaManager();
         BackupManager backupManager = new BackupManager();
         QuestionManager questionManager = new QuestionManager();
+        CraftingRecipe craftingRecipe = new CraftingRecipe();
+        KitManager kitManager = new KitManager();
+
+        craftingRecipe.loadCrafting(this);
 
 
         new UserController(this);
@@ -142,9 +148,6 @@ public final class ChCore extends JavaPlugin {
         new EnderChestGuiListener(this);
         new EnderChestController(this);
 
-        CustomItemRecipe.loadIceRecipe(this);
-        CustomItemRecipe.loadObsydianRecipe(this);
-        CustomItemRecipe.loadStoneRecipe(this);
 
         new DatabaseTask(this);
         new CombatTask(this, combatManager, this.config.getCombatConfig());
@@ -177,11 +180,12 @@ public final class ChCore extends JavaPlugin {
                 new HomeCommand(teleportManager, this),
                 new SetHomeCommand(),
                 new DelHomeCommand(),
+                new CraftingCommand(),
                 new SettingCommand(),
                 new IgnoreCommand(),
                 new AbyssCommand(),
                 new AccessCommand(this.config.getAccessConfig()),
-                new KitCommand(this.config.getKitConfig()),
+                new KitCommand(this.config.getKitConfig(), kitManager),
                 new VanishCommand(vanishManager),
                 new BrodcastCommand(),
                 new CombatCommand(combatManager),

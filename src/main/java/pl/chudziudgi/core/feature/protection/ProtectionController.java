@@ -7,8 +7,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.TimeEnum;
 
@@ -18,13 +20,6 @@ public class ProtectionController implements Listener {
     public ProtectionController(final ChCore plugin, ProtectionManager protectionManager) {
         this.protectionManager = protectionManager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        if (!UserManager.isExists(event.getPlayer())) {
-            protectionManager.giveProtection(event.getPlayer(), TimeEnum.MINUTE, 5);
-        }
     }
 
     @EventHandler
@@ -68,7 +63,6 @@ public class ProtectionController implements Listener {
             case FALLING_BLOCK:
             case BLOCK_EXPLOSION:
             case ENTITY_EXPLOSION:
-            case MAGIC:
             case POISON:
             case DROWNING:
                 if (protectionManager.hasProtection(entityPlayer)) {

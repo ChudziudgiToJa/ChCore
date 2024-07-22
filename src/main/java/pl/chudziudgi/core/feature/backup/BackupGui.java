@@ -13,7 +13,7 @@ public class BackupGui {
     public static void openBackup(final Player player) {
         final Integer[] slotList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
-        final InventoryBuilder inv = new InventoryBuilder("&9Lista backup'ów do odebrania: &f" + player.getName(), 9 * 3);
+        final InventoryBuilder inv = new InventoryBuilder("&9Lista backup'ów do odebrania:", 9 * 3);
         User user = UserManager.get(player);
         int i = 0;
 
@@ -58,10 +58,11 @@ public class BackupGui {
             openBackup(player);
         });
 
-        inv.setItem(49, new ItemBuilder(Material.EXPERIENCE_BOTTLE)
-                .setTitle(new MessageBuilder().setText("&7lvl: &3{lvl} & &7exp: &3{exp}")
+        inv.setItem(49, new ItemBuilder(Material.BOOK)
+                .setTitle(new MessageBuilder().setText("&7lvl: &3{lvl} &f& &7exp: &3{exp} &f& &7ranking: &3{points}")
                         .addField("{lvl}", Integer.toString(backup.getLvl()))
                         .addField("{exp}", Float.toString(backup.getExp()))
+                        .addField("{points}", String.valueOf(backup.getPoints()))
                         .build())
                 .build(), event -> {
         });

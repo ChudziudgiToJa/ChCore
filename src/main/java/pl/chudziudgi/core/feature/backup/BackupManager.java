@@ -1,8 +1,10 @@
 package pl.chudziudgi.core.feature.backup;
 
+import net.dzikoysk.funnyguilds.FunnyGuilds;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import panda.std.Option;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.feature.deposit.DepositUtil;
@@ -15,11 +17,15 @@ import java.util.ArrayList;
 public class BackupManager {
 
     public void giveBackup(Player player, Backup backup) {
+        Option<net.dzikoysk.funnyguilds.user.User> funnyguildsUser = FunnyGuilds.getInstance().getUserManager().findByPlayer(player);
+
         for (ItemStack itemStack : backup.getItemStackList()) {
             DepositUtil.giveItems(player, itemStack);
         }
+        funnyguildsUser.get().getRank().setPoints(backup.getPoints());
         player.setLevel(backup.getLvl());
         player.setExp(backup.getExp());
+
         ChatUtil.success(player, "Odebrano zapasowy ekwipunek z " + backup.getInstantFormat());
         UserManager.get(player).backupAnswerList.remove(backup);
     }
@@ -31,6 +37,10 @@ public class BackupManager {
         if (user.backupList.size() >= 17) {
             user.backupList.remove(0);
         }
+
+        Option<net.dzikoysk.funnyguilds.user.User> funnyguildsUser = FunnyGuilds.getInstance().getUserManager().findByPlayer(player);
+
+        int lostPoints = funnyguildsUser.get().getRank().getPoints();
 
         ItemStack[] inventory = player.getInventory().getContents();
         ArrayList<ItemStack> itemList = new ArrayList<>();
@@ -48,6 +58,7 @@ public class BackupManager {
                 ItemStackUtil.write(itemList),
                 player.getLevel(),
                 player.getExp(),
+                lostPoints,
                 Instant.now()
         ));
     }

@@ -22,6 +22,10 @@ public class ProtectionManager {
         this.protectionCache.put(player.getUniqueId(), System.currentTimeMillis() + timeEnum.getTime(time));
     }
 
+    public void giveProtection(final Player player, long time) {
+        this.protectionCache.put(player.getUniqueId(), time);
+    }
+
     public boolean hasProtection(final OfflinePlayer player) {
         if (this.protectionCache.get(player.getUniqueId()) != null) {
             return this.protectionCache.get(player.getUniqueId()) > System.currentTimeMillis();
