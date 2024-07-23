@@ -60,11 +60,6 @@ public class KitCommand extends PluginCommand {
             return;
         }
 
-        if (!(sender instanceof Player player)) {
-            ChatUtil.error(sender, "Ta komenda jest dostępna tylko dla graczy.");
-            return;
-        }
-
         List<String> kitNameList = getKitNames();
         String command = args[0].toLowerCase();
 

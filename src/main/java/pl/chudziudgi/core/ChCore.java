@@ -118,6 +118,7 @@ public final class ChCore extends JavaPlugin {
         CraftingRecipe craftingRecipe = new CraftingRecipe();
         KitManager kitManager = new KitManager();
 
+
         craftingRecipe.loadCrafting(this);
 
 
@@ -129,7 +130,7 @@ public final class ChCore extends JavaPlugin {
         new ChatController(this, chatManager, this.config.getChatConfig());
         new VanishController(this, vanishManager);
         new DepositController(this);
-        new MagicCandleController(this, combatManager, magicCandleManager);
+        new MagicCandleController(this, combatManager, magicCandleManager, this.config.getMagicCandleConfig());
         new WorldBorderController(this, this.config.getRandomTpConfig());
         new CraftingController(this, this.config.getCustomItemConfig());
         new ObsydianGeneratorController(this, combatManager);

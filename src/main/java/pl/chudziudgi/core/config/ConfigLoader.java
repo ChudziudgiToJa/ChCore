@@ -9,6 +9,7 @@ import pl.chudziudgi.core.feature.access.AccessConfig;
 import pl.chudziudgi.core.feature.blocker.BlockerConfig;
 import pl.chudziudgi.core.feature.chat.ChatConfig;
 import pl.chudziudgi.core.feature.combat.CombatConfig;
+import pl.chudziudgi.core.feature.customitem.magiccandle.MagicCandleConfig;
 import pl.chudziudgi.core.feature.deposit.DepositConfig;
 import pl.chudziudgi.core.feature.drop.DropConfig;
 import pl.chudziudgi.core.feature.kit.KitConfig;
@@ -30,8 +31,13 @@ public class ConfigLoader {
     private ProtectionConfig protectionConfig;
     private BlockerConfig blockerConfig;
     private TimeShopConfig timeShopConfig;
-    private QuestionConfig  questionConfig;
+    private QuestionConfig questionConfig;
     private AccessConfig accessConfig;
+    private MagicCandleConfig magicCandleConfig;
+
+    public MagicCandleConfig getMagicCandleConfig() {
+        return magicCandleConfig;
+    }
 
     public AccessConfig getAccessConfig() {
         return accessConfig;
@@ -93,7 +99,8 @@ public class ConfigLoader {
         protectionConfig.save();
         questionConfig.save();
         accessConfig.save();
-        plugin.getLogger().info("Zapisano configi");
+        magicCandleConfig.save();
+                plugin.getLogger().info("Zapisano configi");
     }
 
 
@@ -238,6 +245,19 @@ public class ConfigLoader {
             });
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE, "Error loading access.yml", exception);
+            Bukkit.getPluginManager().disablePlugin(plugin);
+        }
+        // magic candle config
+        try {
+            this.magicCandleConfig = ConfigManager.create(MagicCandleConfig.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer(), new SerdesBukkit());
+                it.withBindFile(new File(plugin.getDataFolder(), "magicCandle.yml"));
+                it.withRemoveOrphans(true);
+                it.saveDefaults();
+                it.load(true);
+            });
+        } catch (Exception exception) {
+            plugin.getLogger().log(Level.SEVERE, "Error loading magicCandle.yml", exception);
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
     }

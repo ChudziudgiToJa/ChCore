@@ -24,12 +24,14 @@ public class MagicCandleController implements Listener {
     private final ChCore plugin;
     private final CombatManager combatManager;
     private final MagicCandleManager magicCandleManager;
+    private final MagicCandleConfig magicCandleConfig;
     private final Map<Player, Boolean> playerInOpening = new HashMap<>();
 
-    public MagicCandleController(ChCore plugin, CombatManager combatManager, MagicCandleManager magicCandleManager) {
+    public MagicCandleController(ChCore plugin, CombatManager combatManager, MagicCandleManager magicCandleManager, MagicCandleConfig magicCandleConfig) {
         this.plugin = plugin;
         this.combatManager = combatManager;
         this.magicCandleManager = magicCandleManager;
+        this.magicCandleConfig = magicCandleConfig;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -65,17 +67,17 @@ public class MagicCandleController implements Listener {
             @Override
             public void run() {
                 if (counter >= 10) {
-                    ItemStack randomItem = MagicCandleDrop.dropList.get(random.nextInt(MagicCandleDrop.dropList.size()));
+                    ItemStack randomItem = magicCandleConfig.dropList.get(random.nextInt(magicCandleConfig.dropList.size()));
 
                     DepositUtil.giveItems(player, randomItem);
                     player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 10, 10);
                     playerInOpening.put(player, false);
                     ChatUtil.sendTitle(player, "&aᴡʏʟᴏꜱᴏᴡᴀɴᴏ &710/10", "&7" + getName(randomItem), 30, 30, 30);
-                    magicCandleManager.brodcast(player, getName(randomItem));
+                    magicCandleManager.brodCast(player, getName(randomItem));
                     cancel();
                     return;
                 }
-                ItemStack randomItem = MagicCandleDrop.dropList.get(random.nextInt(MagicCandleDrop.dropList.size()));
+                ItemStack randomItem = magicCandleConfig.dropList.get(random.nextInt(magicCandleConfig.dropList.size()));
                 ChatUtil.sendTitle(player, "&bʟᴏꜱᴜᴊᴇ &7"+ counter +" /10", "&7" + getName(randomItem), 0, 20, 0);
                 player.playSound(player, Sound.BLOCK_BONE_BLOCK_STEP, 10, 10);
                 counter++;

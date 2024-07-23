@@ -155,14 +155,11 @@ public class CombatController implements Listener {
             return;
 
         double victimHealth = victim.getHealth();
-        double damage = e.getDamage();
 
         if (victimHealth <= 0 || victim.isDead()) return;
 
-        double newHealth = victimHealth - damage;
-        if (newHealth < 0) return;
 
-        String message = "&7" + String.format("%.1f", newHealth) + "&4❤";
+        String message = "&7" + String.format("%.1f", victimHealth) + "&4❤";
         shooter.playSound(shooter, Sound.BLOCK_CANDLE_HIT, 5, 5);
         ChatUtil.sendTitle(shooter, "", message, 5, 20, 5);
     }

@@ -1,5 +1,6 @@
 package pl.chudziudgi.core.feature.customitem.magiccandle;
 
+import eu.okaeri.configs.OkaeriConfig;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -8,9 +9,9 @@ import pl.chudziudgi.core.api.ItemBuilder;
 import java.util.Arrays;
 import java.util.List;
 
-public class MagicCandleDrop {
+public class MagicCandleConfig extends OkaeriConfig {
 
-    public static final List<ItemStack> dropList = Arrays.asList(
+    public List<ItemStack> dropList = Arrays.asList(
 
             new ItemBuilder(Material.IRON_HELMET)
                     .setTitle("&7Hełm &34/3")

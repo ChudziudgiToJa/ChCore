@@ -10,12 +10,13 @@ import pl.chudziudgi.core.feature.drop.DropGui;
 public class MagicCandleGui {
 
     public static void openkit(final Player player) {
+        MagicCandleConfig magicCandleConfig = new MagicCandleConfig();
         final Integer[] slotList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
         final InventoryBuilder inv = new InventoryBuilder("&9Przedmioty z &fMagicznej świecy &e★", 9 * 5);
         int i = 0;
 
-        for (ItemStack itemStack : MagicCandleDrop.dropList) {
+        for (ItemStack itemStack : magicCandleConfig.dropList) {
             inv.setItem(slotList[i++], itemStack,
                     event -> {
                     }

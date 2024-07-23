@@ -81,24 +81,18 @@ public class DropGui {
     }
 
     public static void openChose(final Player player) {
-        final InventoryBuilder inv = new InventoryBuilder("&9Wybierz co cię interesuje", InventoryType.BREWING);
+        final InventoryBuilder inv = new InventoryBuilder("&9Wybierz co cię interesuje", InventoryType.HOPPER);
 
         final ItemStack overWorld = new ItemBuilder(Material.MOSS_BLOCK).setTitle("&3Drop ze kamienia").addLore("", "&7Kliknij &3▜&7▛, aby otworzyć").build();
-        inv.setItem(0, overWorld, e -> {
+        inv.setItem(1, overWorld, e -> {
             openOverWorld(player);
         });
 
-        final ItemStack nether = new ItemBuilder(Material.WARPED_NYLIUM).setTitle("&3Drop z netherrack'u").addLore("", "&8soon....").build();
-        inv.setItem(1, nether, e -> {
-        });
-
         final ItemStack candle = new ItemBuilder(Material.LIGHT_BLUE_CANDLE).setTitle("&3Drop z &fMagicznej świecy &e★").addLore("", "&7Kliknij &3▜&7▛, aby otworzyć").build();
-        inv.setItem(2, candle, e -> {
+        inv.setItem(3, candle, e -> {
             MagicCandleGui.openkit(player);
         });
 
-        final ItemStack head = new ItemBuilder(Material.PLAYER_HEAD).setHeadOwner(player.getName()).setTitle("&7" + player.getName()).build();
-        inv.setItem(3, head);
 
         inv.open(player);
     }

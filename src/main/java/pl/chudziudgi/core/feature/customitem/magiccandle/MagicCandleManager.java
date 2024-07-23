@@ -15,7 +15,7 @@ public class MagicCandleManager {
         player.closeInventory();
     }
 
-    public void brodcast(Player target, String name) {
+    public void brodCast(Player target, String name) {
         Bukkit.getOnlinePlayers().forEach(player -> {
                     User user = UserManager.get(player);
                     if (user == null) return;
