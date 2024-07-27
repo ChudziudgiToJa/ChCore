@@ -359,7 +359,7 @@ public class PluginConfiguration extends OkaeriConfig {
 
     public static class KitSettings extends OkaeriConfig {
 
-        public final List<Kit> kits = Arrays.asList(
+        public List<Kit> kits = Arrays.asList(
 
                 new Kit(
                         "start",
@@ -646,10 +646,11 @@ public class PluginConfiguration extends OkaeriConfig {
 
     public static class RandomTpSettings extends OkaeriConfig {
         @Comment("nether")
+        public int netherWorldSize = 400;
         public int minimalNetherReachTp = 10;
         public int maxNetherReachTp = 250;
         @Comment("overworld")
-        public int worldSize = 1100;
+        public int overWorldSize = 1100;
         public int minimalReachTp = 10;
         public int maxReachTp = 600;
     }

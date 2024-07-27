@@ -19,10 +19,10 @@ public class CraftingController implements Listener {
 
     private final PluginConfiguration configuration;
 
-    public CraftingController(final ChCore plugin, PluginConfiguration configuration) {
+    public CraftingController(PluginConfiguration configuration) {
         this.configuration = configuration;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
 
     public boolean isItem(Material material) {
         return configuration.blockerSettings.disableCrafting .contains(material);

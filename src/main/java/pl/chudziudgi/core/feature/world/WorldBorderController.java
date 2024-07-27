@@ -18,6 +18,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.feature.randomtp.RandomTpConfig;
 import pl.chudziudgi.core.util.ChatUtil;
 
@@ -25,12 +26,12 @@ import java.util.Objects;
 
 public class WorldBorderController implements Listener {
 
-    private final RandomTpConfig config;
+    private final PluginConfiguration config;
 
-    public WorldBorderController(final ChCore plugin, RandomTpConfig config) {
+    public WorldBorderController(PluginConfiguration config) {
         this.config = config;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerMove(final PlayerMoveEvent event) {
@@ -118,6 +119,6 @@ public class WorldBorderController implements Listener {
     }
 
     private int getWorldSize(World world) {
-        return (world.getEnvironment() == World.Environment.NETHER) ? config.getNetherSize() : config.getWorldSize();
+        return (world.getEnvironment() == World.Environment.NETHER) ? this.config.randomTpSettings.netherWorldSize : this.config.randomTpSettings.overWorldSize;
     }
 }

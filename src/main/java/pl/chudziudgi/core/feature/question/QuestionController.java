@@ -18,16 +18,17 @@ public class QuestionController implements Listener {
 
     private final QuestionManager questionManager;
 
-    public QuestionController(ChCore plugin, QuestionManager questionManager) {
+    public QuestionController(QuestionManager questionManager) {
         this.questionManager = questionManager;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
         Player player = event.getPlayer();
         Question question = questionManager.getQuestion();
+        if (event.isCancelled()) return;
         if (question == null) return;
         if (!message.toLowerCase().contains(question.getAnswer().toLowerCase())) return;
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {

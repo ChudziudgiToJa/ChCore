@@ -16,11 +16,12 @@ public class AccessController implements Listener {
     private final ChCore plugin;
     private final PluginConfiguration config;
 
-    public AccessController(ChCore plugin, PluginConfiguration.ProtectionSettings config) {
+    public AccessController(ChCore plugin, PluginConfiguration config) {
         this.plugin = plugin;
         this.config = config;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
 
     @EventHandler
     public void onLogin(PlayerLoginEvent event) {
@@ -30,16 +31,16 @@ public class AccessController implements Listener {
                 Player player = event.getPlayer();
                 int playerCount = Bukkit.getOnlinePlayers().size();
                 if (!UserManager.isExists(player)) return;
-                if (playerCount > config.getMaxPlayers()) {
+                if (playerCount > config.accessSettings.maxPlayers) {
                      if (player.hasPermission("core.access.admin")) return;
                     player.kickPlayer(ChatUtil.fixColor("&cSerwer jest pełen &4:c"));
                     return;
                 }
-                if (playerCount > config.getMinimalForGold() && !player.hasPermission("core.access.gold")) {
+                if (playerCount > config.accessSettings.minimalForGold && !player.hasPermission("core.access.gold")) {
                     player.kickPlayer(ChatUtil.fixColor("&cAby móc wejść na serwer wymagana jest ranga: &3&lGOLD\n&7Zakup na &3klanmc.pl"));
                     return;
                 }
-                if (playerCount > config.getMinimalForIron() && !player.hasPermission("core.access.iron")) {
+                if (playerCount > config.accessSettings.minimalForIron && !player.hasPermission("core.access.iron")) {
                     player.kickPlayer(ChatUtil.fixColor("&cAby móc wejść na serwer wymagana jest ranga: &f&nIRON\n&7Zakup na &3klanmc.pl"));
                 }
             }

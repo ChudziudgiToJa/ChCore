@@ -3,6 +3,7 @@ package pl.chudziudgi.core.feature.protection;
 import com.google.common.collect.Maps;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.TimeEnum;
 
@@ -11,10 +12,13 @@ import java.util.UUID;
 
 public class ProtectionManager {
 
+    private final PluginConfiguration config;
+
 
     private final Map<UUID, Long> protectionCache;
 
-    public ProtectionManager() {
+    public ProtectionManager(PluginConfiguration config) {
+        this.config = config;
         this.protectionCache = Maps.newLinkedHashMap();
     }
 
@@ -34,9 +38,8 @@ public class ProtectionManager {
     }
 
     public void endProtection(final Player player) {
-        ProtectionConfig protectionConfig = new ProtectionConfig();
         this.protectionCache.remove(player.getUniqueId());
-        ChatUtil.sendActionbar(player, protectionConfig.getProtectionEndMessage());
+        ChatUtil.sendActionbar(player, this.config.protectionSettings.PROTECTION_END_MESSAGE);
     }
 
     public Map<UUID, Long> getProtectionCache() {

@@ -4,13 +4,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 
 public class DepositGui {
 
     public static void open(final Player player) {
-        final DepositConfig depositConfig = new DepositConfig();
+        final PluginConfiguration config = new PluginConfiguration();
         final InventoryBuilder inv = new InventoryBuilder("&9Schowek", 9 * 4);
         final User user = UserManager.get(player);
         inv.setItem(10, new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE)
@@ -18,7 +19,7 @@ public class DepositGui {
                         .addLore(
                                 "",
                                 " &fW schowku&8: &3" + user.dEnchantedGoldenApple,
-                                " &fLimit w EQ&8: &3" + depositConfig.enchantedGoldenAppleLimit,
+                                " &fLimit w EQ&8: &3" + config.depositSettings.enchantedGoldenAppleLimit,
                                 "",
                                 "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                         )
@@ -32,7 +33,7 @@ public class DepositGui {
                         .addLore(
                                 "",
                                 " &fW schowku&8: &3" + user.dGoldenApple,
-                                " &fLimit w EQ&8: &3" + depositConfig.getGoldenAppleLimit(),
+                                " &fLimit w EQ&8: &3" + config.depositSettings.goldenAppleLimit,
                                 "",
                                 "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                         )
@@ -46,7 +47,7 @@ public class DepositGui {
                         .addLore(
                                 "",
                                 " &fW schowku&8: &3" + user.dEnderPearl,
-                                " &fLimit w EQ&8: &3" + depositConfig.getEnderPearlLimit(),
+                                " &fLimit w EQ&8: &3" + config.depositSettings.enderPearlLimit,
                                 "",
                                 "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                         )
@@ -61,7 +62,7 @@ public class DepositGui {
                         .addLore(
                                 "",
                                 " &fW schowku&8: &3" + user.dIce,
-                                " &fLimit w EQ&8: &3" + depositConfig.getIceLimit(),
+                                " &fLimit w EQ&8: &3" + config.depositSettings.iceLimit,
                                 "",
                                 "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                         )
@@ -76,7 +77,7 @@ public class DepositGui {
                         .addLore(
                                 "",
                                 " &fW schowku&8: &3" + user.dTotemOfUndying,
-                                " &fLimit w EQ&8: &3" + depositConfig.getTotemOfUndyingLimit(),
+                                " &fLimit w EQ&8: &3" + config.depositSettings.totemOfUndyingLimit,
                                 "",
                                 "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                         )
@@ -88,7 +89,7 @@ public class DepositGui {
         inv.setItem(15, new ItemBuilder(Material.ARROW)
                         .setTitle("&fStrzały").addLore("",
                                 " &fW schowku&8: &3" + user.dArrow,
-                                " &fLimit w EQ&8: &3" + depositConfig.getArrowLimit(),
+                                " &fLimit w EQ&8: &3" + config.depositSettings.arrowLimit,
                                 "",
                                 "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                         )
@@ -101,7 +102,7 @@ public class DepositGui {
                         .setTitle("&fChorus")
                         .addLore("",
                                 " &fW schowku&8: &3" + user.dChorus,
-                                " &fLimit w EQ&8: &3" + depositConfig.getChorusLimit(),
+                                " &fLimit w EQ&8: &3" + config.depositSettings.chorusLimit,
                                 "",
                                 "&7Kliknij &3▜&7▛, aby wypłacić przedmiot"
                         )

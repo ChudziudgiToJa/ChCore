@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.api.MessageBuilder;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
@@ -16,22 +17,21 @@ import pl.chudziudgi.core.util.ChatUtil;
 public class QuestionTask extends BukkitRunnable {
 
     private final QuestionManager questionManager;
-    private final QuestionConfig questionConfig;
+    private final PluginConfiguration config;
     private final ChCore plugin;
-    private final ChatConfig chatConfig;
 
-    public QuestionTask(final ChCore plugin, QuestionManager questionManager, QuestionConfig questionConfig, ChatConfig chatConfig) {
-        this.plugin = plugin;
+    public QuestionTask(QuestionManager questionManager, PluginConfiguration config, ChCore plugin) {
         this.questionManager = questionManager;
-        this.questionConfig = questionConfig;
-        this.chatConfig = chatConfig;
+        this.config = config;
+        this.plugin = plugin;
         this.runTaskTimerAsynchronously(plugin, 120 * 20, (60 * 60) * 20);
     }
 
+
     @Override
     public void run() {
-        if (this.chatConfig.getChatMessageBlock()) return;
-        Question question = questionManager.getRandomQuestion(questionConfig.getQuestionList());
+        if (this.config.chatSettings.chatMessageBlock) return;
+        Question question = questionManager.getRandomQuestion(this.config.questionSettings.questionList);
         questionManager.setQuestion(question);
 
         TextComponent messageComponent = new TextComponent();

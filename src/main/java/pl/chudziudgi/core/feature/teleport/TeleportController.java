@@ -9,10 +9,10 @@ public class TeleportController implements Listener {
 
     private final TeleportManager teleportManager;
 
-    public TeleportController(final ChCore plugin, TeleportManager teleportManager) {
+    public TeleportController(TeleportManager teleportManager) {
         this.teleportManager = teleportManager;
-        plugin.getServer().getPluginManager().registerEvents(this,plugin);
     }
+
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {

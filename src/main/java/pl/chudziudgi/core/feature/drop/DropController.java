@@ -13,10 +13,10 @@ import pl.chudziudgi.core.feature.combat.CombatManager;
 public class DropController implements Listener {
     private final CombatManager combatManager;
 
-    public DropController(ChCore plugin, CombatManager combatManager) {
+    public DropController(CombatManager combatManager) {
         this.combatManager = combatManager;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBreak(final BlockBreakEvent event) {

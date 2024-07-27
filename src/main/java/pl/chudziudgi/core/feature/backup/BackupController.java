@@ -18,10 +18,10 @@ import java.util.List;
 public class BackupController implements Listener {
     private final BackupManager backupManager;
 
-    public BackupController(final ChCore plugin, final BackupManager backupManager) {
+    public BackupController(BackupManager backupManager) {
         this.backupManager = backupManager;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
 
     @EventHandler
     public void onDead(PlayerDeathEvent event) {

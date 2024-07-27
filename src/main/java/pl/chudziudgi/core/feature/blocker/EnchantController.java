@@ -19,11 +19,6 @@ import java.util.Arrays;
 
 public class EnchantController implements Listener {
 
-    public EnchantController(ChCore plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-
-
     @EventHandler
     public void onEnchantItem(EnchantItemEvent event) {
         Player player = event.getEnchanter();

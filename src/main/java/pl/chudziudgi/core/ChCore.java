@@ -25,22 +25,13 @@ import pl.chudziudgi.core.feature.chat.AutoMessageTask;
 import pl.chudziudgi.core.feature.chat.ChatCommand;
 import pl.chudziudgi.core.feature.chat.ChatController;
 import pl.chudziudgi.core.feature.chat.ChatManager;
-import pl.chudziudgi.core.feature.crafting.CraftingCommand;
-import pl.chudziudgi.core.feature.crafting.CraftingRecipe;
-import pl.chudziudgi.core.feature.enderchest.EnderChestController;
-import pl.chudziudgi.core.feature.enderchest.EnderChestGuiListener;
-import pl.chudziudgi.core.feature.enderchest.EnderchestCommand;
-import pl.chudziudgi.core.feature.helpop.HelpOpCommand;
-import pl.chudziudgi.core.feature.helpop.HelpOpManager;
-import pl.chudziudgi.core.feature.itemshop.ItemShopCommand;
-import pl.chudziudgi.core.feature.kit.KitCommand;
-import pl.chudziudgi.core.feature.kit.KitManager;
-import pl.chudziudgi.core.feature.privatemessage.*;
 import pl.chudziudgi.core.feature.combat.CombatCommand;
 import pl.chudziudgi.core.feature.combat.CombatController;
 import pl.chudziudgi.core.feature.combat.CombatManager;
 import pl.chudziudgi.core.feature.combat.CombatTask;
 import pl.chudziudgi.core.feature.command.*;
+import pl.chudziudgi.core.feature.crafting.CraftingCommand;
+import pl.chudziudgi.core.feature.crafting.CraftingRecipe;
 import pl.chudziudgi.core.feature.customitem.CustomItemCommand;
 import pl.chudziudgi.core.feature.customitem.magiccandle.MagicCandleController;
 import pl.chudziudgi.core.feature.customitem.magiccandle.MagicCandleManager;
@@ -52,11 +43,20 @@ import pl.chudziudgi.core.feature.deposit.DepositController;
 import pl.chudziudgi.core.feature.deposit.DepositTask;
 import pl.chudziudgi.core.feature.drop.DropCommand;
 import pl.chudziudgi.core.feature.drop.DropController;
+import pl.chudziudgi.core.feature.enderchest.EnderChestController;
+import pl.chudziudgi.core.feature.enderchest.EnderChestGuiListener;
+import pl.chudziudgi.core.feature.enderchest.EnderchestCommand;
 import pl.chudziudgi.core.feature.guild.permission.PermissionCommand;
 import pl.chudziudgi.core.feature.guild.permission.PermissionController;
+import pl.chudziudgi.core.feature.helpop.HelpOpCommand;
+import pl.chudziudgi.core.feature.helpop.HelpOpManager;
 import pl.chudziudgi.core.feature.home.command.DelHomeCommand;
 import pl.chudziudgi.core.feature.home.command.HomeCommand;
 import pl.chudziudgi.core.feature.home.command.SetHomeCommand;
+import pl.chudziudgi.core.feature.itemshop.ItemShopCommand;
+import pl.chudziudgi.core.feature.kit.KitCommand;
+import pl.chudziudgi.core.feature.kit.KitManager;
+import pl.chudziudgi.core.feature.privatemessage.PrivateMessageManager;
 import pl.chudziudgi.core.feature.privatemessage.command.IgnoreCommand;
 import pl.chudziudgi.core.feature.privatemessage.command.MsgCommand;
 import pl.chudziudgi.core.feature.privatemessage.command.ReplyCommand;
@@ -86,13 +86,16 @@ import pl.chudziudgi.core.feature.world.WorldBorderController;
 import pl.chudziudgi.core.feature.world.WorldController;
 import pl.chudziudgi.core.hook.PlaceholderApiHook;
 
+import java.util.stream.Stream;
+
 public final class ChCore extends JavaPlugin {
-    private PluginConfiguration config;
+    private final PluginConfiguration config = new PluginConfiguration();
+    private final ConfigurationLoader configurationLoader = new ConfigurationLoader();
     private FunnyGuilds funnyGuilds;
 
     public void onLoad() {
         PlaceholderApiHook.isPlaceholderAPIInstalled(this);
-        this.config.load();
+        this.configurationLoader.load(this);
     }
 
     public void onDisable() {
@@ -105,7 +108,7 @@ public final class ChCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InventoryBuilder.Listeners(), this);
         Database.load(this);
 
-        ProtectionManager protectionManager = new ProtectionManager();
+        ProtectionManager protectionManager = new ProtectionManager(this.config);
         CombatManager combatManager = new CombatManager();
         PrivateMessageManager privateMessageManager = new PrivateMessageManager();
         ChatManager chatManager = new ChatManager(this.config);
@@ -119,36 +122,37 @@ public final class ChCore extends JavaPlugin {
         CraftingRecipe craftingRecipe = new CraftingRecipe();
         KitManager kitManager = new KitManager();
 
-
         craftingRecipe.loadCrafting(this);
 
 
-        new UserController(this);
-        new ProtectionController(this, protectionManager);
-        new CombatController(this, combatManager, this.config, protectionManager, funnyGuilds);
-        new RandomTpController(this);
-        new DropController(this, combatManager);
-        new ChatController(this, chatManager, this.config);
-        new VanishController(this, vanishManager);
-        new DepositController(this);
-        new MagicCandleController(this, combatManager, magicCandleManager, this.config);
-        new WorldBorderController(this, this.config);
-        new CraftingController(this, this.config);
-        new ObsydianGeneratorController(this, combatManager);
-        new WaterBucketListener(this);
-        new PermissionController(this);
-        new TeleportController(this, teleportManager);
-        new AntiRedStoneController(this);
-        new EnchantController(this);
-        new AnvilController(this);
-        new StoneGeneratorController(combatManager, this);
-        new WorldController(this);
-        new QuestionController(this, questionManager);
-        new BackupController(this, backupManager);
-        new AccessController(this, this.config);
+        Stream.of(
+                new UserController(this),
+                new ProtectionController(protectionManager),
+                new CombatController(combatManager, this.config, protectionManager, funnyGuilds),
+                new RandomTpController(this),
+                new DropController(combatManager),
+                new ChatController(chatManager, this.config),
+                new VanishController(this, vanishManager),
+                new DepositController(this),
+                new MagicCandleController(this, combatManager, magicCandleManager, this.config),
+                new WorldBorderController(this.config),
+                new CraftingController(this.config),
+                new ObsydianGeneratorController(this, combatManager),
+                new WaterBucketListener(this),
+                new PermissionController(this),
+                new TeleportController(teleportManager),
+                new AntiRedStoneController(),
+                new EnchantController(),
+                new AnvilController(),
+                new StoneGeneratorController(combatManager, this),
+                new WorldController(),
+                new QuestionController(questionManager),
+                new BackupController(backupManager),
+                new AccessController(this, this.config),
 
-        new EnderChestGuiListener(this);
-        new EnderChestController(this);
+                new EnderChestGuiListener(this),
+                new EnderChestController(this)
+        ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
 
         new DatabaseTask(this);
@@ -158,8 +162,8 @@ public final class ChCore extends JavaPlugin {
         new DepositTask(this);
         new AbyssTask(this);
         new TimeShopTask(this, combatManager, protectionManager);
-        new PluginConfigurationTask(this, this.config);
-        new QuestionTask(this, questionManager, this.config, this.config);
+        new PluginConfigurationTask(this, this.configurationLoader);
+        new QuestionTask(questionManager, this.config, this);
 
         new PlaceholderApiHook(protectionManager).register();
 

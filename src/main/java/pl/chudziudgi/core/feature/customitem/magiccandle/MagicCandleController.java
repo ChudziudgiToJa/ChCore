@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.feature.combat.CombatManager;
 import pl.chudziudgi.core.feature.customitem.CustomItemStack;
 import pl.chudziudgi.core.feature.deposit.DepositUtil;
@@ -24,14 +25,14 @@ public class MagicCandleController implements Listener {
     private final ChCore plugin;
     private final CombatManager combatManager;
     private final MagicCandleManager magicCandleManager;
-    private final MagicCandleConfig magicCandleConfig;
+    private final PluginConfiguration config;
     private final Map<Player, Boolean> playerInOpening = new HashMap<>();
 
-    public MagicCandleController(ChCore plugin, CombatManager combatManager, MagicCandleManager magicCandleManager, MagicCandleConfig magicCandleConfig) {
+    public MagicCandleController(ChCore plugin, CombatManager combatManager, MagicCandleManager magicCandleManager, PluginConfiguration config) {
         this.plugin = plugin;
         this.combatManager = combatManager;
         this.magicCandleManager = magicCandleManager;
-        this.magicCandleConfig = magicCandleConfig;
+        this.config = config;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -67,7 +68,7 @@ public class MagicCandleController implements Listener {
             @Override
             public void run() {
                 if (counter >= 10) {
-                    ItemStack randomItem = magicCandleConfig.dropList.get(random.nextInt(magicCandleConfig.dropList.size()));
+                    ItemStack randomItem =  config.magicCandleSettings.dropList .get(random.nextInt(config.magicCandleSettings.dropList.size()));
 
                     DepositUtil.giveItems(player, randomItem);
                     player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_0, 10, 10);
@@ -77,7 +78,7 @@ public class MagicCandleController implements Listener {
                     cancel();
                     return;
                 }
-                ItemStack randomItem = magicCandleConfig.dropList.get(random.nextInt(magicCandleConfig.dropList.size()));
+                ItemStack randomItem = config.magicCandleSettings.dropList.get(random.nextInt(config.magicCandleSettings.dropList.size()));
                 ChatUtil.sendTitle(player, "&bʟᴏꜱᴜᴊᴇ &7"+ counter +" /10", "&7" + getName(randomItem), 0, 20, 0);
                 player.playSound(player, Sound.BLOCK_BONE_BLOCK_STEP, 10, 10);
                 counter++;

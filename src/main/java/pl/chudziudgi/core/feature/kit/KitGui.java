@@ -7,16 +7,17 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.ItemBuilder;
+import pl.chudziudgi.core.config.PluginConfiguration;
 
 public class KitGui {
 
     public static void kits(final Player player) {
-        KitConfig kitConfig = new KitConfig();
+        PluginConfiguration config = new PluginConfiguration();
 
         final InventoryBuilder inv = new InventoryBuilder("&9Zestawy:", InventoryType.HOPPER);
         int i = 1;
 
-        for (Kit kit : kitConfig.getKits()) {
+        for (Kit kit : config.kitSettings.kits) {
             inv.setItem(i++, new ItemBuilder(kit.getMaterial())
                             .setTitle("&3" + kit.getName())
                             .addLore(

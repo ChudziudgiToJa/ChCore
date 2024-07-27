@@ -16,10 +16,6 @@ import java.util.Arrays;
 
 public class AnvilController implements Listener {
 
-    public AnvilController(ChCore plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-
     @EventHandler
     public void onPrepareAnvil(PrepareAnvilEvent event) {
         ItemStack result = event.getResult();

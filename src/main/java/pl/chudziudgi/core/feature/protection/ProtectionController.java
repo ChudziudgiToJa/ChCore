@@ -19,9 +19,8 @@ import pl.chudziudgi.core.util.TimeEnum;
 public class ProtectionController implements Listener {
     private final ProtectionManager protectionManager;
 
-    public ProtectionController(final ChCore plugin, ProtectionManager protectionManager) {
+    public ProtectionController(ProtectionManager protectionManager) {
         this.protectionManager = protectionManager;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler

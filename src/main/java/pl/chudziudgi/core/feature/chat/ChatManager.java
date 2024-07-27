@@ -15,12 +15,14 @@ import java.util.concurrent.TimeUnit;
 
 public class ChatManager {
 
-    public Cache<UUID, Long> timeCache;
-    public Cache<UUID, String> messageCache;
+    private final Cache<UUID, Long> timeCache;
+    private final Cache<UUID, String> messageCache;
     private final PluginConfiguration pluginConfiguration;
 
     public ChatManager(PluginConfiguration pluginConfiguration) {
         this.pluginConfiguration = pluginConfiguration;
+        this.timeCache = CacheBuilder.newBuilder().expireAfterWrite(15000L, TimeUnit.SECONDS).build();
+        this.messageCache = CacheBuilder.newBuilder().expireAfterWrite(15000L, TimeUnit.SECONDS).build();
     }
 
 

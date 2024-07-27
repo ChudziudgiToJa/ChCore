@@ -15,7 +15,6 @@ public class UserController implements Listener {
 
     public UserController(ChCore plugin) {
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler

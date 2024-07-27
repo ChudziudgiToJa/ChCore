@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.HashMap;
@@ -16,17 +15,10 @@ import java.util.Map;
 
 public class AntiRedStoneController implements Listener {
 
-
-    private final ChCore plugin;
-
     private final Map<Player, Long> cooldown = new HashMap<>();
     private final Map<Block, Integer> delayedBlocks = new HashMap<>();
     private final long time = 5000;
 
-    public AntiRedStoneController(ChCore plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {

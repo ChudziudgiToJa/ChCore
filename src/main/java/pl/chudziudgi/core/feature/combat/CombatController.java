@@ -38,12 +38,11 @@ public class CombatController implements Listener {
     private final ProtectionManager protectionManager;
     private final FunnyGuilds funnyGuilds;
 
-    public CombatController(final ChCore plugin, CombatManager combatManager, PluginConfiguration config, ProtectionManager protectionManager, FunnyGuilds funnyGuilds) {
+    public CombatController(CombatManager combatManager, PluginConfiguration config, ProtectionManager protectionManager, FunnyGuilds funnyGuilds) {
         this.combatManager = combatManager;
         this.config = config;
         this.protectionManager = protectionManager;
         this.funnyGuilds = funnyGuilds;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler

@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.api.command.PluginCommand;
 import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
@@ -21,23 +22,23 @@ import java.util.Objects;
 
 public class KitCommand extends PluginCommand {
 
-    private final KitConfig kitConfig;
+    private final PluginConfiguration config;
     private final KitManager kitManager;
 
-    public KitCommand(KitConfig kitConfig, KitManager kitManager) {
-        this.kitConfig = kitConfig;
+    public KitCommand(PluginConfiguration config, KitManager kitManager) {
+        this.config = config;
         this.kitManager = kitManager;
     }
     private List<String> getKitNames() {
         List<String> names = new ArrayList<>();
-        for (Kit kit : kitConfig.getKits()) {
+        for (Kit kit : config.kitSettings.kits) {
             names.add(kit.getName());
         }
         return names;
     }
 
     private Kit getKitObject(String kitName) {
-        for (Kit kit : kitConfig.getKits()) {
+        for (Kit kit : config.kitSettings.kits) {
             if (Objects.equals(kit.getName(), kitName)) {
                 return kit;
             }
@@ -52,7 +53,7 @@ public class KitCommand extends PluginCommand {
                 ChatUtil.error(sender, "&8[&4!&8] &7Tej komendy nie można wywołać z poziomu konsoli!");
                 return;
             }
-            if (!kitConfig.isKitStatus() && !player.hasPermission("core.command.kit.admin")) {
+            if (!config.kitSettings.kitStatus && !player.hasPermission("core.command.kit.admin")) {
                 ChatUtil.error(sender, "Zestawy są aktualnie wyłączone.");
                 return;
             }
@@ -83,8 +84,8 @@ public class KitCommand extends PluginCommand {
     }
 
     private void handleToggleCommand(CommandSender sender) {
-        kitConfig.setKitStatus(!kitConfig.isKitStatus());
-        ChatUtil.success(sender, "Zmieniono status otwierania kitów na: " + (kitConfig.isKitStatus() ? "włączone" : "wyłączone"));
+        this.config.kitSettings.kitStatus = !this.config.kitSettings.kitStatus;
+        ChatUtil.success(sender, "Zmieniono status otwierania kitów na: " + (this.config.kitSettings.kitStatus ? "włączone" : "wyłączone"));
     }
 
     private void handleGiveCommand(CommandSender sender, String[] args, List<String> kitNameList) {

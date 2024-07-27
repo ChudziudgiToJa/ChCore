@@ -21,12 +21,11 @@ public class ChatController implements Listener {
 
     private final PluginConfiguration config;
 
-
-    public ChatController(ChCore plugin, ChatManager chatManager, PluginConfiguration config) {
+    public ChatController(ChatManager chatManager, PluginConfiguration config) {
         this.chatManager = chatManager;
         this.config = config;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
+
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {

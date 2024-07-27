@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import pl.chudziudgi.core.api.MessageBuilder;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DepositUtil {
+
     public static int getAmount(final Player player, final Material material) {
         int amount = 0;
         for (final ItemStack itemStack : player.getInventory().getContents()) {
@@ -79,15 +81,15 @@ public class DepositUtil {
     }
 
     private static int getLimit(Material material) {
-        DepositConfig depositConfig = new DepositConfig();
+        PluginConfiguration config = new PluginConfiguration();
         return switch (material) {
-            case ENCHANTED_GOLDEN_APPLE -> depositConfig.getEnchantedGoldenAppleLimit();
-            case GOLDEN_APPLE -> depositConfig.getGoldenAppleLimit();
-            case ENDER_PEARL -> depositConfig.getEnderPearlLimit();
-            case TOTEM_OF_UNDYING -> depositConfig.getTotemOfUndyingLimit();
-            case ARROW -> depositConfig.getArrowLimit();
-            case CHORUS_FRUIT -> depositConfig.getChorusLimit();
-            case PACKED_ICE -> depositConfig.getIceLimit();
+            case ENCHANTED_GOLDEN_APPLE -> config.depositSettings.enchantedGoldenAppleLimit;
+            case GOLDEN_APPLE -> config.depositSettings.goldenAppleLimit;
+            case ENDER_PEARL -> config.depositSettings.enderPearlLimit;
+            case TOTEM_OF_UNDYING -> config.depositSettings.totemOfUndyingLimit;
+            case ARROW -> config.depositSettings.arrowLimit;
+            case CHORUS_FRUIT -> config.depositSettings.chorusLimit;
+            case PACKED_ICE -> config.depositSettings.iceLimit;
             default -> throw new IllegalArgumentException("Unsupported material: " + material);
         };
     }
