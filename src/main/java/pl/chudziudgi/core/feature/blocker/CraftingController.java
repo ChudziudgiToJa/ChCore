@@ -10,20 +10,22 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.api.ItemBuilder;
+import pl.chudziudgi.core.config.PluginConfiguration;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 public class CraftingController implements Listener {
-    private final BlockerConfig config;
 
-    public CraftingController(final ChCore plugin, BlockerConfig config) {
-        this.config = config;
+    private final PluginConfiguration configuration;
+
+    public CraftingController(final ChCore plugin, PluginConfiguration configuration) {
+        this.configuration = configuration;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     public boolean isItem(Material material) {
-        return config.getDisableCrafting().contains(material);
+        return configuration.blockerSettings.disableCrafting .contains(material);
     }
 
     private void setBarrierBlock(PrepareItemCraftEvent event) {

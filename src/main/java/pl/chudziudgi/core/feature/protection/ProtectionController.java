@@ -10,16 +10,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import pl.chudziudgi.core.ChCore;
-import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
-import pl.chudziudgi.core.feature.randomtp.RandomUtil;
 import pl.chudziudgi.core.util.TimeEnum;
-
-import java.util.Objects;
 
 public class ProtectionController implements Listener {
     private final ProtectionManager protectionManager;

@@ -11,7 +11,6 @@ import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.api.MessageBuilder;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
-import pl.chudziudgi.core.feature.chat.ChatConfig;
 import pl.chudziudgi.core.util.ChatUtil;
 
 public class QuestionTask extends BukkitRunnable {

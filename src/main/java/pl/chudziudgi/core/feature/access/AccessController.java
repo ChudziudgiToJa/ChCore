@@ -7,15 +7,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 
 public class AccessController implements Listener {
 
     private final ChCore plugin;
-    private final AccessConfig config;
+    private final PluginConfiguration config;
 
-    public AccessController(ChCore plugin, AccessConfig config) {
+    public AccessController(ChCore plugin, PluginConfiguration.ProtectionSettings config) {
         this.plugin = plugin;
         this.config = config;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);

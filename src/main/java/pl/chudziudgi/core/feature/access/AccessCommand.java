@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import pl.chudziudgi.core.api.MessageBuilder;
 import pl.chudziudgi.core.api.command.PluginCommand;
 import pl.chudziudgi.core.api.command.interfaces.CommandInfo;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.util.ChatUtil;
 
 
@@ -16,10 +17,10 @@ import pl.chudziudgi.core.util.ChatUtil;
 
 public class AccessCommand extends PluginCommand {
 
-    private final AccessConfig config;
+    private final PluginConfiguration configuration;
 
-    public AccessCommand(AccessConfig config) {
-        this.config = config;
+    public AccessCommand(PluginConfiguration configuration) {
+        this.configuration = configuration;
     }
 
 
@@ -31,7 +32,8 @@ public class AccessCommand extends PluginCommand {
             case "iron" -> {
                 try {
                     int amount = Integer.parseInt(args[1]);
-                    this.config.setMinimalForIron(amount);
+                    this.configuration.accessSettings.minimalForIron = amount;
+
                     ChatUtil.success(sender, "Ustawiono limit slotów od rangi IRON do" + amount);
                 } catch (NumberFormatException e) {
                     ChatUtil.error(sender, "Ilość musi być liczbą pierwszą.");
@@ -41,7 +43,7 @@ public class AccessCommand extends PluginCommand {
             case "gold" -> {
                 try {
                     int amount = Integer.parseInt(args[1]);
-                    this.config.setMinimalForGold(amount);
+                    this.configuration.accessSettings.minimalForGold = amount;
                     ChatUtil.success(sender, "Ustawiono limit slotów od rangi GOLD do" + amount);
                 } catch (NumberFormatException e) {
                     ChatUtil.error(sender, "Ilość musi być liczbą pierwszą.");
@@ -55,7 +57,7 @@ public class AccessCommand extends PluginCommand {
                         ChatUtil.error(sender, "Limit slotów można ustawić maxymalnie do 250!");
                         return;
                     }
-                    this.config.setMaxPlayers(amount);
+                    this.configuration.accessSettings.maxPlayers = amount;
                     ChatUtil.success(sender, "Ustawiono limit slotów dla wszystkich na" + amount);
                 } catch (NumberFormatException e) {
                     ChatUtil.error(sender, "Ilość musi być liczbą pierwszą.");
@@ -72,9 +74,9 @@ public class AccessCommand extends PluginCommand {
         ChatUtil.info(sender, "Aktualny status slotów:");
         ChatUtil.info(sender,
                 new MessageBuilder().setText("&f&lIRON&7: &f{IRON} &e&lGOLD&7: &f{GOLD} &3&lALL&7: &f{ALL}")
-                        .addField("{IRON}", String.valueOf(this.config.getMinimalForIron()))
-                        .addField("{GOLD}", String.valueOf(this.config.getMinimalForGold()))
-                        .addField("{ALL}", String.valueOf(this.config.getMaxPlayers()))
+                        .addField("{IRON}", String.valueOf(this.configuration.accessSettings.minimalForIron))
+                        .addField("{GOLD}", String.valueOf(this.configuration.accessSettings.minimalForGold))
+                        .addField("{ALL}", String.valueOf(this.configuration.accessSettings.maxPlayers))
                         .build()
         );
     }

@@ -5,6 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.database.user.User;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
@@ -14,15 +15,14 @@ import java.util.concurrent.TimeUnit;
 
 public class ChatManager {
 
-    private final Cache<UUID, Long> timeCache;
-    private final Cache<UUID, String> messageCache;
-    private final ChatConfig config;
+    public Cache<UUID, Long> timeCache;
+    public Cache<UUID, String> messageCache;
+    private final PluginConfiguration pluginConfiguration;
 
-    public ChatManager(ChatConfig config) {
-        this.config = config;
-        this.timeCache = CacheBuilder.newBuilder().expireAfterWrite(15000L, TimeUnit.SECONDS).build();
-        this.messageCache = CacheBuilder.newBuilder().expireAfterWrite(15000L, TimeUnit.SECONDS).build();
+    public ChatManager(PluginConfiguration pluginConfiguration) {
+        this.pluginConfiguration = pluginConfiguration;
     }
+
 
     public static void changeAutoMessageUserStatus(Player player) {
         User user = UserManager.get(player);
@@ -45,14 +45,14 @@ public class ChatManager {
     }
 
     public void switchAuto(CommandSender commandSender) {
-        config.setChatAutoMessage(!config.getChatAutoMessage());
-        ChatUtil.success(commandSender, "Zmieniono status autowiadomości: " + (config.getChatAutoMessage() ? "&awłączony" : "&cwłączony"));
+        this.pluginConfiguration.chatSettings.chatAutoMessage = !this.pluginConfiguration.chatSettings.chatAutoMessage;
+        ChatUtil.success(commandSender, "Zmieniono status autowiadomości: " + (this.pluginConfiguration.chatSettings.chatAutoMessage ? "&awłączony" : "&cwłączony"));
 
     }
 
     public void switchChat(CommandSender commandSender) {
-        this.config.setChatMessageBlock(!this.config.getChatMessageBlock());
-        Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.success(player, "Chat zostal: " + (config.getChatMessageBlock() ? "&awlaczony" : "&cwylaczony") + " &7przez: &3" + commandSender.getName()));
+        this.pluginConfiguration.chatSettings.chatMessageBlock = !this.pluginConfiguration.chatSettings.chatMessageBlock;
+        Bukkit.getOnlinePlayers().forEach(player -> ChatUtil.success(player, "Chat zostal: " + (this.pluginConfiguration.chatSettings.chatMessageBlock ? "&awlaczony" : "&cwylaczony") + " &7przez: &3" + commandSender.getName()));
     }
 
     public boolean canUseChat(Player player) {

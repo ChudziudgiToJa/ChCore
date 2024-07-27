@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import panda.std.Option;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.feature.protection.ProtectionManager;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.TimeEnum;
@@ -33,11 +34,11 @@ import java.util.Arrays;
 public class CombatController implements Listener {
 
     private final CombatManager combatManager;
-    private final CombatConfig config;
+    private final PluginConfiguration config;
     private final ProtectionManager protectionManager;
     private final FunnyGuilds funnyGuilds;
 
-    public CombatController(final ChCore plugin, CombatManager combatManager, CombatConfig config, ProtectionManager protectionManager, FunnyGuilds funnyGuilds) {
+    public CombatController(final ChCore plugin, CombatManager combatManager, PluginConfiguration config, ProtectionManager protectionManager, FunnyGuilds funnyGuilds) {
         this.combatManager = combatManager;
         this.config = config;
         this.protectionManager = protectionManager;
@@ -55,7 +56,7 @@ public class CombatController implements Listener {
     private void leave(final Player player) {
         if (combatManager.inCombat(player)) {
             player.setHealth(0.0D);
-            Bukkit.getOnlinePlayers().forEach(all -> ChatUtil.info(all, config.getLogautMessage().replace("{PLAYER}", player.getName())));
+            Bukkit.getOnlinePlayers().forEach(all -> ChatUtil.info(all, this.config.combatSettings.COMBAT_END_MESSAGE.replace("{PLAYER}", player.getName())));
         }
     }
 
@@ -85,9 +86,9 @@ public class CombatController implements Listener {
         if (player.hasPermission("core.combat.admin")) return;
 
         if (combatManager.inCombat(player)) {
-            if (!this.config.getCommandsList().contains(command)) {
+            if (!this.config.combatSettings.commandsList.contains(command)) {
                 event.setCancelled(true);
-                ChatUtil.error(player, config.getCommandBlockMessage());
+                ChatUtil.error(player, this.config.combatSettings.COMMAND_BLOCK_MESSAGE);
             }
         }
     }

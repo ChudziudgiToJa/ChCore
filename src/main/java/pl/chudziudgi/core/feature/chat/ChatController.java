@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import pl.chudziudgi.core.ChCore;
+import pl.chudziudgi.core.config.PluginConfiguration;
 import pl.chudziudgi.core.database.user.UserManager;
 import pl.chudziudgi.core.util.ChatUtil;
 import pl.chudziudgi.core.util.DataUtils;
@@ -17,9 +18,11 @@ import java.util.UUID;
 public class ChatController implements Listener {
 
     private final ChatManager chatManager;
-    private final ChatConfig config;
 
-    public ChatController(ChCore plugin, ChatManager chatManager, ChatConfig config) {
+    private final PluginConfiguration config;
+
+
+    public ChatController(ChCore plugin, ChatManager chatManager, PluginConfiguration config) {
         this.chatManager = chatManager;
         this.config = config;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -37,14 +40,14 @@ public class ChatController implements Listener {
             return;
         }
 
-        if (!player.hasPermission("core.chat.admin") && config.getChatMessageBlock()) {
+        if (!player.hasPermission("core.chat.admin") && config.chatSettings.chatMessageBlock) {
             ChatUtil.error(player, "Chat jest wylaczony!");
             event.setCancelled(true);
             return;
         }
 
         for (char c : message.toCharArray()) {
-            if (!this.config.getListaDozwolonychZnakow().contains(String.valueOf(c))) {
+            if (!this.config.chatSettings.listaDozwolonychZnakow .contains(String.valueOf(c))) {
                 ChatUtil.error(player, "Wiadomość zawiera niedozwolone znaki!");
                 event.setCancelled(true);
                 return;
@@ -69,7 +72,7 @@ public class ChatController implements Listener {
 
         for (Player recipient : event.getRecipients()) {
 
-            String chatFormat = config.getChatFormat().replace("{PLAYER}", player.getName());
+            String chatFormat = config.chatSettings.chatFormat .replace("{PLAYER}", player.getName());
 
             chatFormat = PlaceholderAPI.setPlaceholders(player, chatFormat);
             chatFormat = PlaceholderAPI.setRelationalPlaceholders(player, recipient, chatFormat);

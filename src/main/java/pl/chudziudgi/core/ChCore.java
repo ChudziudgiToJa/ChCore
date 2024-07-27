@@ -5,8 +5,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.command.managers.CommandManager;
-import pl.chudziudgi.core.config.ConfigLoader;
-import pl.chudziudgi.core.config.ConfigTask;
+import pl.chudziudgi.core.config.ConfigurationLoader;
+import pl.chudziudgi.core.config.PluginConfiguration;
+import pl.chudziudgi.core.config.PluginConfigurationTask;
 import pl.chudziudgi.core.database.Database;
 import pl.chudziudgi.core.database.DatabaseTask;
 import pl.chudziudgi.core.database.user.UserController;
@@ -86,17 +87,17 @@ import pl.chudziudgi.core.feature.world.WorldController;
 import pl.chudziudgi.core.hook.PlaceholderApiHook;
 
 public final class ChCore extends JavaPlugin {
-    private final ConfigLoader config = new ConfigLoader();
+    private PluginConfiguration config;
     private FunnyGuilds funnyGuilds;
 
     public void onLoad() {
         PlaceholderApiHook.isPlaceholderAPIInstalled(this);
-        this.config.load(this);
+        this.config.load();
     }
 
     public void onDisable() {
         Database.saveDatabase();
-        config.save(this);
+        config.save();
     }
 
     public void onEnable() {
@@ -107,7 +108,7 @@ public final class ChCore extends JavaPlugin {
         ProtectionManager protectionManager = new ProtectionManager();
         CombatManager combatManager = new CombatManager();
         PrivateMessageManager privateMessageManager = new PrivateMessageManager();
-        ChatManager chatManager = new ChatManager(this.config.getChatConfig());
+        ChatManager chatManager = new ChatManager(this.config);
         VanishManager vanishManager = new VanishManager();
         MagicCandleManager magicCandleManager = new MagicCandleManager();
         TeleportManager teleportManager = new TeleportManager();
@@ -124,15 +125,15 @@ public final class ChCore extends JavaPlugin {
 
         new UserController(this);
         new ProtectionController(this, protectionManager);
-        new CombatController(this, combatManager, this.config.getCombatConfig(), protectionManager, funnyGuilds);
+        new CombatController(this, combatManager, this.config, protectionManager, funnyGuilds);
         new RandomTpController(this);
         new DropController(this, combatManager);
-        new ChatController(this, chatManager, this.config.getChatConfig());
+        new ChatController(this, chatManager, this.config);
         new VanishController(this, vanishManager);
         new DepositController(this);
-        new MagicCandleController(this, combatManager, magicCandleManager, this.config.getMagicCandleConfig());
-        new WorldBorderController(this, this.config.getRandomTpConfig());
-        new CraftingController(this, this.config.getCustomItemConfig());
+        new MagicCandleController(this, combatManager, magicCandleManager, this.config);
+        new WorldBorderController(this, this.config);
+        new CraftingController(this, this.config);
         new ObsydianGeneratorController(this, combatManager);
         new WaterBucketListener(this);
         new PermissionController(this);
@@ -144,21 +145,21 @@ public final class ChCore extends JavaPlugin {
         new WorldController(this);
         new QuestionController(this, questionManager);
         new BackupController(this, backupManager);
-        new AccessController(this, this.config.getAccessConfig());
+        new AccessController(this, this.config);
 
         new EnderChestGuiListener(this);
         new EnderChestController(this);
 
 
         new DatabaseTask(this);
-        new CombatTask(this, combatManager, this.config.getCombatConfig());
-        new ProtectionTask(this, protectionManager, this.config.getProtectionConfig());
-        new AutoMessageTask(this, this.config.getChatConfig());
+        new CombatTask(this, combatManager, this.config);
+        new ProtectionTask(this, protectionManager, this.config);
+        new AutoMessageTask(this, this.config);
         new DepositTask(this);
         new AbyssTask(this);
         new TimeShopTask(this, combatManager, protectionManager);
-        new ConfigTask(this, this.config);
-        new QuestionTask(this, questionManager, this.config.getQuestionConfig(), this.config.getChatConfig());
+        new PluginConfigurationTask(this, this.config);
+        new QuestionTask(this, questionManager, this.config, this.config);
 
         new PlaceholderApiHook(protectionManager).register();
 
@@ -185,8 +186,8 @@ public final class ChCore extends JavaPlugin {
                 new SettingCommand(),
                 new IgnoreCommand(),
                 new AbyssCommand(),
-                new AccessCommand(this.config.getAccessConfig()),
-                new KitCommand(this.config.getKitConfig(), kitManager),
+                new AccessCommand(this.config),
+                new KitCommand(this.config, kitManager),
                 new VanishCommand(vanishManager),
                 new BrodcastCommand(),
                 new CombatCommand(combatManager),

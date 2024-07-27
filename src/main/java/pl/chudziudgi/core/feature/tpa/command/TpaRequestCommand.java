@@ -80,7 +80,7 @@ public class TpaRequestCommand extends PluginCommand {
                 .build()));
 
         messageComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaaccept " + sender.getName()));
-        messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatUtil.fixColor("&8[&d&l!&8] &7Kliknij aby zaakceptować teleportacje")).create()));
+        messageComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatUtil.fixColor("&8[&d&l!&8] &7Kliknij aby zaakceptować teleportacje\n&8[&d&l!&8] &7prośba wygasa po 30 sekundach od otrzymania")).create()));
 
         target.spigot().sendMessage(messageComponent);
 
@@ -88,6 +88,6 @@ public class TpaRequestCommand extends PluginCommand {
         ChatUtil.success(player, "Wysłano prośbę o teleportację do &3" + target.getName());
 
         target.playSound(target, Sound.BLOCK_NOTE_BLOCK_BELL, 10, 10);
-        ChatUtil.sendTitle(target, "", "&3✈", 5, 30, 5);
+        ChatUtil.sendTitle(target, "", "&3☣", 5, 30, 5);
     }
 }
