@@ -4,24 +4,25 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import pl.chudziudgi.core.config.PluginConfiguration;
 
 import java.util.Random;
 
 public class RandomUtil {
 
     private static final Random random = new Random();
-    private static final RandomTpConfig config = new RandomTpConfig();
+    private static final PluginConfiguration config = new PluginConfiguration();
 
     public static Location getRandomCord(Player player) {
         World world = player.getWorld();
         int maxX, maxZ;
 
         if (world.getEnvironment() == World.Environment.NETHER) {
-            maxX = config.getMaxNetherReachTp();
-            maxZ = config.getMinimalNetherReachTp();
+            maxX = config.randomTpSettings.maxNetherReachTp;
+            maxZ = config.randomTpSettings.minimalNetherReachTp;
         } else {
-            maxX = config.getMaxReachTp();
-            maxZ = config.getMinimalReachTp();
+            maxX = config.randomTpSettings.maxReachTp;
+            maxZ = config.randomTpSettings.minimalReachTp;
         }
 
         Location randomLocation = null;

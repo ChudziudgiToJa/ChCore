@@ -20,6 +20,13 @@ public class KitManager {
 
         Long kitTime = kitList.get(kit.getName());
 
+        if (!player.hasPermission(kit.getPermission())) {
+            ChatUtil.sendTitle(player, "", "&cNie posiadasz wymaganej rangi", 10, 30, 10);
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 5, 5);
+            player.closeInventory();
+            return;
+        }
+
         if (kitTime == null) {
             kitList.put(kit.getName(), currentTime + kit.getHour() * 3600000L);
             giveKit(player, kit);

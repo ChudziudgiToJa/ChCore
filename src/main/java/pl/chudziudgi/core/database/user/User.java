@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import pl.chudziudgi.core.feature.backup.Backup;
 import pl.chudziudgi.core.feature.drop.Drop;
-import pl.chudziudgi.core.feature.kit.Kit;
 
 import java.io.Serializable;
 import java.util.ArrayList;

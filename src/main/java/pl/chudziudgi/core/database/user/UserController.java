@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.chudziudgi.core.ChCore;
@@ -42,6 +43,7 @@ public class UserController implements Listener {
             }.runTaskLater(this.plugin, 1L);
         }
     }
+
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {

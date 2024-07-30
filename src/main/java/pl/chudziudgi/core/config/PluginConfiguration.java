@@ -44,8 +44,6 @@ public class PluginConfiguration extends OkaeriConfig {
                 Material.ACACIA_BOAT,
                 Material.DARK_OAK_BOAT,
                 Material.ACACIA_BOAT,
-                Material.MANGROVE_BOAT,
-                Material.BAMBOO_RAFT,
                 Material.SPRUCE_BOAT,
                 Material.LIGHT_BLUE_CANDLE,
                 Material.DIAMOND_HELMET,
@@ -680,13 +678,13 @@ public class PluginConfiguration extends OkaeriConfig {
                         Material.IRON_SWORD,
                         "&fKit &f&lIRON",
                         450,
-                        "kit daj {PLAYER} iron"
+                        "kit give {PLAYER} iron"
                 ),
                 new TimeShop(
                         Material.GOLDEN_SWORD,
                         "&fKit &e&lGOLD",
                         750,
-                        "kit daj {PLAYER} gold"
+                        "kit give {PLAYER} gold"
                 ),
                 new TimeShop(
                         Material.WATER_BUCKET,

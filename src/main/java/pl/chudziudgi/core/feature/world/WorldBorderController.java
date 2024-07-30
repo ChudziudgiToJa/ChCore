@@ -17,9 +17,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.config.PluginConfiguration;
-import pl.chudziudgi.core.feature.randomtp.RandomTpConfig;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.Objects;

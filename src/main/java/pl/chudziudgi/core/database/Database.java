@@ -29,9 +29,8 @@ public class Database {
     }
 
     public static void loadObjects() {
-        for (final Object object : dao) {
-            final User it = (User) object;
-            objects.put(it.uuid, it);
+        for (final User object : dao) {
+            objects.put(object.uuid, object);
         }
     }
 

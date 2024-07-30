@@ -78,6 +78,6 @@ public class ReplyCommand extends PluginCommand {
         });
 
         ChatUtil.sendTitle(lastMessaged, "", "&3✉", 5, 40, 5);
-        lastMessaged.playSound(lastMessaged, Sound.BLOCK_BELL_USE, 5, 5);
+        lastMessaged.playSound(lastMessaged, Sound.BLOCK_AMETHYST_BLOCK_STEP, 5, 5);
     }
 }

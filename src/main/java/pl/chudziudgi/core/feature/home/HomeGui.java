@@ -111,12 +111,22 @@ public class HomeGui {
         inv.open(player);
 
         inv.setItem(2, home2, e -> {
+            if (!player.hasPermission("core.home.iron")) {
+                player.closeInventory();
+                ChatUtil.error(player, "Nie posiadasz wymaganej rangi");
+                return;
+            }
             homeManager.set(user, player, HomeType.TWO);
             player.closeInventory();
         });
         inv.open(player);
 
         inv.setItem(3, home3, e -> {
+            if (!player.hasPermission("core.home.gold")) {
+                player.closeInventory();
+                ChatUtil.error(player, "Nie posiadasz wymaganej rangi");
+                return;
+            }
             homeManager.set(user, player, HomeType.THREE);
             player.closeInventory();
         });
@@ -137,7 +147,6 @@ public class HomeGui {
             homeManager.setHomeNull(user, HomeType.ONE);
             player.closeInventory();
             ChatUtil.sendTitle(player, "", "&7Dom został &cusunięty&7.", 10,20,10);
-            player.closeInventory();
         });
         inv.setItem(2, home2, e -> {
             homeManager.setHomeNull(user, HomeType.TWO);
@@ -147,7 +156,6 @@ public class HomeGui {
         });
         inv.setItem(3, home3, e -> {
             homeManager.setHomeNull(user, HomeType.THREE);
-            player.closeInventory();
             ChatUtil.sendTitle(player, "", "&7Dom został &cusunięty&7.", 10,20,10);
             player.closeInventory();
         });

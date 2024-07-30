@@ -23,7 +23,7 @@ public class AbyssTask extends BukkitRunnable {
         if (countdown == 60 || countdown == 30 || countdown == 10) {
             notifyPlayers(countdown, Sound.ENTITY_BAT_HURT, "&3ⓚⓄⓈⓏ &7Przedmioty z ziemi zostaną usunięte za &3&n" + countdown + "&7 sekund.");
         } else if (countdown == 0) {
-            notifyPlayers(countdown, Sound.ITEM_GOAT_HORN_SOUND_0, "&3ⓚⓄⓈⓏ &7Przedmioty z ziemi zostały &3&nusunięte&7.");
+            notifyPlayers(countdown, Sound.BLOCK_VINE_HIT, "&3ⓚⓄⓈⓏ &7Przedmioty z ziemi zostały &3&nusunięte&7.");
             this.cancel();
         }
         countdown--;

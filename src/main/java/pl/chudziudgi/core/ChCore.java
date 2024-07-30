@@ -7,7 +7,6 @@ import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.command.managers.CommandManager;
 import pl.chudziudgi.core.config.ConfigurationLoader;
 import pl.chudziudgi.core.config.PluginConfiguration;
-import pl.chudziudgi.core.config.PluginConfigurationTask;
 import pl.chudziudgi.core.database.Database;
 import pl.chudziudgi.core.database.DatabaseTask;
 import pl.chudziudgi.core.database.user.UserController;
@@ -100,7 +99,7 @@ public final class ChCore extends JavaPlugin {
 
     public void onDisable() {
         Database.saveDatabase();
-        config.save();
+        configurationLoader.save();
     }
 
     public void onEnable() {
@@ -162,7 +161,6 @@ public final class ChCore extends JavaPlugin {
         new DepositTask(this);
         new AbyssTask(this);
         new TimeShopTask(this, combatManager, protectionManager);
-        new PluginConfigurationTask(this, this.configurationLoader);
         new QuestionTask(questionManager, this.config, this);
 
         new PlaceholderApiHook(protectionManager).register();
