@@ -1,5 +1,7 @@
 package pl.chudziudgi.core;
 
+import com.google.gson.Gson;
+import lombok.Getter;
 import net.dzikoysk.funnyguilds.FunnyGuilds;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,9 +9,7 @@ import pl.chudziudgi.core.api.InventoryBuilder;
 import pl.chudziudgi.core.api.command.managers.CommandManager;
 import pl.chudziudgi.core.config.ConfigurationLoader;
 import pl.chudziudgi.core.config.PluginConfiguration;
-import pl.chudziudgi.core.database.Database;
-import pl.chudziudgi.core.database.DatabaseTask;
-import pl.chudziudgi.core.database.user.UserController;
+import pl.chudziudgi.core.database.MongoDatabaseService;
 import pl.chudziudgi.core.feature.abyss.AbyssCommand;
 import pl.chudziudgi.core.feature.abyss.AbyssTask;
 import pl.chudziudgi.core.feature.access.AccessCommand;
@@ -77,6 +77,8 @@ import pl.chudziudgi.core.feature.teleport.TeleportManager;
 import pl.chudziudgi.core.feature.tpa.TpaManager;
 import pl.chudziudgi.core.feature.tpa.command.TpaAcceptCommand;
 import pl.chudziudgi.core.feature.tpa.command.TpaRequestCommand;
+import pl.chudziudgi.core.feature.user.UserRepository;
+import pl.chudziudgi.core.feature.user.UserService;
 import pl.chudziudgi.core.feature.vanish.VanishCommand;
 import pl.chudziudgi.core.feature.vanish.VanishController;
 import pl.chudziudgi.core.feature.vanish.VanishManager;
@@ -87,10 +89,32 @@ import pl.chudziudgi.core.hook.PlaceholderApiHook;
 
 import java.util.stream.Stream;
 
+@Getter
 public final class ChCore extends JavaPlugin {
+    public static final Gson GSON = pl.paymc.practice.GsonHolder.GSON;
+    @Getter
+    public static ChCore instance;
+    private final MongoDatabaseService mongoDatabaseService = new MongoDatabaseService();
+    private final UserRepository userRepository = new UserRepository();
+    private final UserService userService = new UserService();
+
     private final PluginConfiguration config = new PluginConfiguration();
     private final ConfigurationLoader configurationLoader = new ConfigurationLoader();
+
     private FunnyGuilds funnyGuilds;
+    private ProtectionManager protectionManager;
+    private ChatManager chatManager;
+    private CombatManager combatManager;
+    private PrivateMessageManager privateMessageManager;
+    private VanishManager vanishManager;
+    private MagicCandleManager magicCandleManager;
+    private TeleportManager teleportManager;
+    private HelpOpManager helpOpManager;
+    private TpaManager tpaManager;
+    private BackupManager backupManager;
+    private QuestionManager questionManager;
+    private CraftingRecipe craftingRecipe;
+    private KitManager kitManager;
 
     public void onLoad() {
         PlaceholderApiHook.isPlaceholderAPIInstalled(this);
@@ -98,34 +122,33 @@ public final class ChCore extends JavaPlugin {
     }
 
     public void onDisable() {
-        Database.saveDatabase();
         configurationLoader.save();
     }
 
     public void onEnable() {
-        funnyGuilds = FunnyGuilds.getInstance();
-        Bukkit.getPluginManager().registerEvents(new InventoryBuilder.Listeners(), this);
-        Database.load(this);
+        instance = this;
 
-        ProtectionManager protectionManager = new ProtectionManager(this.config);
-        CombatManager combatManager = new CombatManager();
-        PrivateMessageManager privateMessageManager = new PrivateMessageManager();
-        ChatManager chatManager = new ChatManager(this.config);
-        VanishManager vanishManager = new VanishManager();
-        MagicCandleManager magicCandleManager = new MagicCandleManager();
-        TeleportManager teleportManager = new TeleportManager();
-        HelpOpManager helpOpManager = new HelpOpManager();
-        TpaManager tpaManager = new TpaManager();
-        BackupManager backupManager = new BackupManager();
-        QuestionManager questionManager = new QuestionManager();
-        CraftingRecipe craftingRecipe = new CraftingRecipe();
-        KitManager kitManager = new KitManager();
+
+        Bukkit.getPluginManager().registerEvents(new InventoryBuilder.Listeners(), this);
+
+        this.protectionManager = new ProtectionManager(this.config);
+        this.combatManager = new CombatManager();
+        this.privateMessageManager = new PrivateMessageManager();
+        this.chatManager = new ChatManager(this.config);
+        this.vanishManager = new VanishManager();
+        this.magicCandleManager = new MagicCandleManager();
+        this.teleportManager = new TeleportManager();
+        this.helpOpManager = new HelpOpManager();
+        this.tpaManager = new TpaManager();
+        this.backupManager = new BackupManager();
+        this.questionManager = new QuestionManager();
+        this.craftingRecipe = new CraftingRecipe();
+        this.kitManager = new KitManager();
 
         craftingRecipe.loadCrafting(this);
 
 
         Stream.of(
-                new UserController(this),
                 new ProtectionController(protectionManager),
                 new CombatController(combatManager, this.config, protectionManager, funnyGuilds),
                 new RandomTpController(this),
@@ -154,7 +177,6 @@ public final class ChCore extends JavaPlugin {
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
 
-        new DatabaseTask(this);
         new CombatTask(this, combatManager, this.config);
         new ProtectionTask(this, protectionManager, this.config);
         new AutoMessageTask(this, this.config);
@@ -208,7 +230,7 @@ public final class ChCore extends JavaPlugin {
                 new CustomItemCommand());
     }
 
-    public FunnyGuilds getFunnyGuilds() {
-        return funnyGuilds;
+    private void setupInformation() {
+        this.userRepository.findAll().forEach(this.userService::addUser);
     }
 }

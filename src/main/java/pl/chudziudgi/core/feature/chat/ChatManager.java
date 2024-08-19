@@ -2,12 +2,14 @@ package pl.chudziudgi.core.feature.chat;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import pl.chudziudgi.core.ChCore;
 import pl.chudziudgi.core.config.PluginConfiguration;
-import pl.chudziudgi.core.database.user.User;
-import pl.chudziudgi.core.database.user.UserManager;
+import pl.chudziudgi.core.feature.user.User;
+import pl.chudziudgi.core.feature.user.UserService;
 import pl.chudziudgi.core.util.ChatUtil;
 
 import java.util.UUID;
@@ -15,26 +17,24 @@ import java.util.concurrent.TimeUnit;
 
 public class ChatManager {
 
+    @Getter
     private final Cache<UUID, Long> timeCache;
+    @Getter
     private final Cache<UUID, String> messageCache;
-    private final PluginConfiguration pluginConfiguration;
+    private final PluginConfiguration pluginConfiguration = ChCore.getInstance().getConfig();
+    private static final UserService userService = ChCore.getInstance().getUserService();
 
-    public ChatManager(PluginConfiguration pluginConfiguration) {
-        this.pluginConfiguration = pluginConfiguration;
+    public ChatManager() {
         this.timeCache = CacheBuilder.newBuilder().expireAfterWrite(15000L, TimeUnit.SECONDS).build();
         this.messageCache = CacheBuilder.newBuilder().expireAfterWrite(15000L, TimeUnit.SECONDS).build();
     }
 
 
     public static void changeAutoMessageUserStatus(Player player) {
-        User user = UserManager.get(player);
+        User user = userService.findUserByNickName(player.getName());
         user.chatAutoMessageStatus = !user.chatAutoMessageStatus;
         ChatUtil.success(player, "Automatyczne wiadomości na chacie: " + (user.chatAutoMessageStatus ? "&awłączone" : "&cwyłączone"));
         player.closeInventory();
-    }
-
-    public Cache<UUID, String> getMessageCache() {
-        return messageCache;
     }
 
     public void clearChat(CommandSender commandSender) {
@@ -58,10 +58,7 @@ public class ChatManager {
     }
 
     public boolean canUseChat(Player player) {
-        return !(UserManager.get(player).minedStone >= 100);
+        return !(userService.findUserByNickName(player.getName()).minedStone >= 100);
     }
 
-    public Cache<UUID, Long> getTimeCache() {
-        return timeCache;
-    }
 }
